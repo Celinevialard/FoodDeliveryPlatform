@@ -148,7 +148,7 @@ go
 /* Table : COURRIER                                             */
 /*==============================================================*/
 create table COURRIER (
-   COURRIERID           int                  not null,
+   COURRIERID           int                  not null IDENTITY(1,1),
    PERSONID             int                  null,
    constraint PK_COURRIER primary key (COURRIERID)
 )
@@ -158,7 +158,7 @@ go
 /* Table : CUSTOMER                                             */
 /*==============================================================*/
 create table CUSTOMER (
-   CUSTOMERID           int                  not null,
+   CUSTOMERID           int                  not null IDENTITY(1,1),
    LOCATIONID           int                  null,
    PERSONID             int                  null,
    constraint PK_CUSTOMER primary key (CUSTOMERID)
@@ -169,7 +169,7 @@ go
 /* Table : DELEVERYZONE                                         */
 /*==============================================================*/
 create table DELEVERYZONE (
-   IDZONE               int                  not null,
+   IDZONE               int                  not null IDENTITY(1,1),
    COURRIERID           int                  null,
    LOCATIONID           int                  null,
    constraint PK_DELEVERYZONE primary key (IDZONE)
@@ -180,7 +180,7 @@ go
 /* Table : DISH                                                 */
 /*==============================================================*/
 create table DISH (
-   IDDISH               int                  not null,
+   IDDISH               int                  not null IDENTITY(1,1),
    RESTAURANTID         int                  null,
    DISHNAME             varchar(25)          not null,
    PRICE                decimal              not null,
@@ -195,7 +195,7 @@ go
 /* Table : LOCATION                                             */
 /*==============================================================*/
 create table LOCATION (
-   LOCATIONID           int                  not null,
+   LOCATIONID           int                  not null IDENTITY(1,1),
    NPA                  varchar(10)          not null,
    LOCATION             varchar(25)          not null,
    constraint PK_LOCATION primary key (LOCATIONID)
@@ -206,7 +206,7 @@ go
 /* Table : ORDERDETAILS                                         */
 /*==============================================================*/
 create table ORDERDETAILS (
-   ORDERDETAILSID       int                  not null,
+   ORDERDETAILSID       int                  not null IDENTITY(1,1),
    IDDISH               int                  null,
    ORDERID              int                  null,
    QUANTITY             int                  null,
@@ -219,7 +219,7 @@ go
 /* Table : ORDERS                                               */
 /*==============================================================*/
 create table ORDERS (
-   ORDERID              int                  not null,
+   ORDERID              int                  not null IDENTITY(1,1),
    CUSTOMERID           int                  null,
    COURRIERID           int                  null,
    ORDERNOTE            varchar(250)         not null,
@@ -233,7 +233,7 @@ go
 /* Table : PERSON                                               */
 /*==============================================================*/
 create table PERSON (
-   PERSONID             int                  not null,
+   PERSONID             int                  not null IDENTITY(1,1),
    FIRSTNAME            varchar(25)          not null,
    NAME                 varchar(25)          not null,
    LOGIN                varchar(25)          not null,
@@ -246,7 +246,7 @@ go
 /* Table : RESTAURANT                                           */
 /*==============================================================*/
 create table RESTAURANT (
-   RESTAURANTID         int                  not null,
+   RESTAURANTID         int                  not null IDENTITY(1,1),
    LOCATIONID           int                  null,
    RESTAURANTNAME       varchar(25)          not null,
    RESTAURANTDESCRIPTION varchar(250)         null,
