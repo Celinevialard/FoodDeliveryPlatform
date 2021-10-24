@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FoodDeliveryPlatform", "FoodDeliveryPlatform\FoodDeliveryPlatform.csproj", "{C77A48C0-0D05-410C-99D4-661A93B765EF}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Data", "Data\Data.csproj", "{BD35A7B7-6E75-4706-9367-0781DA27050F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "Data\DAL.csproj", "{BD35A7B7-6E75-4706-9367-0781DA27050F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Buisness", "Buisness\Buisness.csproj", "{E5F66F2A-16C5-4DB0-B8D2-7EEDCE35FA32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BLL", "Buisness\BLL.csproj", "{E5F66F2A-16C5-4DB0-B8D2-7EEDCE35FA32}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDAL", "TestDAL\TestDAL.csproj", "{171784E4-ADB5-47ED-876B-95290E31A83C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDAL", "TestDAL\TestDAL.csproj", "{171784E4-ADB5-47ED-876B-95290E31A83C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

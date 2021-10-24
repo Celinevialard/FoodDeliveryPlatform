@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Data.DB
+namespace DAL.DB
 {
 	class RestaurantsDB
 	{
 		//Constructeur
 
-		// List
+		// List by localité
 	}
 }

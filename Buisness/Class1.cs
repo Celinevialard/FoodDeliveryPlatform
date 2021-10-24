@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Buisness
+namespace BLL
 {
   public class Class1
   {

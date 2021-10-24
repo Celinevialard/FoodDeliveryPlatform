@@ -23,4 +23,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Data\DAL.csproj" />
+  </ItemGroup>
+
 </Project>

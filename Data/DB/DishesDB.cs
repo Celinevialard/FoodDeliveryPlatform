@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Data
+namespace DAL
 {
   public class DishesDB
   {
