@@ -182,11 +182,11 @@ go
 create table DISH (
    IDDISH               int                  not null IDENTITY(1,1),
    RESTAURANTID         int                  null,
-   DISHNAME             varchar(25)          not null,
+   DISHNAME             varchar(50)          not null,
    PRICE                decimal              not null,
    DESCRIPTION          varchar(250)         null,
-   ALLERGIES            varchar(50)          null,
-   IMAGE                image                null,
+   ALLERGIES            varchar(250)          null,
+   IMAGE                varchar(50)          null,
    constraint PK_DISH primary key (IDDISH)
 )
 go
