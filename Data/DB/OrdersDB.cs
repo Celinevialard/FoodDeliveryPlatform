@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.DB
+namespace DAL
 {
-	class OrdersDB
+	public class OrdersDB
 	{
 		// List par courrier et date (que de snon livré)
 

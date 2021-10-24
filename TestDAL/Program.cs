@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using DAL;
+using System.Collections.Generic;
 
 namespace TestDAL
 {
@@ -15,7 +16,14 @@ namespace TestDAL
 
 		static void Main(string[] args)
 		{
-			Console.WriteLine("Hello World!");
+			RestaurantsDB restaurantDb = new RestaurantsDB(Configuration);
+
+			List<Restaurant> restaurants =  restaurantDb.GetRestaurantsByLocalite(4011);
+
+			foreach (Restaurant r in restaurants)
+			{
+				Console.WriteLine(r);
+			}
 		}
 	}
 }

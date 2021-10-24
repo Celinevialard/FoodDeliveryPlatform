@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DAL.DB
+namespace DAL
 {
-	class PersonsDB
+	public class PersonsDB
 	{
 		// Get by login and password
 		// est-ce qu'on récupère aussi les infos de courrier et de customer
