@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data\DAL.csproj" />
+    <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
 </Project>

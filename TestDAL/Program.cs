@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using DAL;
+using DTO;
 using System.Collections.Generic;
 
 namespace TestDAL
