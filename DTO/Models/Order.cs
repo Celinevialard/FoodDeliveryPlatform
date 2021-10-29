@@ -8,5 +8,18 @@ namespace DTO
 {
 	public class Order
 	{
+		public int OrderId { get; set; }
+
+		public int CustomerId { get; set; }
+
+		public int CourrierId { get; set; }
+
+		public string OrderNote { get; set; }
+
+		public string OrderDate { get; set; }
+
+		public decimal TotalAmount { get; set; }
+
+		public List<OrderDetail> Details { get; set; }
 	}
 }

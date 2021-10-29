@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DTO
 {
-	public class Courrier
+	public class Courrier 
 	{
+		public int CourrierId { get; set; }
+
+		public List<int> LocationsId { get; set; }
+
 	}
 }
