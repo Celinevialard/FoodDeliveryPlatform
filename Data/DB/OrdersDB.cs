@@ -8,7 +8,7 @@ namespace DAL
 {
 	public class OrdersDB
 	{
-		// List par courrier et date (que de snon livré)
+		// List par courrier (que de snon livré)
 
 		// Liste par customer??
 
