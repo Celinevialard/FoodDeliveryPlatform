@@ -17,7 +17,7 @@ namespace DAL
 		}
 
 		// List by localité
-		public List<Restaurant> GetRestaurantsByLocalite(int localiteId)
+		public List<Restaurant> GetRestaurantsByLocation(int localiteId)
 		{
 			List<Restaurant> results = null;
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");

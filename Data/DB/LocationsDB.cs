@@ -85,6 +85,38 @@ namespace DAL
             return results;
         }
 
+        //Ne prend que une loacalité
+        public Location GetLocationByLocality(string Locality)
+        {
+            Location result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Location WHERE Location = @Locality";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("Locality", Locality);
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            result = ReadLocality(dr);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return result;
+        }
+
 
         public Location GetLocationById(int LocationId)
         {

@@ -102,9 +102,16 @@ namespace TestDAL
 			order = ordersDB.UpdateOrder(order, OrderStatusEnum.Delivering);
 			*/
 
+			//Test Location By Locality
+			string Locality = "Lausanne";
+			LocationsDB locationsDB = new LocationsDB(Configuration);
+			Location location = locationsDB.GetLocationByLocality(Locality);
 
-			
-			
+		
+			Console.WriteLine(location.NPA);
+           
+
+
 
 		}
 
