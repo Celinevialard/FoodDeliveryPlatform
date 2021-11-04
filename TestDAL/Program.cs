@@ -17,6 +17,8 @@ namespace TestDAL
 
 		static void Main(string[] args)
 		{
+
+			/*
 			RestaurantsDB restaurantDb = new RestaurantsDB(Configuration);
 
 			List<Restaurant> restaurants =  restaurantDb.GetRestaurantsByLocalite(4011);
@@ -25,6 +27,17 @@ namespace TestDAL
 			{
 				Console.WriteLine(r);
 			}
+			*/
+
+
+			//Test localite
+			LocationDB locationDB = new LocationDB(Configuration);
+			List<Location> locations = locationDB.GetLocations();
+
+            foreach (Location location in locations)
+            {
+                Console.WriteLine(location);
+            }
 		}
 	}
 }
