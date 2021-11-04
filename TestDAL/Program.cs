@@ -60,9 +60,19 @@ namespace TestDAL
 
 
 			//Test Location By Id
+			/*
 			LocationDB locationDB = new LocationDB(Configuration);
-			Location location = locationDB.GetLocationById(9000);	
+			Location location = locationDB.GetLocationById(10);	
 			Console.WriteLine(location);
+			*/
+
+			//Test addCustomer
+			//Todo controler que ça ajoute pas si id person n'existe pas.
+			CustomerDB customerDB = new CustomerDB(Configuration);
+			Customer customer = new Customer();
+			customer.LocationId = 2;
+			customer.PersonId = 1;
+			customer = customerDB.AddCustomer(customer);
 
 		}
 	}
