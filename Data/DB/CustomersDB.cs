@@ -9,18 +9,18 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class CustomerDB
+    public class CustomersDB
     {
 
         private IConfiguration Configuration { get; }
 
-        public CustomerDB(IConfiguration configuration)
+        public CustomersDB(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
 
-        //TOD
+       
         public Customer AddCustomer(Customer customer)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");

@@ -69,15 +69,15 @@ namespace TestDAL
 			//Test addCustomer
 			//Todo controler que ça ajoute pas si id person n'existe pas.
 			/*
-			CustomerDB customerDB = new CustomerDB(Configuration);
+			CustomersDB customersDB = new CustomersDB(Configuration);
 			Customer customer = new Customer();
 			customer.LocationId = 2;
 			customer.PersonId = 1;
-			customer = customerDB.AddCustomer(customer);
+			customer = customersDB.AddCustomer(customer);
 			*/
 
 			//Test addPerson
-			//Todo controler que ça ajoute pas si id person n'existe pas.
+			/*
 			PersonsDB personDb = new PersonsDB(Configuration);
 			Person person = new Person();
 			person.Firstname = "totso";
@@ -86,6 +86,13 @@ namespace TestDAL
 			person.Password = "asdf";
 
 			person = personDb.AddPerson(person);
+			*/
+
+			//Test addCourrier
+			CourriersDB courriersDB = new CourriersDB(Configuration);
+			Courrier courrier = new Courrier();
+			courrier.PersonId = 4;
+			courrier = courriersDB.AddCourrier(courrier);
 
 		}
 	}

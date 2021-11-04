@@ -10,6 +10,8 @@ namespace DTO
 	{
 		public int CourrierId { get; set; }
 
+		public int PersonId { get; set; }
+
 		public List<int> LocationsId { get; set; }
 
 	}
