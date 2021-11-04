@@ -89,11 +89,24 @@ namespace TestDAL
 			*/
 
 			//Test addCourrier
+			/*
 			CourriersDB courriersDB = new CourriersDB(Configuration);
 			Courrier courrier = new Courrier();
 			courrier.PersonId = 4;
 			courrier = courriersDB.AddCourrier(courrier);
+			*/
+			//TestUpdateStatus
+			/*
+			OrdersDB ordersDB = new OrdersDB(Configuration);
+			Order order = new Order();
+			order = ordersDB.UpdateOrder(order, OrderStatusEnum.Delivering);
+			*/
+
+
+			
+			
 
 		}
+
 	}
 }
