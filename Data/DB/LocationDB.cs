@@ -24,7 +24,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM LOCATION";
+                    string query = "SELECT * FROM Location";
                     SqlCommand cmd = new SqlCommand(query, cn);
 
                     cn.Open();
@@ -49,6 +49,40 @@ namespace DAL
 
             return results;
 
+        }
+
+        public List<Location> GetLocationByNPA(string NPA)
+        {
+            List<Location> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+                using(SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Location WHERE NPA = @NPA";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("NPA", NPA);
+
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Location>();
+
+                            results.Add(ReadLocality(dr));
+                        }
+                    }  
+                }
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            return results;
         }
 
         private Location ReadLocality(SqlDataReader dr)

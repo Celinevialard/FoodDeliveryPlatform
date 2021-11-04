@@ -31,6 +31,7 @@ namespace TestDAL
 
 
 			//Test localite
+			/*
 			LocationDB locationDB = new LocationDB(Configuration);
 			List<Location> locations = locationDB.GetLocations();
 
@@ -38,6 +39,24 @@ namespace TestDAL
             {
                 Console.WriteLine(location);
             }
+			*/
+
+			//Test Location By NPA
+			/*
+			string NPA;
+            Console.WriteLine("Saisir le NPA : ");
+			NPA = Console.ReadLine();
+
+			LocationDB locationDB = new LocationDB(Configuration);
+			List<Location> locations = locationDB.GetLocationByNPA(NPA);
+
+			foreach (Location location in locations)
+			{
+				Console.WriteLine(location);
+			}
+
+			Console.WriteLine(locations);
+           */
 		}
 	}
 }
