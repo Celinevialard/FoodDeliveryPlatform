@@ -57,6 +57,13 @@ namespace TestDAL
 
 			Console.WriteLine(locations);
            */
+
+
+			//Test Location By Id
+			LocationDB locationDB = new LocationDB(Configuration);
+			Location location = locationDB.GetLocationById(9000);	
+			Console.WriteLine(location);
+
 		}
 	}
 }
