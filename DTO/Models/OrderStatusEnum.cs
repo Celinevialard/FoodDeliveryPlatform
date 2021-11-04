@@ -5,6 +5,6 @@ namespace DTO
 	{
 		Unknown = 0,
 		Delivering = 1,
-		Delivered=2
+		Delivered= 2
 	}
 }

@@ -61,7 +61,37 @@ namespace DAL
 			return results;
 
 		}
-		
+
+		//TODO addperson 
+		public Person AddPerson(Person person)
+		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "INSERT INTO Person(Firstname, Name, Login, Password) VALUES (@Firstname, @Name, @Login, @Password); SELECT SCOPE_IDENTITY()";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("Firstname", person.Firstname);
+					cmd.Parameters.AddWithValue("Name", person.Lastname);
+					cmd.Parameters.AddWithValue("Login", person.Login);
+					cmd.Parameters.AddWithValue("Password", person.Password);
+
+					cn.Open();
+
+					person.PersonId = Convert.ToInt32(cmd.ExecuteScalar());
+				}
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+			}
+			return person;
+		}
+
+
 
 		public List<int> GetDeliveryZonByCourrierId(int id)
 		{
@@ -111,8 +141,8 @@ namespace DAL
 		{
 			Person person = new Person();
 
-			person.FirstName = (string)dr["firstname"];
-			person.Name = (string)dr["name"];
+			person.Firstname = (string)dr["firstname"];
+			person.Lastname = (string)dr["name"];
 			person.Login = (string)dr["login"];
 			person.Password = (string)dr["password"];
 

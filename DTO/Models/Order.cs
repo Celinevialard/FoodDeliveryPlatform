@@ -20,7 +20,7 @@ namespace DTO
 
 		public decimal TotalAmount { get; set; }
 
-		public OrderStatusEnum Status { get; set; }
+		public OrderStatusEnum Status { get; set; } 
 
 		public List<OrderDetail> Details { get; set; }
 	}

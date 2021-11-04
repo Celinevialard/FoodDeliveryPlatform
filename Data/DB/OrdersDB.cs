@@ -13,5 +13,7 @@ namespace DAL
 		// Liste par customer??
 
 		// Insert -> attention insert aussi dans details!
+
+		//TODO Update status.param enum + idorder
 	}
 }

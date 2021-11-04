@@ -32,8 +32,8 @@ namespace TestDAL
 
 			//Test localite
 			/*
-			LocationDB locationDB = new LocationDB(Configuration);
-			List<Location> locations = locationDB.GetLocations();
+			LocationsDB locationsDB = new LocationsDB(Configuration);
+			List<Location> locations = locationsDB.GetLocations();
 
             foreach (Location location in locations)
             {
@@ -47,8 +47,8 @@ namespace TestDAL
             Console.WriteLine("Saisir le NPA : ");
 			NPA = Console.ReadLine();
 
-			LocationDB locationDB = new LocationDB(Configuration);
-			List<Location> locations = locationDB.GetLocationByNPA(NPA);
+			LocationsDB locationsDB = new LocationsDB(Configuration);
+			List<Location> locations = locationsDB.GetLocationByNPA(NPA);
 
 			foreach (Location location in locations)
 			{
@@ -61,18 +61,31 @@ namespace TestDAL
 
 			//Test Location By Id
 			/*
-			LocationDB locationDB = new LocationDB(Configuration);
-			Location location = locationDB.GetLocationById(10);	
+			LocationsDB locationsDB = new LocationsDB(Configuration);
+			Location location = locationsDB.GetLocationById(10);	
 			Console.WriteLine(location);
 			*/
 
 			//Test addCustomer
 			//Todo controler que ça ajoute pas si id person n'existe pas.
+			/*
 			CustomerDB customerDB = new CustomerDB(Configuration);
 			Customer customer = new Customer();
 			customer.LocationId = 2;
 			customer.PersonId = 1;
 			customer = customerDB.AddCustomer(customer);
+			*/
+
+			//Test addPerson
+			//Todo controler que ça ajoute pas si id person n'existe pas.
+			PersonsDB personDb = new PersonsDB(Configuration);
+			Person person = new Person();
+			person.Firstname = "totso";
+			person.Lastname = "Tatata";
+			person.Login = "mylogon";
+			person.Password = "asdf";
+
+			person = personDb.AddPerson(person);
 
 		}
 	}

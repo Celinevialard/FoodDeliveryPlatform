@@ -19,6 +19,8 @@ namespace DAL
             Configuration = configuration;
         }
 
+
+        //TOD
         public Customer AddCustomer(Customer customer)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
