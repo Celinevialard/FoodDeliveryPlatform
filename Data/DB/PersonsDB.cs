@@ -91,52 +91,6 @@ namespace DAL
 			return person;
 		}
 
-
-
-		public List<int> GetDeliveryZonByCourrierId(int id)
-		{
-
-			List<int> results = null;
-			string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-			try
-			{
-				using (SqlConnection cn = new SqlConnection(connectionString))
-				{
-					string query = @"SELECT * FROM DeliveryZone 
-							WHERE courrierId = @id";
-					SqlCommand cmd = new SqlCommand(query, cn);
-					cmd.Parameters.AddWithValue("@id", id);
-					cn.Open();
-
-					using (SqlDataReader dr = cmd.ExecuteReader())
-					{
-						while (dr.Read())
-						{
-							if (results == null)
-								results = new List<int>();
-
-							results.Add((int)dr["locationId"]);
-
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-
-			return results;
-
-		}
-
-
-		// insert??
-
-		// update??
-
-
 		private Person ReadPerson(SqlDataReader dr)
 		{
 			Person person = new Person();

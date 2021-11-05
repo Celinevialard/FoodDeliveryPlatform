@@ -8,6 +8,8 @@ namespace DTO
 {
 	public class OrderDetail
 	{
+		public int OrderId { get; set; }
+
 		public int OrderDetailsId { get; set; }
 
 		public int DishId { get; set; }

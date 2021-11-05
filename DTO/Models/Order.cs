@@ -16,7 +16,7 @@ namespace DTO
 
 		public string OrderNote { get; set; }
 
-		public string OrderDate { get; set; }
+		public DateTime OrderDate { get; set; }
 
 		public decimal TotalAmount { get; set; }
 
