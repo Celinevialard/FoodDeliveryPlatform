@@ -9,15 +9,15 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-	public class OrdersDB
+	public class OrdersDB : IOrdersDB
 	{
 
 		// Liste par customer??
 
 		// Insert -> attention insert aussi dans details!
 
-		 
-		private IConfiguration Configuration { get; } 
+
+		private IConfiguration Configuration { get; }
 
 		public OrdersDB(IConfiguration configuration)
 		{
@@ -127,7 +127,7 @@ namespace DAL
 				throw e;
 			}
 			return results;
-		} 
+		}
 
 		/// <summary>
 		/// Récupération des details d'une commandes
@@ -211,12 +211,12 @@ namespace DAL
 		}
 
 		public Order InsertOrder(Order order)
-        {
+		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
 					string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, Ordernote, OrderDate, TotalAmount) 
 									VALUES (@CustomerId, @CourrierId, @StatusId, @Ordernote, @OrderDate, @TotalAmount); 
 									SELECT SCOPE_IDENTITY";
@@ -231,20 +231,20 @@ namespace DAL
 					cn.Open();
 					order.OrderId = Convert.ToInt32(cmd.ExecuteScalar());
 
-                    foreach (OrderDetail detail in order.Details)
-                    {
+					foreach (OrderDetail detail in order.Details)
+					{
 						InsertOrderDetails(detail);
-                    }
+					}
 
 				}
-            }
-            catch (Exception e)
-            {
+			}
+			catch (Exception e)
+			{
 
-                throw e;
-            }
+				throw e;
+			}
 			return order;
-        }
+		}
 
 		public OrderDetail InsertOrderDetails(OrderDetail orderDetail)
 		{
