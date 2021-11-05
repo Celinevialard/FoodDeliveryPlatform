@@ -86,9 +86,9 @@ namespace DAL
         }
 
         //Ne prend que une loacalité
-        public Location GetLocationByLocality(string Locality)
+        public List<Location> GetLocationByLocality(string Locality)
         {
-            Location result = null;
+            List<Location> results = null;
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -104,7 +104,10 @@ namespace DAL
                     {
                         while (dr.Read())
                         {
-                            result = ReadLocality(dr);
+                            if (results == null)
+                                results = new List<Location>();
+
+                            results.Add(ReadLocality(dr));
                         }
                     }
                 }
@@ -114,7 +117,7 @@ namespace DAL
 
                 throw e;
             }
-            return result;
+            return results;
         }
 
 
