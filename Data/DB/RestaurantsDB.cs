@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-	public class RestaurantsDB
+	public class RestaurantsDB : IRestaurantsDB
 	{
 		//Constructeur
 		private IConfiguration Configuration { get; }

@@ -9,38 +9,38 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class CourriersDB
-    {
-        private IConfiguration Configuration { get; }
-        public CourriersDB(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+	public class CourriersDB : ICourriersDB
+	{
+		private IConfiguration Configuration { get; }
+		public CourriersDB(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
-        public Courrier AddCourrier(Courrier courrier)
-        {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
+		public Courrier AddCourrier(Courrier courrier)
+		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "INSERT INTO Courrier (PersonId) VALUES (@PersonId); SELECT SCOPE_IDENTITY()";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("PersonId", courrier.PersonId);
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "INSERT INTO Courrier (PersonId) VALUES (@PersonId); SELECT SCOPE_IDENTITY()";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("PersonId", courrier.PersonId);
 
-                    cn.Open();
+					cn.Open();
 
-                    courrier.CourrierId = Convert.ToInt32(cmd.ExecuteScalar());
-                }
-            }
-            catch (Exception e)
-            {
+					courrier.CourrierId = Convert.ToInt32(cmd.ExecuteScalar());
+				}
+			}
+			catch (Exception e)
+			{
 
-                throw e;
-            }
-            return courrier;
-        }
+				throw e;
+			}
+			return courrier;
+		}
 
 		public List<int> GetDeliveryZoneByCourrierId(int id)
 		{

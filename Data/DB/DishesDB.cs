@@ -6,8 +6,8 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-  public class DishesDB
-  {
+	public class DishesDB : IDishesDB
+	{
 		//Constructeur
 		private IConfiguration Configuration { get; }
 
@@ -65,7 +65,7 @@ namespace DAL
 			dish.ImageLink = (string)dr["image"];
 
 			dish.RestaurantId = (int)dr["restaurantId"];
-		
+
 			return dish;
 		}
 

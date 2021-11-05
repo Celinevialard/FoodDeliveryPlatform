@@ -73,7 +73,9 @@ namespace DAL
 							if (results == null)
 								results = new List<Order>();
 
-							results.Add(ReadOrder(dr));
+							Order order = ReadOrder(dr);
+							order.Details = GetOrderDetailsByOrder(order.OrderId);
+							results.Add(order);
 
 						}
 					}
@@ -112,7 +114,9 @@ namespace DAL
 							if (results == null)
 								results = new List<Order>();
 
-							results.Add(ReadOrder(dr));
+							Order order = ReadOrder(dr);
+							order.Details = GetOrderDetailsByOrder(order.OrderId);
+							results.Add(order);
 
 						}
 					}

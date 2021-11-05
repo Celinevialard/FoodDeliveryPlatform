@@ -6,7 +6,7 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-	public class PersonsDB
+	public class PersonsDB : IPersonsDB
 	{
 		//Constructeur
 		private IConfiguration Configuration { get; }
@@ -113,7 +113,7 @@ namespace DAL
 				person.CourrierInfo = new Courrier();
 				person.CourrierInfo.CourrierId = (int)dr["courrierId"];
 			}
-				
+
 			return person;
 		}
 	}

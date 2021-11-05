@@ -9,42 +9,42 @@ using System.Threading.Tasks;
 
 namespace DAL
 {
-    public class CustomersDB
-    {
+	public class CustomersDB : ICustomersDB
+	{
 
-        private IConfiguration Configuration { get; }
+		private IConfiguration Configuration { get; }
 
-        public CustomersDB(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+		public CustomersDB(IConfiguration configuration)
+		{
+			Configuration = configuration;
+		}
 
 
-       
-        public Customer AddCustomer(Customer customer)
-        {
-            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            try
-            {
-                using (SqlConnection cn = new SqlConnection(connectionString))
-                {
-                    string query = "INSERT INTO Customer (LocationId, PersonId) VALUES (@LocationId, @PersonId); SELECT SCOPE_IDENTITY()";
-                    SqlCommand cmd = new SqlCommand(query, cn);
-                    cmd.Parameters.AddWithValue("LocationId", customer.LocationId);
-                    cmd.Parameters.AddWithValue("PersonId", customer.PersonId);
+		public Customer AddCustomer(Customer customer)
+		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-                    cn.Open();
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "INSERT INTO Customer (LocationId, PersonId) VALUES (@LocationId, @PersonId); SELECT SCOPE_IDENTITY()";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("LocationId", customer.LocationId);
+					cmd.Parameters.AddWithValue("PersonId", customer.PersonId);
 
-                    customer.CustomerId = Convert.ToInt32(cmd.ExecuteScalar());
-                }
-            }
-            catch (Exception e)
-            {
+					cn.Open();
 
-                throw e;
-            }
-            return customer;
-        }
-    }
+					customer.CustomerId = Convert.ToInt32(cmd.ExecuteScalar());
+				}
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+			}
+			return customer;
+		}
+	}
 }
