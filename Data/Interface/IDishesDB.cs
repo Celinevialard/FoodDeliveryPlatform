@@ -3,8 +3,9 @@ using System.Collections.Generic;
 
 namespace DAL
 {
-	public interface IDishesDB
-	{
-		List<Dish> GetDishesByRestaurantId(int restaurantId);
-	}
+    public interface IDishesDB
+    {
+        Dish GetDishById(int Dishid);
+        List<Dish> GetDishesByRestaurantId(int restaurantId);
+    }
 }

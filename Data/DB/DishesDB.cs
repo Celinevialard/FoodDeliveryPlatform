@@ -6,68 +6,101 @@ using System.Data.SqlClient;
 
 namespace DAL
 {
-	public class DishesDB : IDishesDB
-	{
-		//Constructeur
-		private IConfiguration Configuration { get; }
+    public class DishesDB : IDishesDB
+    {
+        //Constructeur
+        private IConfiguration Configuration { get; }
 
-		public DishesDB(IConfiguration configuration)
-		{
-			Configuration = configuration;
-		}
+        public DishesDB(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
 
-		// pouvoir liste
-		public List<Dish> GetDishesByRestaurantId(int restaurantId)
-		{
-			List<Dish> results = null;
-			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-			try
-			{
-				using (SqlConnection cn = new SqlConnection(connectionString))
-				{
-					string query = "Select * from Dish WHERE restaurantId = @restaurantId";
-					SqlCommand cmd = new SqlCommand(query, cn);
-					cmd.Parameters.AddWithValue("@restaurantId", restaurantId);
-					cn.Open();
+        public Dish GetDishById(int Dishid)
+        {
+            Dish result = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-					using (SqlDataReader dr = cmd.ExecuteReader())
-					{
-						while (dr.Read())
-						{
-							if (results == null)
-								results = new List<Dish>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "SELECT * FROM Dishes WHERE IdDish = @DishId";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("DishId", Dishid);
 
-							results.Add(ReadDish(dr));
+                    cn.Open();
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        if (dr.Read())
+                        {
+                            result = ReadDish(dr);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
 
-						}
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
+                throw e;
+            }
+            return result;
+        }
 
-			return results;
 
-		}
+        // pouvoir liste
+        public List<Dish> GetDishesByRestaurantId(int restaurantId)
+        {
+            List<Dish> results = null;
+            string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-		private Dish ReadDish(SqlDataReader dr)
-		{
-			Dish dish = new Dish();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(connectionString))
+                {
+                    string query = "Select * from Dish WHERE restaurantId = @restaurantId";
+                    SqlCommand cmd = new SqlCommand(query, cn);
+                    cmd.Parameters.AddWithValue("@restaurantId", restaurantId);
+                    cn.Open();
 
-			dish.DishId = (int)dr["dishId"];
-			dish.Name = (string)dr["dishName"];
-			dish.Description = (string)dr["description"];
-			dish.Allergies = (string)dr["allergies"];
-			dish.Price = (decimal)dr["price"];
-			dish.ImageLink = (string)dr["image"];
+                    using (SqlDataReader dr = cmd.ExecuteReader())
+                    {
+                        while (dr.Read())
+                        {
+                            if (results == null)
+                                results = new List<Dish>();
 
-			dish.RestaurantId = (int)dr["restaurantId"];
+                            results.Add(ReadDish(dr));
 
-			return dish;
-		}
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
 
-	}
+            return results;
+
+        }
+
+        private Dish ReadDish(SqlDataReader dr)
+        {
+            Dish dish = new Dish();
+
+            dish.DishId = (int)dr["dishId"];
+            dish.Name = (string)dr["dishName"];
+            dish.Description = (string)dr["description"];
+            dish.Allergies = (string)dr["allergies"];
+            dish.Price = (decimal)dr["price"];
+            dish.ImageLink = (string)dr["image"];
+
+            dish.RestaurantId = (int)dr["restaurantId"];
+
+            return dish;
+        }
+
+    }
 }
