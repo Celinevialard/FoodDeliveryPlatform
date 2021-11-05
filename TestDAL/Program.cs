@@ -105,7 +105,7 @@ namespace TestDAL
 			//Test Location By Locality
 			string Locality = "Lausanne";
 			LocationsDB locationsDB = new LocationsDB(Configuration);
-			Location location = locationsDB.GetLocationByLocality(Locality);
+			Location location = locationsDB.GetLocationByLocality(Locality)[0];
 
 		
 			Console.WriteLine(location.NPA);

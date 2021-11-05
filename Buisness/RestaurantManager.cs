@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    class RestaurantManager
+    public class RestaurantManager
     {
         private RestaurantsDB RestaurantsDb{ get; }
         private LocationsDB LocationsDb { get; }
@@ -19,7 +19,9 @@ namespace BLL
         public List<Restaurant> GetRestaurantByLocation(string locality)
         {
             Location location = new Location();
-            location = LocationsDb.GetLocationByLocality(locality);
+
+            //on premier la premiere localite de la liste retournee 
+            location = LocationsDb.GetLocationByLocality(locality)[0];
 
             List<Restaurant> restaurants = new List<Restaurant>();
             restaurants = RestaurantsDb.GetRestaurantsByLocation(location.LocationId);

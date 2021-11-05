@@ -25,25 +25,25 @@ namespace DAL
 			Configuration = configuration;
 		}
 
-		public Order UpdateOrder(Order order, OrderStatusEnum Status)
+		public Order UpdateOrder(Order order, OrderStatusEnum status)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
             try
             {
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "UPDATE Orders SET Status = @Status";
+					string query = "UPDATE Orders SET Status = @Status WHERE OrderId = @OrderId";
 					SqlCommand cmd = new SqlCommand(query, cn);
-					cmd.Parameters.AddWithValue("Status", Status);
+					cmd.Parameters.AddWithValue("Status", status);
+					cmd.Parameters.AddWithValue("Orderid", order.OrderId);
 
 					cn.Open();
 					cmd.ExecuteNonQuery();
-					order.Status = Status;
+					order.Status = status;
 				}
 			}
             catch (Exception e)
             {
-
                 throw e;
             }
 			return order;
