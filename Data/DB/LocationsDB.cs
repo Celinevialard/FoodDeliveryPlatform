@@ -137,10 +137,8 @@ namespace DAL
 					cn.Open();
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
-						while (dr.Read())
-						{
-							if (result == null)
-								result = new Location();
+						if (dr.Read())
+						{ 
 							result = ReadLocality(dr);
 						}
 					}
