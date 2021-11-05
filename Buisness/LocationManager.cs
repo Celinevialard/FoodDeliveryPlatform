@@ -11,7 +11,7 @@ namespace BLL
 {
     public class LocationManager
     {
-        private LocationsDB LocationsDb { get; }
+        private ILocationsDB LocationsDb { get; }
         public LocationManager(IConfiguration conf)
         {
             LocationsDb = new LocationsDB(conf);

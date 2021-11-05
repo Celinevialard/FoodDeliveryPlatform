@@ -8,8 +8,8 @@ namespace BLL
 {
     public class RestaurantManager
     {
-        private RestaurantsDB RestaurantsDb{ get; }
-        private LocationsDB LocationsDb { get; }
+        private IRestaurantsDB RestaurantsDb{ get; }
+        private ILocationsDB LocationsDb { get; }
         public RestaurantManager(IConfiguration conf)
         {
             RestaurantsDb = new RestaurantsDB(conf);
