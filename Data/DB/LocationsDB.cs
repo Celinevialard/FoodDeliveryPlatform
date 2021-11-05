@@ -114,7 +114,6 @@ namespace DAL
 			}
 			catch (Exception e)
 			{
-
 				throw e;
 			}
 			return results;
