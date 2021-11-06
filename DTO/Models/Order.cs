@@ -14,7 +14,7 @@ namespace DTO
 
 		public int CourrierId { get; set; }
 
-		public string OrderNote { get; set; }
+		public string OrderNote { get; set; } = string.Empty;
 
 		public DateTime OrderDate { get; set; }
 

@@ -16,7 +16,7 @@ namespace TestBLL
 
 		static void Main(string[] args)
 		{
-			Order order = new Order
+			Order order = new Order()
 			{
 				CustomerId = 4,
 				Details = new List<OrderDetail>()
@@ -28,6 +28,7 @@ namespace TestBLL
 					new OrderDetail(){
 						DishId=5,
 						Quantity=3
+
 					}
 				}
 			};

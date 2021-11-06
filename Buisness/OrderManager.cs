@@ -68,8 +68,8 @@ namespace BLL
 		{
 			List<DateTime> dateDelivery = new List<DateTime>();
 
-			(int depart, int arriver) = GetLocalites(order);
-			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arriver);
+			(int depart, int arrivee) = GetLocalites(order);
+			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
 			// TODO enlever tranche si pas de delever dispo
 			foreach (Courrier courrier in courriers)
 			{
@@ -89,7 +89,7 @@ namespace BLL
 				{
 					time = dateDelivery[i - 1].AddMinutes(15);
 				}
-				int index = GetCourrierIdDispo(courriers, order.OrderDate);
+				int index = GetCourrierIdDispo(courriers, time);
 
 				if(index>0)
 					dateDelivery.Add(time);
@@ -138,8 +138,8 @@ namespace BLL
 		/// <returns></returns>
 		private int SetCourrierByOrder(Order order)
 		{
-			(int depart, int arriver) = GetLocalites(order);
-			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arriver);
+			(int depart, int arrivee) = GetLocalites(order);
+			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
 
 			return GetCourrierIdDispo(courriers, order.OrderDate);
 		}
@@ -155,13 +155,13 @@ namespace BLL
 			foreach (Courrier courrier in courriers)
 			{
 				List<Order> orders = courrier.Orders ?? OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
-				int nbrOrder = 0;
+				int nbOrder = 0;
 				foreach (Order o in orders)
 				{
 					if (o.OrderDate.AddMinutes(15) <= date && o.OrderDate.AddMinutes(-15) >= date)
-						nbrOrder++;
+						nbOrder++;
 				}
-				if (nbrOrder < 5)
+				if (nbOrder < 5)
 					return courrier.CourrierId;
 			}
 			return 0;
@@ -184,10 +184,10 @@ namespace BLL
 		/// <returns></returns>
 		private Order CancelOrder(Order order)
 		{
-			if (order.OrderDate.AddHours(3) <= DateTime.UtcNow)
+			if (DateTime.Now.AddHours(3) <= order.OrderDate)
 				return OrdersDb.UpdateOrder(order, OrderStatusEnum.Cancelled);
 			else
-				return order;
+				return null;
 		}
 	}
 }

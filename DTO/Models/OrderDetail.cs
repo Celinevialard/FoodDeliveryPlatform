@@ -10,12 +10,12 @@ namespace DTO
 	{
 		public int OrderId { get; set; }
 
-		public int OrderDetailsId { get; set; }
+		public int OrderDetailsId { get; set; } 
 
 		public int DishId { get; set; }
 
 		public int Quantity { get; set; }
 
-		public string OrderDetailsNote { get; set; }
+		public string OrderDetailsNote { get; set; } = string.Empty;
 	}
 }

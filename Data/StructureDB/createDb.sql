@@ -222,8 +222,8 @@ create table ORDERS (
    ORDERID              int                  not null IDENTITY(1,1),
    CUSTOMERID           int                  null,
    COURRIERID           int                  null,
-   Status               int                  not null,
-   ORDERNOTE            varchar(250)         not null,
+   STATUS               int                  not null,
+   ORDERNOTE            varchar(250)         null,
    ORDERDATE            DATETIME             null,
    TOTALAMOUNT          decimal              null,
    constraint PK_ORDERS primary key (ORDERID)

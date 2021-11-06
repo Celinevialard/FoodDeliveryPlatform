@@ -179,9 +179,9 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, Ordernote, OrderDate, TotalAmount) 
+					string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, OrderNote, OrderDate, TotalAmount) 
 									VALUES (@CustomerId, @CourrierId, @StatusId, @OrderNote, @OrderDate, @TotalAmount); 
-									SELECT SCOPE_IDENTITY";
+									SELECT SCOPE_IDENTITY()";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("CustomerId", order.CustomerId);
 					cmd.Parameters.AddWithValue("CourrierId", order.CourrierId);
@@ -197,6 +197,7 @@ namespace DAL
 					//Appel de InsertOrderDetails pour ajouter les élétements de la liste dans la table OrderDetail
 					foreach (OrderDetail detail in order.Details)
 					{
+						detail.OrderId = order.OrderId;
 						InsertOrderDetails(detail);
 					}
 
