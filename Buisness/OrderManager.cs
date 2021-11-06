@@ -167,5 +167,28 @@ namespace BLL
 			}
 			return 0;
 		}
+
+		/// <summary>
+		/// Change le statut de livraison en livré
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
+		private Order DeliverOrder(Order order)
+        {
+			return OrdersDb.UpdateOrder(order, OrderStatusEnum.Delivered);
+        }
+
+		/// <summary>
+		/// Autorise l'annulation de la commande jusqu'à 3 heures après celle-ci
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
+		private Order CancelOrder(Order order)
+		{
+			if (order.OrderDate.AddHours(3) >= DateTime.UtcNow)
+				return OrdersDb.UpdateOrder(order, OrderStatusEnum.Cancelled);
+			else
+				return order;
+		}
 	}
 }
