@@ -30,6 +30,11 @@ namespace BLL
 			return OrdersDb.GetOrdersByCourrier(courrierId);
 		}
 
+		/// <summary>
+		/// Création et validation d'une commande
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		public Order CreateOrder(Order order)
 		{
 			CheckAllDishFromSameRestaurant(order);
@@ -38,6 +43,11 @@ namespace BLL
 			return OrdersDb.InsertOrder(order);
 		}
 
+		/// <summary>
+		/// Calcule du montant total de la commande
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		public decimal CalculTotalAmount(Order order)
 		{
 			decimal totalAmout = 0;
@@ -49,25 +59,39 @@ namespace BLL
 			return totalAmout;
 		}
 
+		/// <summary>
+		/// Renvoie une liste de tranche horaire pour se faire livrer
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		public List<DateTime> GetDateDelivery(Order order)
 		{
 			List<DateTime> dateDelivery = new List<DateTime>();
-			
+
 			DateTime firstTime = DateTime.Now;
 			firstTime.AddMinutes(15 - firstTime.Minute % 15);
 			dateDelivery.Add(firstTime);
 			for (int i = 1; i < 10; i++)
 			{
-				dateDelivery.Add(dateDelivery[i-1].AddMinutes(15));
+				dateDelivery.Add(dateDelivery[i - 1].AddMinutes(15));
 			}
 
 			(int depart, int arriver) = GetLocalites(order);
 			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arriver);
-			
+
+			foreach (Courrier courrier in courriers)
+			{
+				courrier.Orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
+			}
 
 			return dateDelivery;
 		}
 		
+		/// <summary>
+		/// controle que tout le splats de la command viennent du même restaurant
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		private bool CheckAllDishFromSameRestaurant(Order order)
 		{
 			int restaurantId = 0;
@@ -82,6 +106,11 @@ namespace BLL
 			return true;
 		}
 		
+		/// <summary>
+		/// Récupération de la localité du restaurant et du customer d'une commande
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		private (int,int) GetLocalites(Order order)
 		{
 			Customer customer = CustomersDb.GetCustomer(order.CustomerId);
@@ -91,6 +120,11 @@ namespace BLL
 			return (restaurant.LocationId, customer.LocationId);
 		}
 
+		/// <summary>
+		/// Attribué un livreur pour une commande
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		private int SetCourrierByOrder(Order order)
 		{
 			(int depart, int arriver) = GetLocalites(order);

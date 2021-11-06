@@ -14,5 +14,7 @@ namespace DTO
 
 		public List<int> LocationsId { get; set; }
 
+		public List<Order> Orders { get; set; }
+
 	}
 }
