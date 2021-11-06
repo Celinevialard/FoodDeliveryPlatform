@@ -8,7 +8,7 @@ namespace DAL
 {
 	public class RestaurantsDB : IRestaurantsDB
 	{
-		//Constructeur
+		
 		private IConfiguration Configuration { get; }
 
 		public RestaurantsDB(IConfiguration configuration)
@@ -16,7 +16,11 @@ namespace DAL
 			Configuration = configuration;
 		}
 
-		// List by localité
+		/// <summary>
+		/// Obtention de la liste des restaurant par l'id de la localité dans la table Restaurant
+		/// </summary>
+		/// <param name="localiteId"></param>
+		/// <returns></returns>
 		public List<Restaurant> GetRestaurantsByLocation(int localiteId)
 		{
 			List<Restaurant> results = null;
@@ -53,6 +57,11 @@ namespace DAL
 
 		}
 
+		/// <summary>
+		/// Obtention d'un restaurant par son Id dans la table Restaurant
+		/// </summary>
+		/// <param name="restaurantId"></param>
+		/// <returns></returns>
 		public Restaurant GetRestaurantsById(int restaurantId)
 		{
 			Restaurant result = null;

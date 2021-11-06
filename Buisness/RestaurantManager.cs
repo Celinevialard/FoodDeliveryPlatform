@@ -16,6 +16,11 @@ namespace BLL
             LocationsDb = new LocationsDB(conf);
         }
         
+        /// <summary>
+        /// Liste les restaurants en fonction de la localite saisie
+        /// </summary>
+        /// <param name="locality"></param>
+        /// <returns></returns>
         public List<Restaurant> GetRestaurantByLocation(string locality)
         {
             Location location = new Location();

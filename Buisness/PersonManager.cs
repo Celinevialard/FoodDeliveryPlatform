@@ -16,12 +16,17 @@ namespace BLL
         {
             PersonDb = new PersonsDB(conf);
         }
-
+        /// <summary>
+        /// Obtenir le profil du client/livreur
+        /// </summary>
+        /// <param name="login"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
         public Person GetPersonByLogin(string login, string password)
         {
             return PersonDb.GetPersonByLogin(login, password);
         }
 
-        //Add
+        
     }
 }

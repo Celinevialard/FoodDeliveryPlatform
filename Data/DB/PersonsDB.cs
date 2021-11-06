@@ -8,20 +8,19 @@ namespace DAL
 {
 	public class PersonsDB : IPersonsDB
 	{
-		//Constructeur
 		private IConfiguration Configuration { get; }
 
 		public PersonsDB(IConfiguration configuration)
 		{
 			Configuration = configuration;
 		}
-		// Get by login and password
-		// est-ce qu'on récupère aussi les infos de courrier et de customer
-		// on pourra savoir si les info courrier sont null il ne peux pas livrer 
-		// si info customer null il pourra en ajouter pour commander?
-
-		// Si trop compliquer modifier db pour une entiter customer et un entiter courrier séparer
-
+		
+		/// <summary>
+		/// Obtention de la personne par son login, password et de ses informations spécifiques (livreur ou client)
+		/// </summary>
+		/// <param name="login"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
 		public Person GetPersonByLogin(string login, string password)
 		{
 			Person result = null;
@@ -59,7 +58,11 @@ namespace DAL
 
 		}
 
-		//TODO addperson 
+		/// <summary>
+		/// Ajout d'un personne dans la table Person
+		/// </summary>
+		/// <param name="person"></param>
+		/// <returns></returns>
 		public Person AddPerson(Person person)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
