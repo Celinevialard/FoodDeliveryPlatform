@@ -182,7 +182,7 @@ namespace DAL
 					cmd.Parameters.AddWithValue("CourrierId", order.CourrierId);
 					cmd.Parameters.AddWithValue("Status", (int)order.Status);
 					cmd.Parameters.AddWithValue("OrderNote", order.OrderNote);
-					cmd.Parameters.AddWithValue("OrderDare", order.OrderDate);
+					cmd.Parameters.AddWithValue("OrderDate", order.OrderDate);
 					cmd.Parameters.AddWithValue("TotalAmout", order.TotalAmount);
 
 					cn.Open();
