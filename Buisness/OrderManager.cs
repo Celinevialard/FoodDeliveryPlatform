@@ -44,7 +44,7 @@ namespace BLL
 		}
 
 		/// <summary>
-		/// Calcule du montant total de la commande
+		/// Calcul du montant total de la commande
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
@@ -173,9 +173,9 @@ namespace BLL
 		/// <param name="order"></param>
 		/// <returns></returns>
 		private Order DeliverOrder(Order order)
-        {
+    {
 			return OrdersDb.UpdateOrder(order, OrderStatusEnum.Delivered);
-        }
+    }
 
 		/// <summary>
 		/// Autorise l'annulation de la commande jusqu'à 3 heures avant son DateTime de livraison

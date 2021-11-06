@@ -60,8 +60,17 @@ namespace TestBLL
 				Password="1234",
 			};
 			
-			CustomerManager cm = new CustomerManager(Configuration);
-			cm.AddCustomer(person);
+			CustomerManager customerManager = new CustomerManager(Configuration);
+			//customerManager.AddCustomer(person);
+
+			RestaurantManager restaurantManager = new(Configuration);
+
+			var restaurants = restaurantManager.GetRestaurantByLocation("Martigny");
+
+			foreach (var restaurant in restaurants)
+			{
+				Console.WriteLine(restaurant);
+			}
 		}
 	}
 }
