@@ -89,7 +89,7 @@ namespace DAL
 		}
 
 		/// <summary>
-		/// Récupération de la liste de commande non livrer pour un livreur
+		/// Récupération de la liste des commandes non livrées pour un livreur
 		/// </summary>
 		/// <param name="courrierId"></param>
 		/// <returns></returns>
@@ -130,7 +130,7 @@ namespace DAL
 		}
 
 		/// <summary>
-		/// Récupération des details d'une commandes
+		/// Récupération des details d'une commande
 		/// </summary>
 		/// <param name="orderId"></param>
 		/// <returns></returns>
@@ -167,6 +167,11 @@ namespace DAL
 			return results;
 		}
 
+		/// <summary>
+		/// Ajout d'une commande dans la table Order et Orderdetails
+		/// </summary>
+		/// <param name="order"></param>
+		/// <returns></returns>
 		public Order InsertOrder(Order order)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -188,6 +193,8 @@ namespace DAL
 					cn.Open();
 					order.OrderId = Convert.ToInt32(cmd.ExecuteScalar());
 
+
+					//Appel de InsertOrderDetails pour ajouter les élétements de la liste dans la table OrderDetail
 					foreach (OrderDetail detail in order.Details)
 					{
 						InsertOrderDetails(detail);
@@ -203,6 +210,12 @@ namespace DAL
 			return order;
 		}
 
+
+		/// <summary>
+		/// Ajout des éléments de la commande spécifique à la table OrderDetail
+		/// </summary>
+		/// <param name="orderDetail"></param>
+		/// <returns></returns>
 		public OrderDetail InsertOrderDetails(OrderDetail orderDetail)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");

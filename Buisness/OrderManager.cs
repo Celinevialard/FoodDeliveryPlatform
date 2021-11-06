@@ -60,7 +60,7 @@ namespace BLL
 		}
 
 		/// <summary>
-		/// Renvoie une liste de tranche horaire pour se faire livrer
+		/// Liste les tranches horaires pour se faire livrer
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
@@ -94,13 +94,12 @@ namespace BLL
 				if(index>0)
 					dateDelivery.Add(time);
 			}
-
 			
 			return dateDelivery;
 		}
 		
 		/// <summary>
-		/// controle que tout le splats de la command viennent du même restaurant
+		/// Contrôle que tout le plats de la commande viennent du même restaurant
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
@@ -119,7 +118,7 @@ namespace BLL
 		}
 		
 		/// <summary>
-		/// Récupération de la localité du restaurant et du customer d'une commande
+		/// Récupération de la localité du restaurant et du client d'une commande
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
@@ -133,7 +132,7 @@ namespace BLL
 		}
 
 		/// <summary>
-		/// Attribué un livreur pour une commande
+		/// Attribue un livreur pour une commande
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
@@ -146,7 +145,7 @@ namespace BLL
 		}
 
 		/// <summary>
-		/// Get first courrier who can in that time
+		/// Retourne le premier livreur dispo à un DateTime
 		/// </summary>
 		/// <param name="courriers"></param>
 		/// <param name="date"></param>
