@@ -46,5 +46,49 @@ namespace DAL
 			}
 			return customer;
 		}
+
+		public Customer GetCustomer(int customerId)
+		{
+			Customer result = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Customer
+							WHERE customerID = @customerID";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@customerID", customerId);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						if (dr.Read())
+						{
+							result = ReadCustomer(dr);
+
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+		}
+
+		private Customer ReadCustomer(SqlDataReader dr)
+		{
+			Customer entity = new Customer();
+
+			entity.CustomerId = (int)dr["customerId"];
+			entity.PersonId = (int)dr["personId"];
+			entity.LocationId = (int)dr["locationId"];
+
+			return entity;
+		}
 	}
 }

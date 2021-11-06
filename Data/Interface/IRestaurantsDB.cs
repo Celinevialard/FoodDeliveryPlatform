@@ -6,5 +6,6 @@ namespace DAL
 	public interface IRestaurantsDB
 	{
 		List<Restaurant> GetRestaurantsByLocation(int localiteId);
+		Restaurant GetRestaurantsById(int restaurantId);
 	}
 }

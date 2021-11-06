@@ -53,6 +53,38 @@ namespace DAL
 
 		}
 
+		public Restaurant GetRestaurantsById(int restaurantId)
+		{
+			Restaurant result = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "Select * from Restaurant WHERE restaurantId = @restaurantId";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@restaurantId", restaurantId);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						if (dr.Read())
+						{
+							result = ReadRestaurant(dr);
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+
+		}
+
 		private Restaurant ReadRestaurant(SqlDataReader dr)
 		{
 			Restaurant restaurant = new Restaurant();
@@ -69,5 +101,6 @@ namespace DAL
 
 			return restaurant;
 		}
+
 	}
 }

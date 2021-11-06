@@ -52,7 +52,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = @"SELECT * FROM DeliveryZone 
+					string query = @"SELECT * FROM DeleveryZone 
 							WHERE courrierId = @id";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@id", id);
@@ -80,5 +80,54 @@ namespace DAL
 
 		}
 
+		public List<Courrier> GetCourrierByLocalite(int depart, int arriver)
+		{
+			List<Courrier> results = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Courrier c
+							INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierID 
+							WHERE dz.locationID = @departId AND
+							c.courrierId IN (
+											SELECT DISTINCT dz2.courrierId FROM DeleveryZone dz2 WHERE dz2.LocationId = @arriveId)";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@departId", depart);
+					cmd.Parameters.AddWithValue("@arriveId", arriver);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						while (dr.Read())
+						{
+							if (results == null)
+								results = new List<Courrier>();
+
+							results.Add(ReadCourrier(dr));
+
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return results;
+		}
+
+		private Courrier ReadCourrier(SqlDataReader dr)
+		{
+			Courrier courrier = new Courrier();
+
+			courrier.CourrierId = (int)dr["courrierId"];
+			courrier.PersonId = (int)dr["personId"];
+
+			return courrier;
+		}
 	}
 }

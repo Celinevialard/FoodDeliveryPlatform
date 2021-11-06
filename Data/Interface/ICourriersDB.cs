@@ -7,5 +7,6 @@ namespace DAL
 	{
 		Courrier AddCourrier(Courrier courrier);
 		List<int> GetDeliveryZoneByCourrierId(int id);
+		List<Courrier> GetCourrierByLocalite(int depart, int arriver);
 	}
 }
