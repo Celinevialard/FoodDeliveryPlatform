@@ -17,6 +17,10 @@ namespace BLL
             LocationsDb = new LocationsDB(conf);
         }
 
+        /// <summary>
+        /// Liste toutes les localités
+        /// </summary>
+        /// <returns></returns>
         public List<Location> GetLocations()
         {
             return LocationsDb.GetLocations();

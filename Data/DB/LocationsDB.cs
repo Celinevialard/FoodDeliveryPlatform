@@ -15,6 +15,10 @@ namespace DAL
 			Configuration = configuration;
 		}
 
+		/// <summary>
+		/// Obtenir la liste de toutes les localités
+		/// </summary>
+		/// <returns></returns>
 		public List<Location> GetLocations()
 		{
 			List<Location> results = null;
@@ -51,6 +55,11 @@ namespace DAL
 
 		}
 
+		/// <summary>
+		/// Obenir la liste des localités pour un NPA donné
+		/// </summary>
+		/// <param name="NPA"></param>
+		/// <returns></returns>
 		public List<Location> GetLocationByNPA(string NPA)
 		{
 			List<Location> results = null;
@@ -85,7 +94,11 @@ namespace DAL
 			return results;
 		}
 
-		//Ne prend que une loacalité
+		/// <summary>
+		/// Obtenir la liste des localités correspondante à la saisie Locality
+		/// </summary>
+		/// <param name="Locality"></param>
+		/// <returns></returns>
 		public List<Location> GetLocationByLocality(string Locality)
 		{
 			List<Location> results = null;
@@ -119,7 +132,11 @@ namespace DAL
 			return results;
 		}
 
-
+		/// <summary>
+		/// Obtenir la localité par son Id
+		/// </summary>
+		/// <param name="LocationId"></param>
+		/// <returns></returns>
 		public Location GetLocationById(int LocationId)
 		{
 			Location result = null;
