@@ -19,6 +19,11 @@ namespace BLL
             PersonDb = new PersonsDB(conf);
         }
 
+
+        /// <summary>
+        /// Création d'un nouveau customer avec infos générales traitées dans PersonDb et specifiques au client dans CustomerDb
+        /// </summary>
+        /// <param name="person"></param>
         public void AddCustomer(Person person)
         {
             PersonDb.AddPerson(person);

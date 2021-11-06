@@ -19,8 +19,11 @@ namespace DAL
 			Configuration = configuration;
 		}
 
-
-
+		/// <summary>
+		/// Insertion d'un customer dans la table Customer
+		/// </summary>
+		/// <param name="customer"></param>
+		/// <returns></returns>
 		public Customer AddCustomer(Customer customer)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -47,6 +50,11 @@ namespace DAL
 			return customer;
 		}
 
+		/// <summary>
+		/// Récupération d'un customer dans la table customer par son Id
+		/// </summary>
+		/// <param name="customerId"></param>
+		/// <returns></returns>
 		public Customer GetCustomer(int customerId)
 		{
 			Customer result = null;
