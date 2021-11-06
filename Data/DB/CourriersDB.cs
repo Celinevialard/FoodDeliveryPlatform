@@ -16,7 +16,11 @@ namespace DAL
 		{
 			Configuration = configuration;
 		}
-
+		/// <summary>
+		/// Inserzion d'un livreur dans la table Courrier
+		/// </summary>
+		/// <param name="courrier"></param>
+		/// <returns></returns>
 		public Courrier AddCourrier(Courrier courrier)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -42,6 +46,11 @@ namespace DAL
 			return courrier;
 		}
 
+		/// <summary>
+		/// Récupération de la liste des locationsId où livrent un livreur
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns></returns>
 		public List<int> GetDeliveryZoneByCourrierId(int id)
 		{
 
@@ -80,7 +89,13 @@ namespace DAL
 
 		}
 
-		public List<Courrier> GetCourrierByLocalite(int depart, int arriver)
+		/// <summary>
+		/// Récupétation de la liste des livreurs pour les localités de livraisons (departId: restaurant et arriveeId : chez le client)
+		/// </summary>
+		/// <param name="depart"></param>
+		/// <param name="arrivee"></param>
+		/// <returns></returns>
+		public List<Courrier> GetCourrierByLocalite(int depart, int arrivee)
 		{
 			List<Courrier> results = null;
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -93,10 +108,10 @@ namespace DAL
 							INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierID 
 							WHERE dz.locationID = @departId AND
 							c.courrierId IN (
-											SELECT DISTINCT dz2.courrierId FROM DeleveryZone dz2 WHERE dz2.LocationId = @arriveId)";
+											SELECT DISTINCT dz2.courrierId FROM DeleveryZone dz2 WHERE dz2.LocationId = @arriveeId)";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@departId", depart);
-					cmd.Parameters.AddWithValue("@arriveId", arriver);
+					cmd.Parameters.AddWithValue("@arriveeId", arrivee);
 					cn.Open();
 
 					using (SqlDataReader dr = cmd.ExecuteReader())

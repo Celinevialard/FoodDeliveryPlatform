@@ -17,12 +17,20 @@ namespace BLL
         {
             CourrierDb = new CourriersDB(conf);
         }
-
+        /// <summary>
+        /// Création d'un nouveau livreur
+        /// </summary>
+        /// <param name="courrier"></param>
         public void AddCourrier(Courrier courrier)
         {
             CourrierDb.AddCourrier(courrier);
         }
 
+        /// <summary>
+        /// Obtenir les zones de livraison d'un livreur
+        /// </summary>
+        /// <param name="courrier"></param>
+        /// <returns></returns>
         public List<int> GetDeliveryZoneByCourrier(Courrier courrier)
         {
             List<int> deliveryZones = CourrierDb.GetDeliveryZoneByCourrierId(courrier.CourrierId);

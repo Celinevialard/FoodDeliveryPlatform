@@ -20,7 +20,7 @@ namespace DAL
 		}
 
 		/// <summary>
-		/// Insertion d'un customer dans la table Customer
+		/// Insertion d'un client dans la table Customer
 		/// </summary>
 		/// <param name="customer"></param>
 		/// <returns></returns>
