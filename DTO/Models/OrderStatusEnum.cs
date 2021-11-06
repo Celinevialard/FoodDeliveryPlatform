@@ -1,7 +1,7 @@
 ﻿
 namespace DTO
 {
-	public enum OrderStatusEnum
+	public enum OrderStatusEnum : int
 	{
 		Unknown = 0,
 		Delivering = 1,

@@ -68,22 +68,34 @@ namespace BLL
 		{
 			List<DateTime> dateDelivery = new List<DateTime>();
 
-			DateTime firstTime = DateTime.Now;
-			firstTime.AddMinutes(15 - firstTime.Minute % 15);
-			dateDelivery.Add(firstTime);
-			for (int i = 1; i < 10; i++)
-			{
-				dateDelivery.Add(dateDelivery[i - 1].AddMinutes(15));
-			}
-
 			(int depart, int arriver) = GetLocalites(order);
 			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arriver);
-
+			// TODO enlever tranche si pas de delever dispo
 			foreach (Courrier courrier in courriers)
 			{
 				courrier.Orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
 			}
 
+			for (int i = 0; i < 4*6; i++)
+			{
+				DateTime time;
+				if (i == 0)
+				{
+					time = DateTime.Now;
+					time = time.AddMinutes(15 - time.Minute % 15);
+					time = time.AddSeconds(0 - time.Second);
+				}
+				else
+				{
+					time = dateDelivery[i - 1].AddMinutes(15);
+				}
+				int index = GetCourrierIdDispo(courriers, order.OrderDate);
+
+				if(index>0)
+					dateDelivery.Add(time);
+			}
+
+			
 			return dateDelivery;
 		}
 		
@@ -130,20 +142,30 @@ namespace BLL
 			(int depart, int arriver) = GetLocalites(order);
 			List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arriver);
 
-			foreach(Courrier courrier in courriers)
+			return GetCourrierIdDispo(courriers, order.OrderDate);
+		}
+
+		/// <summary>
+		/// Get first courrier who can in that time
+		/// </summary>
+		/// <param name="courriers"></param>
+		/// <param name="date"></param>
+		/// <returns></returns>
+		private int GetCourrierIdDispo(List<Courrier> courriers, DateTime date)
+		{
+			foreach (Courrier courrier in courriers)
 			{
-				List<Order> orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
+				List<Order> orders = courrier.Orders ?? OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
 				int nbrOrder = 0;
-				foreach(Order o in orders)
+				foreach (Order o in orders)
 				{
-					if (o.OrderDate.AddMinutes(15) <= order.OrderDate && o.OrderDate.AddMinutes(-15) >= order.OrderDate)
+					if (o.OrderDate.AddMinutes(15) <= date && o.OrderDate.AddMinutes(-15) >= date)
 						nbrOrder++;
 				}
-				if(nbrOrder < 5)
+				if (nbrOrder < 5)
 					return courrier.CourrierId;
 			}
 			return 0;
-			
 		}
 	}
 }

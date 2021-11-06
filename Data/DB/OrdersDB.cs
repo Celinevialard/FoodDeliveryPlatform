@@ -101,7 +101,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT Orders WHERE courrierId = @courrierId AND Status = @statusID ORDER BY orderDate";
+					string query = "SELECT * FROM Orders WHERE courrierId = @courrierId AND Status = @statusID ORDER BY orderDate";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("courrierId", courrierId);
 					cmd.Parameters.AddWithValue("statusID", OrderStatusEnum.Delivering);
@@ -142,7 +142,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT OrderDetails WHERE orderID = @orderId";
+					string query = "SELECT * FROM OrderDetails WHERE orderID = @orderId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("orderId", orderId);
 
@@ -180,7 +180,7 @@ namespace DAL
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("CustomerId", order.CustomerId);
 					cmd.Parameters.AddWithValue("CourrierId", order.CourrierId);
-					cmd.Parameters.AddWithValue("Status", order.Status);
+					cmd.Parameters.AddWithValue("Status", (int)order.Status);
 					cmd.Parameters.AddWithValue("OrderNote", order.OrderNote);
 					cmd.Parameters.AddWithValue("OrderDare", order.OrderDate);
 					cmd.Parameters.AddWithValue("TotalAmout", order.TotalAmount);

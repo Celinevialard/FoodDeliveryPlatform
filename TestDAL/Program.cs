@@ -110,13 +110,13 @@ namespace TestDAL
 		
 			Console.WriteLine(location.NPA);
 
-			CourriersDB courriersDB = new CourriersDB(Configuration);
+			//CourriersDB courriersDB = new CourriersDB(Configuration);
 
-			List<Courrier> courriers = courriersDB.GetCourrierByLocalite(4011, 4111);
-			foreach (Courrier courrier in courriers)
-			{
-				Console.WriteLine(courrier.CourrierId);
-			}
+			//List<Courrier> courriers = courriersDB.GetCourrierByLocalite(4011, 4111);
+			//foreach (Courrier courrier in courriers)
+			//{
+			//	Console.WriteLine(courrier.CourrierId);
+			//}
 
 		}
 

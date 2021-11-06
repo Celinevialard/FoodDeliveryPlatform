@@ -26,7 +26,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "SELECT * FROM Dishes WHERE IdDish = @DishId";
+                    string query = "SELECT * FROM Dish WHERE IdDish = @DishId";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("DishId", Dishid);
 
@@ -90,7 +90,7 @@ namespace DAL
         {
             Dish dish = new Dish();
 
-            dish.DishId = (int)dr["dishId"];
+            dish.DishId = (int)dr["IdDish"];
             dish.Name = (string)dr["dishName"];
             dish.Description = (string)dr["description"];
             dish.Allergies = (string)dr["allergies"];
