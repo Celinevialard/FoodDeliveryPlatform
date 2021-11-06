@@ -16,6 +16,12 @@ namespace BLL
         {
             DishesDb = new DishesDB(conf);
         }
+
+        /// <summary>
+        /// Liste les plats pour un restaurant 
+        /// </summary>
+        /// <param name="RestaurantId"></param>
+        /// <returns></returns>
         public List<Dish> GetDishesByRestaurant(int RestaurantId)
         {
             return DishesDb.GetDishesByRestaurantId(RestaurantId);

@@ -8,7 +8,7 @@ namespace DAL
 {
     public class DishesDB : IDishesDB
     {
-        //Constructeur
+      
         private IConfiguration Configuration { get; }
 
         public DishesDB(IConfiguration configuration)
@@ -16,7 +16,11 @@ namespace DAL
             Configuration = configuration;
         }
 
-
+        /// <summary>
+        /// Obtention d'un plat par son Id dans la table Dish
+        /// </summary>
+        /// <param name="Dishid"></param>
+        /// <returns></returns>
         public Dish GetDishById(int Dishid)
         {
             Dish result = null;
@@ -49,7 +53,11 @@ namespace DAL
         }
 
 
-        // pouvoir liste
+        /// <summary>
+        /// Récupération de la liste de tout les plats d'un restaurant par son Id dans la table Dish
+        /// </summary>
+        /// <param name="restaurantId"></param>
+        /// <returns></returns>
         public List<Dish> GetDishesByRestaurantId(int restaurantId)
         {
             List<Dish> results = null;
@@ -59,7 +67,7 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = "Select * from Dish WHERE restaurantId = @restaurantId";
+                    string query = "SELECT * FROM Dish WHERE restaurantId = @restaurantId";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("@restaurantId", restaurantId);
                     cn.Open();
