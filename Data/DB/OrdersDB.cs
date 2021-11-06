@@ -61,7 +61,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT Orders WHERE customerId = @customerId";
+					string query = "SELECT Orders WHERE customerId = @customerId ORDER BY orderDate";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("customerId", customerId);
 
@@ -101,7 +101,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT Orders WHERE courrierId = @courrierId AND Status = @statusID";
+					string query = "SELECT Orders WHERE courrierId = @courrierId AND Status = @statusID ORDER BY orderDate";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("courrierId", courrierId);
 					cmd.Parameters.AddWithValue("statusID", OrderStatusEnum.Delivering);
@@ -167,49 +167,6 @@ namespace DAL
 			return results;
 		}
 
-		private Order ReadOrder(SqlDataReader dr)
-		{
-			Order entity = new Order();
-
-			entity.OrderId = (int)dr["orderId"];
-			entity.OrderNote = (string)dr["orderNote"];
-			entity.Status = (OrderStatusEnum)dr["Status"];
-
-
-			if (dr["courrierId"] != DBNull.Value)
-				entity.CourrierId = (int)dr["courrierId"];
-
-			if (dr["customerId"] != DBNull.Value)
-				entity.CustomerId = (int)dr["customerId"];
-
-			if (dr["orderDate"] != DBNull.Value)
-				entity.OrderDate = (DateTime)dr["orderDate"];
-
-			if (dr["totalAmount"] != DBNull.Value)
-				entity.TotalAmount = (decimal)dr["totalAmount"];
-
-			return entity;
-		}
-
-		private OrderDetail ReadOrderDetails(SqlDataReader dr)
-		{
-			OrderDetail entity = new OrderDetail();
-
-			entity.OrderDetailsId = (int)dr["orderDetailsId"];
-			entity.OrderId = (int)dr["orderId"];
-
-			if (dr["idDish"] != DBNull.Value)
-				entity.DishId = (int)dr["idDish"];
-
-			if (dr["quantity"] != DBNull.Value)
-				entity.Quantity = (int)dr["quantity"];
-
-			if (dr["orderNote"] != DBNull.Value)
-				entity.OrderDetailsNote = (string)dr["orderNote"];
-
-			return entity;
-		}
-
 		public Order InsertOrder(Order order)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -272,5 +229,49 @@ namespace DAL
 			}
 			return orderDetail;
 		}
+
+		private Order ReadOrder(SqlDataReader dr)
+		{
+			Order entity = new Order();
+
+			entity.OrderId = (int)dr["orderId"];
+			entity.OrderNote = (string)dr["orderNote"];
+			entity.Status = (OrderStatusEnum)dr["Status"];
+
+
+			if (dr["courrierId"] != DBNull.Value)
+				entity.CourrierId = (int)dr["courrierId"];
+
+			if (dr["customerId"] != DBNull.Value)
+				entity.CustomerId = (int)dr["customerId"];
+
+			if (dr["orderDate"] != DBNull.Value)
+				entity.OrderDate = (DateTime)dr["orderDate"];
+
+			if (dr["totalAmount"] != DBNull.Value)
+				entity.TotalAmount = (decimal)dr["totalAmount"];
+
+			return entity;
+		}
+
+		private OrderDetail ReadOrderDetails(SqlDataReader dr)
+		{
+			OrderDetail entity = new OrderDetail();
+
+			entity.OrderDetailsId = (int)dr["orderDetailsId"];
+			entity.OrderId = (int)dr["orderId"];
+
+			if (dr["idDish"] != DBNull.Value)
+				entity.DishId = (int)dr["idDish"];
+
+			if (dr["quantity"] != DBNull.Value)
+				entity.Quantity = (int)dr["quantity"];
+
+			if (dr["orderNote"] != DBNull.Value)
+				entity.OrderDetailsNote = (string)dr["orderNote"];
+
+			return entity;
+		}
+
 	}
 }
