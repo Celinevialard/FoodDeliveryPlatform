@@ -180,15 +180,15 @@ namespace DAL
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
 					string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, Ordernote, OrderDate, TotalAmount) 
-									VALUES (@CustomerId, @CourrierId, @StatusId, @Ordernote, @OrderDate, @TotalAmount); 
+									VALUES (@CustomerId, @CourrierId, @StatusId, @OrderNote, @OrderDate, @TotalAmount); 
 									SELECT SCOPE_IDENTITY";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("CustomerId", order.CustomerId);
 					cmd.Parameters.AddWithValue("CourrierId", order.CourrierId);
-					cmd.Parameters.AddWithValue("Status", (int)order.Status);
+					cmd.Parameters.AddWithValue("StatusId", (int)order.Status);
 					cmd.Parameters.AddWithValue("OrderNote", order.OrderNote);
 					cmd.Parameters.AddWithValue("OrderDate", order.OrderDate);
-					cmd.Parameters.AddWithValue("TotalAmout", order.TotalAmount);
+					cmd.Parameters.AddWithValue("TotalAmount", order.TotalAmount);
 
 					cn.Open();
 					order.OrderId = Convert.ToInt32(cmd.ExecuteScalar());
