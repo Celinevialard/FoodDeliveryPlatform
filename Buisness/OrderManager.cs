@@ -179,13 +179,13 @@ namespace BLL
         }
 
 		/// <summary>
-		/// Autorise l'annulation de la commande jusqu'à 3 heures après celle-ci
+		/// Autorise l'annulation de la commande jusqu'à 3 heures avant son DateTime de livraison
 		/// </summary>
 		/// <param name="order"></param>
 		/// <returns></returns>
 		private Order CancelOrder(Order order)
 		{
-			if (order.OrderDate.AddHours(3) >= DateTime.UtcNow)
+			if (order.OrderDate.AddHours(3) <= DateTime.UtcNow)
 				return OrdersDb.UpdateOrder(order, OrderStatusEnum.Cancelled);
 			else
 				return order;
