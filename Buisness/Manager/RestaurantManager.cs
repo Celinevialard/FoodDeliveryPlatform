@@ -6,16 +6,16 @@ using System.Collections.Generic;
 
 namespace BLL
 {
-    public class RestaurantManager
+    public class RestaurantManager : IRestaurantManager
     {
-        private IRestaurantsDB RestaurantsDb{ get; }
+        private IRestaurantsDB RestaurantsDb { get; }
         private ILocationsDB LocationsDb { get; }
         public RestaurantManager(IConfiguration conf)
         {
             RestaurantsDb = new RestaurantsDB(conf);
             LocationsDb = new LocationsDB(conf);
         }
-        
+
         /// <summary>
         /// Liste les restaurants en fonction de la localite saisie
         /// </summary>
@@ -31,8 +31,8 @@ namespace BLL
             List<Restaurant> restaurants = new List<Restaurant>();
             restaurants = RestaurantsDb.GetRestaurantsByLocation(location.LocationId);
             return restaurants;
-            
+
         }
-        
+
     }
 }

@@ -69,11 +69,11 @@ namespace TestDAL
 			//Test addCustomer
 			//Todo controler que ça ajoute pas si id person n'existe pas.
 			/*
-			CustomersDB customersDB = new CustomersDB(Configuration);
-			Customer customer = new Customer();
-			customer.LocationId = 2;
-			customer.PersonId = 1;
-			customer = customersDB.AddCustomer(customer);
+			customersdb customersdb = new customersdb(configuration);
+			customer customer = new customer();
+			customer.locationid = 2;
+			customer.personid = 1;
+			customer = customersdb.addcustomer(customer);
 			*/
 
 			//Test addPerson

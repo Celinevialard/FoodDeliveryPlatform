@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class PersonManager
+    public class PersonManager : IPersonManager
     {
         private IPersonsDB PersonDb { get; }
         public PersonManager(IConfiguration conf)
@@ -27,6 +27,6 @@ namespace BLL
             return PersonDb.GetPersonByLogin(login, password);
         }
 
-        
+
     }
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class DishManager
+    public class DishManager : IDishManager
     {
         private IDishesDB DishesDb { get; }
         public DishManager(IConfiguration conf)

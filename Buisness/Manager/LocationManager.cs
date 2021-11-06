@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class LocationManager
+    public class LocationManager : ILocationManager
     {
         private ILocationsDB LocationsDb { get; }
         public LocationManager(IConfiguration conf)

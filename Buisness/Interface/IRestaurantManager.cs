@@ -1,0 +1,10 @@
+﻿using DTO;
+using System.Collections.Generic;
+
+namespace BLL
+{
+    public interface IRestaurantManager
+    {
+        List<Restaurant> GetRestaurantByLocation(string locality);
+    }
+}

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace BLL
 {
-    public class CourrierManager
+    public class CourrierManager : ICourrierManager
     {
         private ICourriersDB CourrierDb { get; }
 
