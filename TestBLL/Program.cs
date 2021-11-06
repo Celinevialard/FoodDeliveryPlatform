@@ -44,7 +44,24 @@ namespace TestBLL
 			order.OrderDate = dates[0];
 			order.Status = OrderStatusEnum.Delivering;
 
-			var orderNew = orderManager.CreateOrder(order);
+			//var orderNew = orderManager.CreateOrder(order);
+
+			Customer customer = new Customer
+			{
+				LocationId = 4011
+			};
+
+			Person person = new Person
+			{
+				CustomerInfo = customer,
+				Firstname = "toto",
+				Lastname = "Mobile",
+				Login = "totomob",
+				Password="1234",
+			};
+			
+			CustomerManager cm = new CustomerManager(Configuration);
+			cm.AddCustomer(person);
 		}
 	}
 }

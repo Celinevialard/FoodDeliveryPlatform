@@ -26,7 +26,8 @@ namespace BLL
         /// <param name="person"></param>
         public void AddCustomer(Person person)
         {
-            PersonDb.AddPerson(person);
+            person = PersonDb.AddPerson(person);
+            person.CustomerInfo.PersonId = person.PersonId;
             CustomerDb.AddCustomer(person.CustomerInfo);
         }
     }
