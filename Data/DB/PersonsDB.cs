@@ -22,9 +22,9 @@ namespace DAL
 
 		// Si trop compliquer modifier db pour une entiter customer et un entiter courrier séparer
 
-		public List<Person> GetPersonByLogin(string login, string password)
+		public Person GetPersonByLogin(string login, string password)
 		{
-			List<Person> results = null;
+			Person result = null;
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
 			try
@@ -42,12 +42,9 @@ namespace DAL
 
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
-						while (dr.Read())
+						if (dr.Read())
 						{
-							if (results == null)
-								results = new List<Person>();
-
-							results.Add(ReadPerson(dr));
+							result = ReadPerson(dr);
 
 						}
 					}
@@ -58,7 +55,7 @@ namespace DAL
 				throw e;
 			}
 
-			return results;
+			return result;
 
 		}
 
