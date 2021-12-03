@@ -1,3 +1,5 @@
+using BLL;
+using DAL;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -23,6 +25,21 @@ namespace FoodDeliveryPlatform
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
+			services.AddScoped<ICourrierManager, CourrierManager>();
+			services.AddScoped<ICustomerManager, CustomerManager>();
+			services.AddScoped<IDishManager, DishManager>();
+			services.AddScoped<ILocationManager, LocationManager>();
+			services.AddScoped<IOrderManager, OrderManager>();
+			services.AddScoped<IPersonManager, PersonManager>();
+			services.AddScoped<IRestaurantManager, RestaurantManager>();
+
+			services.AddScoped<ICourriersDB, CourriersDB>();
+			services.AddScoped<ICustomersDB, CustomersDB>();
+			services.AddScoped<IDishesDB, DishesDB>();
+			services.AddScoped<ILocationsDB, LocationsDB>();
+			services.AddScoped<IOrdersDB, OrdersDB>();
+			services.AddScoped<IPersonsDB, PersonsDB>();
+			services.AddScoped<IRestaurantsDB, RestaurantsDB>();
 			services.AddControllersWithViews();
 		}
 
