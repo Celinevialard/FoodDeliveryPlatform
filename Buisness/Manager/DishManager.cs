@@ -12,9 +12,9 @@ namespace BLL
     public class DishManager : IDishManager
     {
         private IDishesDB DishesDb { get; }
-        public DishManager(IConfiguration conf)
+        public DishManager(IDishesDB dishesDB)
         {
-            DishesDb = new DishesDB(conf);
+            DishesDb = dishesDB;
         }
 
         /// <summary>

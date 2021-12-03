@@ -16,13 +16,13 @@ namespace BLL
         private IRestaurantsDB RestaurantsDb { get; }
         private ICourriersDB CourriersDb { get; }
         private ICustomersDB CustomersDb { get; }
-        public OrderManager(IConfiguration conf)
+        public OrderManager(IOrdersDB ordersDB, IDishesDB dishesDB, IRestaurantsDB restaurantsDB, ICourriersDB courriersDB, ICustomersDB customersDB)
         {
-            OrdersDb = new OrdersDB(conf);
-            CustomersDb = new CustomersDB(conf);
-            DishesDb = new DishesDB(conf);
-            CourriersDb = new CourriersDB(conf);
-            RestaurantsDb = new RestaurantsDB(conf);
+            OrdersDb = ordersDB;
+            CustomersDb = customersDB;
+            DishesDb = dishesDB;
+            CourriersDb = courriersDB;
+            RestaurantsDb = restaurantsDB;
         }
 
         public List<Order> GetOrdersByCourrier(int courrierId)

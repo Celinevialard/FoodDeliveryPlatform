@@ -13,10 +13,10 @@ namespace BLL
     {
         private ICustomersDB CustomerDb { get; }
         private IPersonsDB PersonDb { get; }
-        public CustomerManager(IConfiguration conf)
+        public CustomerManager(ICustomersDB customersDB, IPersonsDB personsDB)
         {
-            CustomerDb = new CustomersDB(conf);
-            PersonDb = new PersonsDB(conf);
+            CustomerDb = customersDB;
+            PersonDb = personsDB;
         }
 
 

@@ -12,9 +12,9 @@ namespace BLL
     public class LocationManager : ILocationManager
     {
         private ILocationsDB LocationsDb { get; }
-        public LocationManager(IConfiguration conf)
+        public LocationManager(ILocationsDB locationsDB)
         {
-            LocationsDb = new LocationsDB(conf);
+            LocationsDb = locationsDB;
         }
 
         /// <summary>

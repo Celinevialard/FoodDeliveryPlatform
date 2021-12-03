@@ -13,9 +13,9 @@ namespace BLL
     {
         private ICourriersDB CourrierDb { get; }
 
-        public CourrierManager(IConfiguration conf)
+        public CourrierManager(ICourriersDB courriersDB)
         {
-            CourrierDb = new CourriersDB(conf);
+            CourrierDb = courriersDB;
         }
         /// <summary>
         /// Création d'un nouveau livreur étant déjà dans la base de person

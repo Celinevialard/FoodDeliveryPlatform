@@ -12,9 +12,9 @@ namespace BLL
     public class PersonManager : IPersonManager
     {
         private IPersonsDB PersonDb { get; }
-        public PersonManager(IConfiguration conf)
+        public PersonManager(IPersonsDB personsDB)
         {
-            PersonDb = new PersonsDB(conf);
+            PersonDb = personsDB;
         }
         /// <summary>
         /// Obtenir le profil du client/livreur

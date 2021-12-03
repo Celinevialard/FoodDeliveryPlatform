@@ -10,10 +10,10 @@ namespace BLL
     {
         private IRestaurantsDB RestaurantsDb { get; }
         private ILocationsDB LocationsDb { get; }
-        public RestaurantManager(IConfiguration conf)
+        public RestaurantManager(IRestaurantsDB restaurantsDB, ILocationsDB locationsDB)
         {
-            RestaurantsDb = new RestaurantsDB(conf);
-            LocationsDb = new LocationsDB(conf);
+            RestaurantsDb = restaurantsDB;
+            LocationsDb = locationsDB;
         }
 
         /// <summary>
