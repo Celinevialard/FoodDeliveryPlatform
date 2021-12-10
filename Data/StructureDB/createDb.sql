@@ -161,6 +161,7 @@ create table CUSTOMER (
    CUSTOMERID           int                  not null IDENTITY(1,1),
    LOCATIONID           int                  null,
    PERSONID             int                  null,
+   ADDRESS              varchar(250)         null,
    constraint PK_CUSTOMER primary key (CUSTOMERID)
 )
 go

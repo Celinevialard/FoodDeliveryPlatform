@@ -12,9 +12,12 @@ namespace BLL
     public class PersonManager : IPersonManager
     {
         private IPersonsDB PersonDb { get; }
-        public PersonManager(IPersonsDB personsDB)
+
+        private ILocationsDB LocationsDb { get; }
+        public PersonManager(IPersonsDB personsDB, ILocationsDB locationsDb)
         {
             PersonDb = personsDB;
+            LocationsDb = locationsDb;
         }
         /// <summary>
         /// Obtenir le profil du client/livreur
@@ -25,6 +28,12 @@ namespace BLL
         public Person GetPersonByLogin(string login, string password)
         {
             return PersonDb.GetPersonByLogin(login, password);
+        }
+        public Person GetPersonByCustomer(int customerId)
+        {
+            Person person = PersonDb.GetPersonByCustomer(customerId);
+            person.CustomerInfo.Location = LocationsDb.GetLocationById(person.CustomerInfo.LocationId);
+            return person;
         }
 
 

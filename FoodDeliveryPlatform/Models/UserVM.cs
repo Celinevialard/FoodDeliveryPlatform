@@ -1,7 +1,10 @@
-﻿
-namespace DTO
+using DTO;
+using System.ComponentModel.DataAnnotations;
+using System.Text.Json;
+
+namespace FoodDeliveryPlatform.Models
 {
-	public class Person
+	public class UserVM
 	{
 		public int PersonId { get; set; }
 
@@ -9,13 +12,11 @@ namespace DTO
 
 		public string Lastname { get; set; }
 
-		public string Login { get; set; }
-
-		public string Password { get; set; }
-
 		public Customer CustomerInfo { get; set; }
 
 		public Courrier CourrierInfo { get; set; }
+
+		public string ToString() => JsonSerializer.Serialize(this);
 
 	}
 }

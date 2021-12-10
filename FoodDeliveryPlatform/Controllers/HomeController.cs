@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace FoodDeliveryPlatform.Controllers
@@ -24,7 +25,22 @@ namespace FoodDeliveryPlatform.Controllers
 
 		public IActionResult Index()
 		{
-			return View();
+			if (HttpContext.Session.GetString("User") == null)
+			{
+				return RedirectToAction("Login", "Home");
+			}
+			UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+			
+			if (person == null)
+				return RedirectToAction("Logout", "Home");
+
+			if (person.CustomerInfo != null)
+				return RedirectToAction("Index", "Restaurant");
+
+			if (person.CourrierInfo != null)
+				return RedirectToAction("Index", "Order");
+
+			return RedirectToAction("Index", "Restaurant");
 		}
 
 		public IActionResult Privacy()
@@ -55,10 +71,18 @@ namespace FoodDeliveryPlatform.Controllers
 				ModelState.AddModelError(string.Empty, "Invalid email or password");
 				return View(login);
 			}
-			HttpContext.Session.SetString("User", person.ToString()); 
+			UserVM user = new()
+			{
+				CourrierInfo = person.CourrierInfo,
+				CustomerInfo = person.CustomerInfo,
+				Firstname = person.Firstname,
+				Lastname = person.Lastname,
+				PersonId = person.PersonId
+			};
+			HttpContext.Session.SetString("User", user.ToString()); 
 
 			if(person.CustomerInfo != null)
-				return RedirectToAction("Index", "Order");
+				return RedirectToAction("Index", "Restaurant");
 			if (person.CourrierInfo != null)
 				return RedirectToAction("Index", "Order");
 			return RedirectToAction("Index", "Restaurant");

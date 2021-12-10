@@ -27,7 +27,7 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Login","Home");
             }
-            Person person = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString("User"));
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
             if(person == null || person.CourrierInfo == null)
             {
                 return RedirectToAction("Logout", "Home");
@@ -36,10 +36,12 @@ namespace FoodDeliveryPlatform.Controllers
             List<OrderVM> ordersVm = new();
             foreach (var order in orders)
             {
-                //Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+                Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
                 ordersVm.Add(new()
                 {
-                    //CustomerName = customer.Firstname + " " + customer.Lastname,
+                    CustomerName = customer.Firstname + " " + customer.Lastname,
+                    CustomerAddress = customer.CustomerInfo.Address,
+                    CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
                     OrderDate = order.OrderDate,
                     OrderId = order.OrderId,
                     OrderNote= order.OrderNote,

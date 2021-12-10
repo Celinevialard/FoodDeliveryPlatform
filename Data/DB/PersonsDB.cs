@@ -59,6 +59,48 @@ namespace DAL
 		}
 
 		/// <summary>
+		/// Obtention de la personne par son login, password et de ses informations spécifiques (livreur ou client)
+		/// </summary>
+		/// <param name="login"></param>
+		/// <param name="password"></param>
+		/// <returns></returns>
+		public Person GetPersonByCustomer(int customerId)
+		{
+			Person result = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Person p
+							LEFT JOIN Courrier cr ON p.personId = cr.personId
+							INNER JOIN Customer c ON c.customerId = @customerId";
+
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@customerId", customerId);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						if (dr.Read())
+						{
+							result = ReadPerson(dr);
+
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+
+		}
+
+		/// <summary>
 		/// Ajout d'un personne dans la table Person
 		/// </summary>
 		/// <param name="person"></param>
@@ -105,6 +147,8 @@ namespace DAL
 			{
 				person.CustomerInfo = new Customer();
 				person.CustomerInfo.CustomerId = (int)dr["customerId"];
+				if (dr["address"] != DBNull.Value)
+					person.CustomerInfo.Address = (string)dr["address"];
 				person.CustomerInfo.LocationId = (int)dr["locationId"];
 			}
 
