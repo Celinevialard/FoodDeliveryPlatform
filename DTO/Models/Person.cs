@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace DTO
@@ -21,5 +22,8 @@ namespace DTO
 		public Customer CustomerInfo { get; set; }
 
 		public Courrier CourrierInfo { get; set; }
+
+		public string ToString() => JsonSerializer.Serialize(this);
+
 	}
 }

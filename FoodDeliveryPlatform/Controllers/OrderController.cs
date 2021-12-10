@@ -4,6 +4,7 @@ using FoodDeliveryPlatform.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Text.Json;
 
 namespace FoodDeliveryPlatform.Controllers
 {
@@ -26,8 +27,12 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Login","Home");
             }
-
-            var orders = OrderManager.GetOrdersByCourrier(1);
+            Person person = JsonSerializer.Deserialize<Person>(HttpContext.Session.GetString("User"));
+            if(person == null || person.CourrierInfo == null)
+            {
+                return RedirectToAction("Logout", "Home");
+            }
+            var orders = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
             List<OrderVM> ordersVm = new();
             foreach (var order in orders)
             {
