@@ -31,8 +31,8 @@ namespace DAL
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
 					string query = @"SELECT * FROM Person p
-							INNER JOIN Customer c ON p.personId = c.personId
-							INNER JOIN Courrier cr ON p.personId = cr.personId
+							LEFT JOIN Customer c ON p.personId = c.personId
+							LEFT JOIN Courrier cr ON p.personId = cr.personId
 							WHERE login = @login AND password = @password";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@login", login);

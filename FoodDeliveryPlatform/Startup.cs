@@ -40,6 +40,8 @@ namespace FoodDeliveryPlatform
 			services.AddScoped<IOrdersDB, OrdersDB>();
 			services.AddScoped<IPersonsDB, PersonsDB>();
 			services.AddScoped<IRestaurantsDB, RestaurantsDB>();
+
+			services.AddSession();
 			services.AddControllersWithViews();
 		}
 
@@ -58,6 +60,7 @@ namespace FoodDeliveryPlatform
 			}
 			app.UseHttpsRedirection();
 			app.UseStaticFiles();
+			app.UseSession();
 
 			app.UseRouting();
 
