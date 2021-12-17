@@ -12,6 +12,9 @@ using System.Threading.Tasks;
 
 namespace FoodDeliveryPlatform.Controllers
 {
+	/// <summary>
+	/// http://153.109.124.35:81/CV_FB_FoodDelivery
+	/// </summary>
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
