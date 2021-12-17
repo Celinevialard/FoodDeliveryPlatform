@@ -1,4 +1,5 @@
 ﻿using BLL;
+using DTO;
 using FoodDeliveryPlatform.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,15 @@ namespace FoodDeliveryPlatform.Controllers
 	{
 		private readonly ILogger<HomeController> _logger;
 		IPersonManager PersonManager { get; set; }
+		ICustomerManager CustomerManager { get; set; }
+		ILocationManager LocationManager { get; set; }
 
-		public HomeController(ILogger<HomeController> logger, IPersonManager personManager)
+		public HomeController(ILogger<HomeController> logger, IPersonManager personManager, ILocationManager locationManager, ICustomerManager customerManager)
 		{
 			_logger = logger;
 			PersonManager = personManager;
+			LocationManager = locationManager;
+			CustomerManager = customerManager;
 		}
 
 		public IActionResult Index()
@@ -57,6 +62,37 @@ namespace FoodDeliveryPlatform.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
+		public IActionResult SignUp()
+        {
+			List<Location> locations = LocationManager.GetLocations();
+			return View(new SignUpVM { Locations = locations});
+		}
+
+		[HttpPost]
+		public IActionResult SignUp(SignUpVM signUp)
+		{
+			if (!ModelState.IsValid)
+            {
+				List<Location> locations = LocationManager.GetLocations();
+				signUp.Locations = locations;
+				return View(signUp);
+			}
+
+			CustomerManager.AddCustomer(new Person
+			{
+				CustomerInfo = new Customer
+				{
+					Address = signUp.Address,
+					LocationId = signUp.LocationId
+				},
+				Firstname = signUp.Firstname,
+				Lastname = signUp.Lastname,
+				Login = signUp.Email,
+				Password = signUp.Password
+			});
+
+			return RedirectToAction("Login");
+		}
 		public IActionResult Login()
 		{
 			return View();

@@ -30,6 +30,11 @@ namespace BLL
             return OrdersDb.GetOrdersByCourrier(courrierId);
         }
 
+        public Order GetOrder(int id)
+        {
+            return OrdersDb.GetOrder(id);
+        }
+
         /// <summary>
         /// Création et validation d'une commande
         /// </summary>

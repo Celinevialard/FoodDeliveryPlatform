@@ -32,4 +32,6 @@ namespace FoodDeliveryPlatform.Models
 
 		public string OrderDetailsNote { get; set; } = string.Empty;
 	}
+
+
 }

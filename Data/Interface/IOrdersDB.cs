@@ -11,5 +11,6 @@ namespace DAL
 		Order InsertOrder(Order order);
 		OrderDetail InsertOrderDetails(OrderDetail orderDetail);
 		Order UpdateOrder(Order order, OrderStatusEnum status);
-	}
+        Order GetOrder(int id);
+    }
 }

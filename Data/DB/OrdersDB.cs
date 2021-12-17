@@ -128,6 +128,36 @@ namespace DAL
 			}
 			return results;
 		}
+		public Order GetOrder(int id)
+        {
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+			Order result = null;
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "SELECT * FROM Orders WHERE orderId = @orderId";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("orderId", id);
+
+					cn.Open();
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						if (dr.Read())
+						{
+							Order order = ReadOrder(dr);
+							order.Details = GetOrderDetailsByOrder(order.OrderId);
+							result = order;
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+			return result;
+		}
 
 		/// <summary>
 		/// Récupération des details d'une commande

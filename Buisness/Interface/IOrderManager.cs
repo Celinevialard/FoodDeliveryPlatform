@@ -10,5 +10,6 @@ namespace BLL
         Order CreateOrder(Order order);
         List<DateTime> GetDateDelivery(Order order);
         List<Order> GetOrdersByCourrier(int courrierId);
+        Order GetOrder(int id);
     }
 }

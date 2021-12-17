@@ -12,6 +12,7 @@ namespace DTO
         public string NPA { get; set; }
         public string Locality { get; set; }
 
+        public string LocationName { get => $"{NPA} {Locality}"; }
         public override string ToString()
         {
             return Locality;

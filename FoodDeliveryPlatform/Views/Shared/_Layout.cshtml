@@ -1,12 +1,12 @@
 ﻿@using System.Text.Json
 @using Microsoft.AspNetCore.Http
-  <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
     @{
-        UserVM person = null;
-        if(Context.Session.GetString("User") != null)
-            person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
-    }
+    UserVM person = null;
+    if (Context.Session.GetString("User") != null)
+        person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
+}
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -18,13 +18,25 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                        FoodDeliveryPlatform
-                        </a>
-                    @if (person != null)
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+                    FoodDeliveryPlatform
+                </a>
+
+                @if (person != null)
+                {
+                    <p class="mr-auto"> Salut @person.Firstname ! </p>
+                    @if (person.CourrierInfo != null)
                     {
-                        <p class="mr-auto"> Salut @person.Firstname ! </p>
-                    
+                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
+                            Delivering list
+                        </a>
+                    }
+                    @if (person.CustomerInfo != null)
+                    {
+                        <a class="navbar-brand" asp-area="" asp-controller="Resaurant" asp-action="Index">
+                            Restaurants
+                        </a>
+                    }
                     <div>
                         <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Details">Panier</a>
                         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a>

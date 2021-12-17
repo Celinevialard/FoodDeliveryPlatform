@@ -12,10 +12,13 @@ namespace FoodDeliveryPlatform.Controllers
     {
         IOrderManager OrderManager { get; set; }
         IPersonManager PersonManager { get; set; }
-        public OrderController(IOrderManager orderManager, IPersonManager personManager)
+
+        IDishManager DishManager { get; set; }
+        public OrderController(IOrderManager orderManager, IPersonManager personManager, IDishManager dishManager)
         {
             OrderManager = orderManager;
             PersonManager = personManager;
+            DishManager = dishManager;
         }
         /// <summary>
         /// CV
@@ -62,46 +65,101 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
-            return View();
-            //Order order = OrderManager.GetOrder(id);
-            //Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+            Order order = OrderManager.GetOrder(id);
+            Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
 
-            //List<OrderDetailVM> orderDetailsVm = new();
-            //foreach (var orderDetail in order.Details)
-            //{
-            //    var dish = DishManager.GetDish(orderDetail.DishId);
-            //    orderDetailsVm.Add(new()
-            //    {
-            //        DishName = dish.Name,
-            //        OrderDetailsNote = orderDetail.OrderDetailsNote,
-            //        Quantity=orderDetail.Quantity
-            //    });
-            //}
-            //return View(new OrderVM
-            //{
-            //    CustomerName = customer.Firstname + " " + customer.Lastname,
-            //    OrderDate = order.OrderDate,
-            //    OrderId = order.OrderId,
-            //    OrderNote = order.OrderNote,
-            //    Status = order.Status,
-            //    TotalAmount = order.TotalAmount,
-            //    Details = orderDetailsVm
-            //});
+            List<OrderDetailVM> orderDetailsVm = new();
+            foreach (var orderDetail in order.Details)
+            {
+                var dish = DishManager.GetDish(orderDetail.DishId);
+                orderDetailsVm.Add(new()
+                {
+                    DishName = dish.Name,
+                    OrderDetailsNote = orderDetail.OrderDetailsNote,
+                    Quantity = orderDetail.Quantity
+                });
+            }
+            return View(new OrderVM
+            {
+                CustomerName = customer.Firstname + " " + customer.Lastname,
+                CustomerAddress = customer.CustomerInfo.Address,
+                CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
+                OrderDate = order.OrderDate,
+                OrderId = order.OrderId,
+                OrderNote = order.OrderNote,
+                Status = order.Status,
+                TotalAmount = order.TotalAmount,
+                Details = orderDetailsVm
+            });
         }
 
+        public IActionResult Create()
+        {
+
+            return View();
+        }
+
+        [HttpPost]
         public IActionResult Create(Order order)
         {
 
             return View();
         }
         /// <summary>
-        /// Edit Only Status -- FB
+        /// update Only Status -- FB
         /// </summary>
         /// <param name="orderVM"></param>
         /// <returns></returns>
         public IActionResult Edit(OrderVM orderVM)
         {
             return View();
+        }
+
+        [HttpPost]
+        public void AddDishes(Dish dish)
+        {
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return;
+            }
+            CartVM cartVM;
+            if (HttpContext.Session.GetString("Cart") == null)
+            {
+                cartVM = new CartVM
+                {
+                    CartDetails = new List<CartDetailsVM>(),
+                    RestaurantId = dish.RestaurantId
+                };
+                cartVM.CartDetails.Add(new CartDetailsVM
+                {
+                    DishId = dish.DishId,
+                    DishPrice = dish.Price,
+                    DishQuantity = 1
+                });
+            }
+            else
+            {
+                cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                bool exist = false;
+                foreach(var item in cartVM.CartDetails)
+                {
+                    if(item.DishId == dish.DishId)
+                    {
+                        item.DishQuantity++;
+                        exist = true;
+                    }
+                }
+                if (!exist)
+                {
+                    cartVM.CartDetails.Add(new CartDetailsVM
+                    {
+                        DishId = dish.DishId,
+                        DishPrice = dish.Price,
+                        DishQuantity = 1
+                    });
+                }
+            }
+            HttpContext.Session.SetString("Cart", cartVM.ToString());
         }
     }
 }

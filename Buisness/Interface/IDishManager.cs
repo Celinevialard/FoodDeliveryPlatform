@@ -6,5 +6,6 @@ namespace BLL
     public interface IDishManager
     {
         List<Dish> GetDishesByRestaurant(int RestaurantId);
+        Dish GetDish(int dishId);
     }
 }
