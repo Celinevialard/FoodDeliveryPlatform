@@ -6,6 +6,6 @@ namespace BLL
     public interface ICourrierManager
     {
         void AddCourrier(Courrier courrier);
-        List<int> GetDeliveryZoneByCourrier(Courrier courrier);
+        List<int> GetLocationsByCourrierId(int courrierId);
     }
 }

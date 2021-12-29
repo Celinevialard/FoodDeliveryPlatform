@@ -12,6 +12,7 @@ namespace DTO
 		public string Description { get; set; }
 		public string Name { get; set; }
 		public int LocationId { get; set; }
+		public Location Location { get; set; }
 
 		public override string ToString()
 		{

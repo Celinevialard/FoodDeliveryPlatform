@@ -10,7 +10,7 @@ namespace FoodDeliveryPlatform.Models
 
 		public string CustomerName { get; set; }
 
-		public string CustomerAddress { get; internal set; }
+		public string CustomerAddress { get; set; }
 
 		public string OrderNote { get; set; } = string.Empty;
 
@@ -21,7 +21,7 @@ namespace FoodDeliveryPlatform.Models
 		public OrderStatusEnum Status { get; set; }
 
 		public List<OrderDetailVM> Details { get; set; }
-        public string CustomerLocation { get; internal set; }
+        public string CustomerLocation { get; set; }
     }
 
 	public class OrderDetailVM

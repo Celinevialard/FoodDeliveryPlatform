@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RestaurantVM>
+
+@{
+    ViewData["Title"] = "Liste des Restaurants";
+}
+
+
+
+<h1>Nos restaurants partenaires</h1>
+
+@if (Model == null || !Model.Any())
+{
+    <p>Pas de restaurant pour votre région </p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+

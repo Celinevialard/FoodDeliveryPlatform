@@ -48,7 +48,7 @@ namespace FoodDeliveryPlatform.Controllers
 			if (person.CourrierInfo != null)
 				return RedirectToAction("Index", "Order");
 
-			return RedirectToAction("Index", "Restaurant");
+			return RedirectToAction("Logout", "Home");
 		}
 
 		public IActionResult Privacy()

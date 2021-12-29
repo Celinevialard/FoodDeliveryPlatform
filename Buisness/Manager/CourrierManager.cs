@@ -31,12 +31,12 @@ namespace BLL
         /// <summary>
         /// Obtenir les zones de livraison d'un livreur
         /// </summary>
-        /// <param name="courrier"></param>
-        /// <returns></returns>
-        public List<int> GetDeliveryZoneByCourrier(Courrier courrier)
+        /// <param name="courrierId"></param>
+        /// <returns>Liste des localites</returns>
+        public List<int> GetLocationsByCourrierId(int courrierId)
         {
-            List<int> deliveryZones = CourrierDb.GetDeliveryZoneByCourrierId(courrier.CourrierId);
-            return deliveryZones;
+            List<int> locations = CourrierDb.GetLocationsByCourrierId(courrierId);
+            return locations;
         }
 
 

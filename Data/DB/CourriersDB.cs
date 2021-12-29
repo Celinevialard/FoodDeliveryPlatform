@@ -51,7 +51,7 @@ namespace DAL
 		/// </summary>
 		/// <param name="id"></param>
 		/// <returns></returns>
-		public List<int> GetDeliveryZoneByCourrierId(int id)
+		public List<int> GetLocationsByCourrierId(int id)
 		{
 
 			List<int> results = null;
