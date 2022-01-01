@@ -89,6 +89,45 @@ namespace DAL
 
 		}
 
+
+		public List<Courrier> GetCourriersByLocationId(int locationId)
+        {
+			List<Courrier> results = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            try
+            {
+				using(SqlConnection cn = new SqlConnection(connectionString))
+                {
+					string query = @"SELECT * FROM Courrier c
+									INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierId
+									WHERE dz.courrierId = @locationId";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@locationId", locationId);
+					cn.Open();
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						while (dr.Read())
+						{
+							if (results == null)
+								results = new List<Courrier>();
+
+							results.Add(ReadCourrier(dr));
+
+						}
+					}
+
+				}
+            }
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return results;
+		}
+
+
 		/// <summary>
 		/// Récupétation de la liste des livreurs pour les localités de livraisons (departId: restaurant et arriveeId : chez le client)
 		/// </summary>
