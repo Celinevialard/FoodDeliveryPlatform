@@ -15,7 +15,7 @@ namespace TestBLL
 				 .Build();
 
 		static void Main(string[] args)
-		{
+		{/*
 			Order order = new Order()
 			{
 				CustomerId = 4,
@@ -32,7 +32,8 @@ namespace TestBLL
 					}
 				}
 			};
-
+			*/
+			/*
 			OrderManager orderManager = new OrderManager(Configuration);
 
 			var dates = orderManager.GetDateDelivery(order);
@@ -62,9 +63,10 @@ namespace TestBLL
 			
 			CustomerManager customerManager = new CustomerManager(Configuration);
 			//customerManager.AddCustomer(person);
-
+			*/
 			RestaurantManager restaurantManager = new(Configuration);
 
+			
 			var restaurants = restaurantManager.GetRestaurantByLocation("Martigny");
 
 			foreach (var restaurant in restaurants)

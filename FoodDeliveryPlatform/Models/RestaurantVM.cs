@@ -13,8 +13,14 @@ namespace FoodDeliveryPlatform.Models
        
         public string LocationName { get; set; }
 
+  
 
     }
+   
+
+}
+
+
+
 
     
-}

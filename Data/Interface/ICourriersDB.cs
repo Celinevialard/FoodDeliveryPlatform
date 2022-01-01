@@ -8,6 +8,6 @@ namespace DAL
 		Courrier AddCourrier(Courrier courrier);
 		List<int> GetLocationsByCourrierId(int id);
 		List<Courrier> GetCourrierByLocalite(int depart, int arriver);
-		List<Courrier> GetCourriersByLocationId(int locationId);
+		List<int> GetCourriersIdByLocationId(int locationId);
 	}
 }

@@ -18,6 +18,14 @@ namespace TestDAL
 		static void Main(string[] args)
 		{
 
+			CourriersDB courriersDb = new CourriersDB(Configuration);
+			List<int> courriers = courriersDb.GetCourriersIdByLocationId(4011);
+
+			foreach (int c in courriers)
+			{
+				Console.WriteLine(c);
+			}
+
 			/*
 			RestaurantsDB restaurantDb = new RestaurantsDB(Configuration);
 
@@ -103,13 +111,14 @@ namespace TestDAL
 			*/
 
 			//Test Location By Locality
+			/*
 			string Locality = "Lausanne";
 			LocationsDB locationsDB = new LocationsDB(Configuration);
 			Location location = locationsDB.GetLocationByLocality(Locality)[0];
 
 		
 			Console.WriteLine(location.NPA);
-
+			*/
 			//CourriersDB courriersDB = new CourriersDB(Configuration);
 
 			//List<Courrier> courriers = courriersDB.GetCourrierByLocalite(4011, 4111);

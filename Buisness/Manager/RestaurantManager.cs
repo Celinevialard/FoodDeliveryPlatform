@@ -10,36 +10,50 @@ namespace BLL
     {
         private IRestaurantsDB RestaurantsDb { get; }
         private ILocationsDB LocationsDb { get; }
-        public RestaurantManager(IRestaurantsDB restaurantsDB, ILocationsDB locationsDB)
+
+        private ICourriersDB CourriersDb { get; }
+        public RestaurantManager(IRestaurantsDB restaurantsDB, ILocationsDB locationsDB, ICourriersDB courriersDB)
         {
             RestaurantsDb = restaurantsDB;
             LocationsDb = locationsDB;
+            CourriersDb = courriersDB;
         }
 
 
 
         public List<Restaurant> GetRestaurantByLocation(int locationId)
         {
-
             List<Restaurant> restaurants = new List<Restaurant>();
             List<int> locationsId = new List<int>();
             List<int> locationsIdAlreadyRead = new List<int>();
+            List<int> courriersId = new List<int>();
+            courriersId.AddRange(CourriersDb.GetCourriersIdByLocationId(locationId));
+            
 
+            foreach (int courrierId in courriersId)
+            {
+                if (CourriersDb.GetLocationsByCourrierId(courrierId) != null)
+                    locationsId.AddRange(CourriersDb.GetLocationsByCourrierId(courrierId));
+            }
+
+
+            //DONE
             //Etape1 : obtenir la liste des livreurs pour un locationId à créer
             //Etapre2: obtenir la liste des localités pour chaque livreur
             //boucler sur la liste des localités .addRange
 
+            
             foreach(int location in locationsId)
             {
-                if (!locationsIdAlreadyRead.Contains(location))
-                {
-                    restaurants.AddRange(RestaurantsDb.GetRestaurantsByLocation(location));
-                    locationsIdAlreadyRead.Add(location);
-                }
                 
+                 if (!locationsIdAlreadyRead.Contains(location))
+                 {
+                      restaurants.AddRange(RestaurantsDb.GetRestaurantsByLocation(location));
+                      locationsIdAlreadyRead.Add(location);
+                 }
+
             }
 
-            
 
             if (restaurants == null)
                 return null;
@@ -53,11 +67,11 @@ namespace BLL
         }
 
 
-
-
-
-
-
+        public Restaurant GetRestaurantById(int idRestaurant)
+        {
+            return RestaurantsDb.GetRestaurantsById(idRestaurant);
+        }
+     
 
 
 

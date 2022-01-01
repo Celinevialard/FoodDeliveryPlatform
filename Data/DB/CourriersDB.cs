@@ -90,9 +90,9 @@ namespace DAL
 		}
 
 
-		public List<Courrier> GetCourriersByLocationId(int locationId)
+		public List<int> GetCourriersIdByLocationId(int locationId)
         {
-			List<Courrier> results = null;
+			List<int> results = null;
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             try
@@ -101,7 +101,7 @@ namespace DAL
                 {
 					string query = @"SELECT * FROM Courrier c
 									INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierId
-									WHERE dz.courrierId = @locationId";
+									WHERE dz.locationId = @locationId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@locationId", locationId);
 					cn.Open();
@@ -110,10 +110,14 @@ namespace DAL
 						while (dr.Read())
 						{
 							if (results == null)
-								results = new List<Courrier>();
+								results = new List<int>();
 
-							results.Add(ReadCourrier(dr));
 
+							if (dr["CourrierId"] != DBNull.Value)
+								results.Add((int)dr["CourrierId"]);
+								
+
+							
 						}
 					}
 
@@ -155,6 +159,8 @@ namespace DAL
 
 					using (SqlDataReader dr = cmd.ExecuteReader())
 					{
+						
+
 						while (dr.Read())
 						{
 							if (results == null)
