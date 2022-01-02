@@ -1,42 +1,43 @@
-﻿@model IEnumerable<OrderVM>
+﻿@model OrderIndexVM
 
 @{
-  ViewData["Title"] = "Livraisons";
+  ViewData["Title"] = "Commandes";
 }
 
-<h1>Liste Livraison</h1>
+<h1>Commandes</h1>
 
-@if (Model != null && Model.Any())
+@if (Model.OrdersDelivery != null && Model.OrdersDelivery.Any())
 {
+  <h2>Liste de livraison</h2>
   <table class="table">
     <thead>
       <tr>
         <th>
-          @Html.DisplayNameFor(model => model.CustomerName)
+          Nom du client
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.CustomerLocation)
+          Localité
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.CustomerAddress)
+          Addresse
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.OrderNote)
+          Info
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.OrderDate)
+          Date
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.TotalAmount)
+          Total
         </th>
         <th>
-          @Html.DisplayNameFor(model => model.Status)
+          Statut
         </th>
         <th></th>
       </tr>
     </thead>
     <tbody>
-      @foreach (var item in Model)
+      @foreach (var item in Model.OrdersDelivery)
       {
         <tr>
           <td>
@@ -70,7 +71,51 @@
     </tbody>
   </table>
 }
-else
+@if (Model.OrdersDelivery != null && Model.OrdersDelivery.Any())
+{
+  <h2>Historique de commande</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>
+          Date
+        </th>
+        <th>
+          Total
+        </th>
+        <th>
+          Statut
+        </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @foreach (var item in Model.OrdersDelivery)
+      {
+        <tr>
+          <td>
+            @Html.DisplayFor(modelItem => item.OrderDate)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.TotalAmount)
+          </td>
+          <td>
+            @Html.DisplayFor(modelItem => item.Status)
+          </td>
+          <td>
+            @if (DateTime.Now.AddHours(3) <= item.OrderDate)
+            {
+              <p>@Html.ActionLink("Cancel", "Cancel", new { id = item.OrderId }) |</p>
+            }
+
+            @Html.ActionLink("Details", "Details", new { id = item.OrderId })
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+@if ((Model.OrdersCustomer == null || !Model.OrdersCustomer.Any()) && (Model.OrdersDelivery == null || !Model.OrdersDelivery.Any()))
 {
   <p>Pas de commande disponible</p>
 }

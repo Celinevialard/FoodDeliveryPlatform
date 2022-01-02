@@ -4,7 +4,12 @@ using System.Collections.Generic;
 
 namespace FoodDeliveryPlatform.Models
 {
-    public class OrderVM
+	public class OrderIndexVM
+	{
+		public List<OrderVM> OrdersCustomer { get; set; }
+		public List<OrderVM> OrdersDelivery { get; set; }
+	}
+	public class OrderVM
     {
 		public int OrderId { get; set; }
 

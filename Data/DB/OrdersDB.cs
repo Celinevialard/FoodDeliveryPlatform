@@ -60,7 +60,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT Orders WHERE customerId = @customerId ORDER BY orderDate";
+					string query = "SELECT * FROM Orders WHERE customerId = @customerId ORDER BY orderDate";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("customerId", customerId);
 
