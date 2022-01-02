@@ -36,22 +36,27 @@ namespace FoodDeliveryPlatform.Controllers
                 return RedirectToAction("Logout", "Home");
             }
             var orders = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
-            List<OrderVM> ordersVm = new();
-            foreach (var order in orders)
+            List<OrderVM> ordersVm = null;
+            if (orders != null && orders.Any())
             {
-                Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
-                ordersVm.Add(new()
+                ordersVm = new();
+                foreach (var order in orders)
                 {
-                    CustomerName = customer.Firstname + " " + customer.Lastname,
-                    CustomerAddress = customer.CustomerInfo.Address,
-                    CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
-                    OrderDate = order.OrderDate,
-                    OrderId = order.OrderId,
-                    OrderNote= order.OrderNote,
-                    Status = order.Status,
-                    TotalAmount = order.TotalAmount
-                });
+                    Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+                    ordersVm.Add(new()
+                    {
+                        CustomerName = customer.Firstname + " " + customer.Lastname,
+                        CustomerAddress = customer.CustomerInfo.Address,
+                        CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
+                        OrderDate = order.OrderDate,
+                        OrderId = order.OrderId,
+                        OrderNote = order.OrderNote,
+                        Status = order.Status,
+                        TotalAmount = order.TotalAmount
+                    });
+                }
             }
+           
             return View(ordersVm);
         }
         /// <summary>
@@ -68,16 +73,19 @@ namespace FoodDeliveryPlatform.Controllers
             Order order = OrderManager.GetOrder(id);
             Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
 
-            List<OrderDetailVM> orderDetailsVm = new();
-            foreach (var orderDetail in order.Details)
+            List<OrderDetailVM> orderDetailsVm = null;
+            if (order.Details != null && order.Details.Any())
             {
-                var dish = DishManager.GetDish(orderDetail.DishId);
-                orderDetailsVm.Add(new()
+                foreach (var orderDetail in order.Details)
                 {
-                    DishName = dish.Name,
-                    OrderDetailsNote = orderDetail.OrderDetailsNote,
-                    Quantity = orderDetail.Quantity
-                });
+                    var dish = DishManager.GetDish(orderDetail.DishId);
+                    orderDetailsVm.Add(new()
+                    {
+                        DishName = dish.Name,
+                        OrderDetailsNote = orderDetail.OrderDetailsNote,
+                        Quantity = orderDetail.Quantity
+                    });
+                }
             }
             return View(new OrderVM
             {
