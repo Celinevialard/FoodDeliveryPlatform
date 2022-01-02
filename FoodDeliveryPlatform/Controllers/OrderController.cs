@@ -110,8 +110,7 @@ namespace FoodDeliveryPlatform.Controllers
         /// <returns></returns>
         public IActionResult Edit(int id)
         {
-            Order order = OrderManager.GetOrder(id);
-            order = OrderManager.DeliverOrder(order);
+            OrderManager.DeliverOrder(id);
             return RedirectToAction("Index", "Order");
         }
 

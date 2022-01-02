@@ -10,7 +10,7 @@ namespace DAL
 		List<Order> GetOrdersByCustomer(int customerId);
 		Order InsertOrder(Order order);
 		OrderDetail InsertOrderDetails(OrderDetail orderDetail);
-		Order UpdateOrder(Order order, OrderStatusEnum status);
+		bool UpdateOrder(int orderId, OrderStatusEnum status);
         Order GetOrder(int id);
     }
 }

@@ -177,9 +177,9 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public Order DeliverOrder(Order order)
+        public bool DeliverOrder(int orderId)
         {
-            return OrdersDb.UpdateOrder(order, OrderStatusEnum.Delivered);
+            return OrdersDb.UpdateOrder(orderId, OrderStatusEnum.Delivered);
         }
 
         /// <summary>
@@ -187,12 +187,13 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        private Order CancelOrder(Order order)
+        private bool CancelOrder(int orderId)
         {
+            Order order = OrdersDb.GetOrder(orderId);
             if (DateTime.Now.AddHours(3) <= order.OrderDate)
-                return OrdersDb.UpdateOrder(order, OrderStatusEnum.Cancelled);
+                return OrdersDb.UpdateOrder(orderId, OrderStatusEnum.Cancelled);
             else
-                return null;
+                return false;
         }
     }
 }

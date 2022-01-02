@@ -24,7 +24,7 @@ namespace DAL
 			Configuration = configuration;
 		}
 
-		public Order UpdateOrder(Order order, OrderStatusEnum status)
+		public bool UpdateOrder(int orderId, OrderStatusEnum status)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
 			try
@@ -34,18 +34,17 @@ namespace DAL
 					string query = "UPDATE Orders SET Status = @Status WHERE OrderId = @OrderId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("Status", status);
-					cmd.Parameters.AddWithValue("Orderid", order.OrderId);
+					cmd.Parameters.AddWithValue("Orderid", orderId);
 
 					cn.Open();
-					cmd.ExecuteNonQuery();
-					order.Status = status;
+
+					return cmd.ExecuteNonQuery() > 0;
 				}
 			}
 			catch (Exception e)
 			{
 				throw e;
 			}
-			return order;
 		}
 
 		/// <summary>
