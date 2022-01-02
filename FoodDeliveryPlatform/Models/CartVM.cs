@@ -9,8 +9,11 @@ namespace FoodDeliveryPlatform.Models
     {
 		public int RestaurantId { get; set; }
 		public List<CartDetailsVM> CartDetails { get; set; }
+		public DateTime DateDelivery { get; set; }
+		public List<DateTime> DatesDelivery { get; set; }
+        public string OrderNote { get; set; }
 
-		public string ToString() => JsonSerializer.Serialize(this);
+        public string ToString() => JsonSerializer.Serialize(this);
 	}
 	public class CartDetailsVM
     {
