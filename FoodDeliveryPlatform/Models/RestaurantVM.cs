@@ -11,7 +11,16 @@ namespace FoodDeliveryPlatform.Models
 		public string Description { get; set; }
 		public string Name { get; set; }
         public string LocationName { get; set; }
-    } 
+    }
+    public class RestaurantDetailsVM
+    {
+        public string Description { get; set; }
+        public string Name { get; set; }
+        public string LocationName { get; set; }
+        public List<Dish> Dishes { get; set; }
+
+        
+    }
 }
 
 

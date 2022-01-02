@@ -74,29 +74,10 @@ namespace FoodDeliveryPlatform.Controllers
                 return RedirectToAction("Login", "Home");
             }
 
+            List<Dish> dishes = DishManager.GetDishesByRestaurant(id);
+            
 
-           
-            List<Dish> dishes = new List<Dish>();
-
-            dishes.AddRange(DishManager.GetDishesByRestaurant(id));
-
-
-            List<DishVM> dishesVM = new();
-
-            foreach (var dish in dishes)
-            {
-
-                dishesVM.Add(new()
-                {
-                    Name = dish.Name,
-                    Description = dish.Description,
-                    Price = dish.Price,
-                    Allergies = dish.Allergies    
-                })  ;
-            }
-
-
-            return View(dishesVM);
+            return View(dishes);
             
         }
 

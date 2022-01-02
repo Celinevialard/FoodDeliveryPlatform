@@ -1,11 +1,11 @@
-﻿@model IEnumerable<DishVM>
+﻿@model RestaurantDetailsVM
 
 @{
-    ViewData["Title"] = "Dish";
+    ViewData["Title"] = Model.Name;
 }
 
-<h1>Liste des plats</h1>
-
+<h1>@Model.Name</h1>
+<!--TODO rajouter description...-->
 <div>
     <h4>Menus</h4>
 
@@ -24,13 +24,16 @@
                     <th width="20%">
                         Allergies
                     </th>
+                    <th width="20%">
+                        Image
+                    </th>
                     <th width="10%">
                         Ajouter
                     </th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var item in Model)
+                @foreach (var item in Model.Dishes)
                 {
                 <tr>
                     <td>
@@ -46,7 +49,11 @@
                         @Html.DisplayFor(modelItem => item.Allergies)
                     </td>
                     <td>
-                        <a asp-action="">Ajouter</a>
+                        <!-- TODO rajouter img-->
+                       
+                    </td>
+                    <td>
+                        <a asp-action="AddDishes" asp-controller="Order" asp-route="@item.DishId">Ajouter</a>
                     </td>
                 </tr>
                 }

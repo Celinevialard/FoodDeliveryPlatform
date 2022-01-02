@@ -27,13 +27,14 @@ namespace BLL
             List<int> locationsId = new List<int>();
             List<int> locationsIdAlreadyRead = new List<int>();
             List<int> courriersId = new List<int>();
-            courriersId.AddRange(CourriersDb.GetCourriersIdByLocationId(locationId));
+            courriersId = CourriersDb.GetCourriersIdByLocationId(locationId);
             
 
             foreach (int courrierId in courriersId)
             {
-                if (CourriersDb.GetLocationsByCourrierId(courrierId) != null)
-                    locationsId.AddRange(CourriersDb.GetLocationsByCourrierId(courrierId));
+                List<int> locationsTemp = CourriersDb.GetLocationsByCourrierId(courrierId);
+                if (locationsTemp != null)
+                    locationsId.AddRange(locationsTemp);
             }
 
 
@@ -45,13 +46,11 @@ namespace BLL
             
             foreach(int location in locationsId)
             {
-                
                  if (!locationsIdAlreadyRead.Contains(location))
                  {
                       restaurants.AddRange(RestaurantsDb.GetRestaurantsByLocation(location));
                       locationsIdAlreadyRead.Add(location);
                  }
-
             }
 
 
