@@ -1,39 +1,103 @@
 ﻿@model FoodDeliveryPlatform.Models.CartVM
 
 @{
-    ViewData["Title"] = "Panier";
+  ViewData["Title"] = "Panier";
 }
 
 <h1>Passer commande</h1>
 
 <h4>Panier</h4>
 <hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @Html.HiddenFor(m => m.RestaurantId);
-            <div class="form-group">
-                <label asp-for="DateDelivery" class="control-label"></label>
-                <input asp-for="DateDelivery" class="form-control" />
-                <span asp-validation-for="DateDelivery" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OrderNote" class="control-label"></label>
-                <input asp-for="OrderNote" class="form-control" />
-                <span asp-validation-for="OrderNote" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Passer commande" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
-</div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+<form asp-action="Create">
+  <div class="row">
+    <div class="col-md-4">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      @Html.HiddenFor(m => m.RestaurantId)
+      <div class="form-group">
+        <label asp-for="DateDelivery" class="control-label"></label>
+        @Html.DropDownListFor(m => m.DateDelivery, new SelectList(Model.DatesDelivery), new { @class = "form-control" })
+        <span asp-validation-for="DateDelivery" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label asp-for="OrderNote" class="control-label"></label>
+        @Html.TextAreaFor(m=>m.OrderNote, new { @class = "form-control" })
+        <span asp-validation-for="OrderNote" class="text-danger"></span>
+      </div>
+    </div>
+    @if (Model.CartDetails != null && Model.CartDetails.Any())
+    {
+      <div class="col-md-8">
+        <table class="w-100">
+          <thead>
+            <tr>
+              <th>
+                Plat
+              </th>
+              <th>
+                Quantité
+              </th>
+              <th>
+                Prix unitaire
+              </th>
+              <th>
+                Prix
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            @{ decimal sum = 0;}
+            @for (int i = 0; i < Model.CartDetails.Count; i++)
+            {
+              CartDetailsVM cartDetails = Model.CartDetails[i];
+              @Html.HiddenFor(m => m.CartDetails[i].DishId);
+              @Html.HiddenFor(m => m.CartDetails[i].DishQuantity);
+              <tr>
+                <td>
+                  @Html.DisplayFor(modelItem => cartDetails.DishName)
+                </td>
+                <td>
+                  @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
+                </td>
+                <td>
+                  @Html.DisplayFor(modelItem => cartDetails.DishPrice)
+                </td>
+                <td>
+                  @{
+                    decimal total = cartDetails.DishPrice * cartDetails.DishQuantity;
+                    sum += total;
+                  }
+                  @Html.DisplayFor(modelItem => total)
+                </td>
+              </tr>
+            }
+            <tr>
+              <td>
+                <b>Total</b>
+              </td>
+              <td>
+              </td>
+              <td>
+              </td>
+              <td>
+                @Html.DisplayFor(modelItem => sum)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    }
+    else
+    {
+      <p>Pas de plats pour cette commande</p>
+    }
+    <div class="form-group">
+      <input type="submit" value="Passer commande" class="btn btn-primary" />
+    </div>
+  </div>
+</form>
+
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

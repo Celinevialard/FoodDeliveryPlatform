@@ -30,6 +30,11 @@ namespace BLL
             return OrdersDb.GetOrdersByCourrier(courrierId);
         }
 
+        public List<Order> GetOrdersByCustomer(int customerId)
+        {
+            return OrdersDb.GetOrdersByCustomer(customerId);
+        }
+
         public Order GetOrder(int id)
         {
             return OrdersDb.GetOrder(id);
@@ -45,6 +50,7 @@ namespace BLL
             CheckAllDishFromSameRestaurant(order);
             order.TotalAmount = CalculTotalAmount(order);
             order.CourrierId = SetCourrierByOrder(order);
+            order.Status = OrderStatusEnum.Delivering;
             return OrdersDb.InsertOrder(order);
         }
 
@@ -187,7 +193,7 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        private bool CancelOrder(int orderId)
+        public bool CancelOrder(int orderId)
         {
             Order order = OrdersDb.GetOrder(orderId);
             if (DateTime.Now.AddHours(3) <= order.OrderDate)

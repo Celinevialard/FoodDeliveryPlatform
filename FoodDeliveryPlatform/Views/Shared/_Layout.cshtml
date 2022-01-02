@@ -28,18 +28,19 @@
                 @if (person != null)
                 {
                     <p class="mr-auto"> Salut @person.Firstname ! </p>
-                    @if (person.CourrierInfo != null)
-                    {
+                   
                         <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
-                            Delivering list
+                            Commandes
                         </a>
-                    }
                     @if (person.CustomerInfo != null)
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index">
                             Restaurants
                         </a>
-                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">Panier</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">
+                          Panier
+                          <span id="CartInfo" class="badge badge-light">0</span>
+                        </a>
                     }
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a>
                 }

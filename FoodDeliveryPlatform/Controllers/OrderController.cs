@@ -32,33 +32,64 @@ namespace FoodDeliveryPlatform.Controllers
                 return RedirectToAction("Login","Home");
             }
             UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if(person == null || person.CourrierInfo == null)
+            if(person == null )
             {
                 return RedirectToAction("Logout", "Home");
             }
-            var orders = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
-            List<OrderVM> ordersVm = null;
-            if (orders != null && orders.Any())
+            List<Order> ordersDelivery = null; 
+            List<OrderVM> ordersDeliveryVm = null;
+            if (person.CourrierInfo != null)
             {
-                ordersVm = new();
-                foreach (var order in orders)
+                ordersDelivery = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
+
+                if (ordersDelivery != null && ordersDelivery.Any())
                 {
-                    Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
-                    ordersVm.Add(new()
+                    ordersDeliveryVm = new();
+                    foreach (var order in ordersDelivery)
                     {
-                        CustomerName = customer.Firstname + " " + customer.Lastname,
-                        CustomerAddress = customer.CustomerInfo.Address,
-                        CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
-                        OrderDate = order.OrderDate,
-                        OrderId = order.OrderId,
-                        OrderNote = order.OrderNote,
-                        Status = order.Status,
-                        TotalAmount = order.TotalAmount
-                    });
+                        Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+                        ordersDeliveryVm.Add(new()
+                        {
+                            CustomerName = customer.Firstname + " " + customer.Lastname,
+                            CustomerAddress = customer.CustomerInfo.Address,
+                            CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                            OrderDate = order.OrderDate,
+                            OrderId = order.OrderId,
+                            OrderNote = order.OrderNote,
+                            Status = order.Status,
+                            TotalAmount = order.TotalAmount
+                        });
+                    }
+                }
+            }
+            List<Order> ordersCustomer = null;
+            List<OrderVM> ordersCustomerVm = null;
+            if (person.CustomerInfo != null)
+            {
+                ordersCustomer = OrderManager.GetOrdersByCustomer(person.CustomerInfo.CustomerId);
+
+                if (ordersCustomer != null && ordersCustomer.Any())
+                {
+                    ordersCustomerVm = new();
+                    foreach (var order in ordersCustomer)
+                    {
+                        ordersCustomerVm.Add(new()
+                        {
+                            OrderDate = order.OrderDate,
+                            OrderId = order.OrderId,
+                            OrderNote = order.OrderNote,
+                            Status = order.Status,
+                            TotalAmount = order.TotalAmount
+                        });
+                    }
                 }
             }
            
-            return View(ordersVm);
+            return View(new OrderIndexVM
+            {
+                OrdersCustomer = ordersCustomerVm,
+                OrdersDelivery = ordersDeliveryVm
+            });
         }
         /// <summary>
         /// CV
@@ -77,6 +108,7 @@ namespace FoodDeliveryPlatform.Controllers
             List<OrderDetailVM> orderDetailsVm = null;
             if (order.Details != null && order.Details.Any())
             {
+                orderDetailsVm = new();
                 foreach (var orderDetail in order.Details)
                 {
                     var dish = DishManager.GetDish(orderDetail.DishId);
@@ -92,7 +124,7 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 CustomerName = customer.Firstname + " " + customer.Lastname,
                 CustomerAddress = customer.CustomerInfo.Address,
-                CustomerLocation = customer.CustomerInfo.Location.NPA + " " + customer.CustomerInfo.Location.Locality,
+                CustomerLocation = customer.CustomerInfo.Location.LocationName,
                 OrderDate = order.OrderDate,
                 OrderId = order.OrderId,
                 OrderNote = order.OrderNote,
@@ -142,7 +174,11 @@ namespace FoodDeliveryPlatform.Controllers
             Order order = CartToOrder(cart);
             order.CustomerId = person.CustomerInfo.CustomerId;
             OrderManager.CreateOrder(order);
-            return View();
+
+            // delete session cart
+            HttpContext.Session.Remove("Cart");
+
+            return RedirectToAction("Index");
         }
 
         private Order CartToOrder(CartVM cart)
@@ -175,6 +211,12 @@ namespace FoodDeliveryPlatform.Controllers
             return RedirectToAction("Index", "Order");
         }
 
+        public IActionResult Cancel(int id)
+        {
+            OrderManager.CancelOrder(id);
+            return RedirectToAction("Index", "Order");
+        }
+
         [HttpPost]
         public JsonResult AddDish(int id)
         {
@@ -194,6 +236,7 @@ namespace FoodDeliveryPlatform.Controllers
                 cartVM.CartDetails.Add(new CartDetailsVM
                 {
                     DishId = dish.DishId,
+                    DishName = dish.Name,
                     DishPrice = dish.Price,
                     DishQuantity = 1
                 });
@@ -215,6 +258,7 @@ namespace FoodDeliveryPlatform.Controllers
                     cartVM.CartDetails.Add(new CartDetailsVM
                     {
                         DishId = dish.DishId,
+                        DishName = dish.Name,
                         DishPrice = dish.Price,
                         DishQuantity = 1
                     });
