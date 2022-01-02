@@ -50,6 +50,7 @@ namespace BLL
             CheckAllDishFromSameRestaurant(order);
             order.TotalAmount = CalculTotalAmount(order);
             order.CourrierId = SetCourrierByOrder(order);
+            order.Status = OrderStatusEnum.Delivering;
             return OrdersDb.InsertOrder(order);
         }
 

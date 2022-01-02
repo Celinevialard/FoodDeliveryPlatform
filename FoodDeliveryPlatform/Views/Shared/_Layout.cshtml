@@ -34,7 +34,10 @@
                         <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index">
                             Restaurants
                         </a>
-                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">Panier</a>
+                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">
+                          Panier
+                          <span id="CartInfo" class="badge badge-light">0</span>
+                        </a>
                     }
                         <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a>
                 }

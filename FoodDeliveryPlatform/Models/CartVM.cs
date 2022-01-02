@@ -11,13 +11,15 @@ namespace FoodDeliveryPlatform.Models
 		public List<CartDetailsVM> CartDetails { get; set; }
 		public DateTime DateDelivery { get; set; }
 		public List<DateTime> DatesDelivery { get; set; }
-        public string OrderNote { get; set; }
+		public string OrderNote { get; set; } = string.Empty;
 
         public string ToString() => JsonSerializer.Serialize(this);
 	}
 	public class CartDetailsVM
     {
 		public int DishId { get; set; }
+
+		public string DishName { get; set; }
 
 		public decimal DishPrice { get; set; }
 

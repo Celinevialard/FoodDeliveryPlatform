@@ -1,4 +1,5 @@
-﻿@model OrderIndexVM
+﻿@using DTO;
+@model OrderIndexVM
 
 @{
   ViewData["Title"] = "Commandes";
@@ -20,9 +21,6 @@
         </th>
         <th>
           Addresse
-        </th>
-        <th>
-          Info
         </th>
         <th>
           Date
@@ -48,9 +46,6 @@
           </td>
           <td>
             @Html.DisplayFor(modelItem => item.CustomerAddress)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.OrderNote)
           </td>
           <td>
             @Html.DisplayFor(modelItem => item.OrderDate)
@@ -103,9 +98,9 @@
             @Html.DisplayFor(modelItem => item.Status)
           </td>
           <td>
-            @if (DateTime.Now.AddHours(3) <= item.OrderDate)
+            @if (DateTime.Now.AddHours(3) <= item.OrderDate && item.Status == OrderStatusEnum.Delivering)
             {
-              <p>@Html.ActionLink("Cancel", "Cancel", new { id = item.OrderId }) |</p>
+              <span>@Html.ActionLink("Cancel", "Cancel", new { id = item.OrderId }) |</span>
             }
 
             @Html.ActionLink("Details", "Details", new { id = item.OrderId })
