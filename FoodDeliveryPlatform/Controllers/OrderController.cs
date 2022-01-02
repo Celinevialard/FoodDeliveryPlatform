@@ -4,6 +4,7 @@ using FoodDeliveryPlatform.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 
 namespace FoodDeliveryPlatform.Controllers
@@ -101,16 +102,68 @@ namespace FoodDeliveryPlatform.Controllers
             });
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+            if(person.CustomerInfo == null)
+            {
+                return RedirectToAction("Logout", "Home");
+            }
+            CartVM cartVM;
+            if (HttpContext.Session.GetString("Cart") == null)
+            {
+                return RedirectToAction("Index", "Restaurant");
+            }
+            cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+
+            Order order = CartToOrder(cartVM);
+            order.CustomerId = person.CustomerInfo.CustomerId;
+            cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
+            return View(cartVM);
+        }
+       
+        [HttpPost]
+        public IActionResult Create(CartVM cart)
+        {
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+            if (person.CustomerInfo == null)
+            {
+                return RedirectToAction("Logout", "Home");
+            }
+            Order order = CartToOrder(cart);
+            order.CustomerId = person.CustomerInfo.CustomerId;
+            OrderManager.CreateOrder(order);
             return View();
         }
 
-        [HttpPost]
-        public IActionResult Create(Order order)
+        private Order CartToOrder(CartVM cart)
         {
-            return View();
+            Order order = new();
+            order.OrderDate = cart.DateDelivery;
+            order.OrderNote = cart.OrderNote;
+            order.Details = new();
+
+            foreach (CartDetailsVM cartDetails in cart.CartDetails)
+            {
+                order.Details.Add(new OrderDetail
+                {
+                    DishId = cartDetails.DishId,
+                    Quantity = cartDetails.DishQuantity
+                });
+            }
+            return order;
         }
+
+
         /// <summary>
         /// update Only Status -- FB
         /// </summary>
@@ -124,11 +177,12 @@ namespace FoodDeliveryPlatform.Controllers
         }
 
         [HttpPost]
-        public void AddDishes(Dish dish)
+        public JsonResult AddDish(int id)
         {
+            Dish dish = DishManager.GetDish(id);
             if (HttpContext.Session.GetString("User") == null)
             {
-                return;
+                return new JsonResult(new { message = "pas connecter"});
             }
             CartVM cartVM;
             if (HttpContext.Session.GetString("Cart") == null)
@@ -168,6 +222,17 @@ namespace FoodDeliveryPlatform.Controllers
                 }
             }
             HttpContext.Session.SetString("Cart", cartVM.ToString());
+            return new JsonResult(new { message = "Reussi" });
+        }
+
+        [HttpPost]
+        public void RemoveDish(int id)
+        {
+            // 1. check habituelle
+            // 2. si panier existe récupérer sinon rien
+            // 3. Trouver le plat et diminuer de 1 la quantité
+            // 4. controler si la quantité du plat est 0 alors supprimer de la liste
+            // 5. écraser le panier de la session avec le nouveau panier (voir dernier ligne du add)
         }
     }
 }

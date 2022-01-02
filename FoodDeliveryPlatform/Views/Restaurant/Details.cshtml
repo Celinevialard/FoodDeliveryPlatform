@@ -53,13 +53,29 @@
                        
                     </td>
                     <td>
-                        <a asp-action="AddDishes" asp-controller="Order" asp-route="@item.DishId">Ajouter</a>
+                        <a onclick="AddDish(@item.DishId)">Ajouter</a>
                     </td>
                 </tr>
                 }
             </tbody>
-
         </table>
+  <script>
+    function AddDish(id) {
+      $.ajax('/Order/AddDish/' + id,
+        {
+          type: 'POST', 
+          timeout: 500,
+          dataType : 'json',
+          success: function (data, status, xhr) {   // success callback function
+            alert("Plat ajouté");
+          },
+          error: function (jqXhr, textStatus, errorMessage) { // error callback 
+            alert("Erreur!");
+            console.log(errorMessage);
+          }
+        });
+    }
+  </script>
 
 </div>
 <div>
