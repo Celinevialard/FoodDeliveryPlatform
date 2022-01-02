@@ -71,7 +71,7 @@
     </tbody>
   </table>
 }
-@if (Model.OrdersDelivery != null && Model.OrdersDelivery.Any())
+@if (Model.OrdersCustomer != null && Model.OrdersCustomer.Any())
 {
   <h2>Historique de commande</h2>
   <table class="table">
@@ -90,7 +90,7 @@
       </tr>
     </thead>
     <tbody>
-      @foreach (var item in Model.OrdersDelivery)
+      @foreach (var item in Model.OrdersCustomer)
       {
         <tr>
           <td>

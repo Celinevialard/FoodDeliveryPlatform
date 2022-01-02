@@ -25,12 +25,10 @@
                 @if (person != null)
                 {
                     <p class="mr-auto"> Salut @person.Firstname ! </p>
-                    @if (person.CourrierInfo != null)
-                    {
+                   
                         <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
-                            Delivering list
+                            Commandes
                         </a>
-                    }
                     @if (person.CustomerInfo != null)
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index">
