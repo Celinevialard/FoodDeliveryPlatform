@@ -95,14 +95,12 @@ namespace FoodDeliveryPlatform.Controllers
 
         public IActionResult Create()
         {
-
             return View();
         }
 
         [HttpPost]
         public IActionResult Create(Order order)
         {
-
             return View();
         }
         /// <summary>
@@ -110,9 +108,11 @@ namespace FoodDeliveryPlatform.Controllers
         /// </summary>
         /// <param name="orderVM"></param>
         /// <returns></returns>
-        public IActionResult Edit(OrderVM orderVM)
+        public IActionResult Edit(int id)
         {
-            return View();
+            Order order = OrderManager.GetOrder(id);
+            order = OrderManager.DeliverOrder(order);
+            return RedirectToAction("Index", "Order");
         }
 
         [HttpPost]

@@ -177,7 +177,7 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        private Order DeliverOrder(Order order)
+        public Order DeliverOrder(Order order)
         {
             return OrdersDb.UpdateOrder(order, OrderStatusEnum.Delivered);
         }

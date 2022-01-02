@@ -11,5 +11,6 @@ namespace BLL
         List<DateTime> GetDateDelivery(Order order);
         List<Order> GetOrdersByCourrier(int courrierId);
         Order GetOrder(int id);
+        Order DeliverOrder(Order order);
     }
 }

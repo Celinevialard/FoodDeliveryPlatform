@@ -15,7 +15,7 @@
                     <th width="30%">
                         Plat
                     </th>
-                    <th width="40%">
+                    <th width="30%">
                         Description
                     </th>
                     <th width="10%">
@@ -23,6 +23,9 @@
                     </th>
                     <th width="20%">
                         Allergies
+                    </th>
+                    <th width="10%">
+                        Ajouter
                     </th>
                 </tr>
             </thead>
@@ -41,6 +44,9 @@
                     </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Allergies)
+                    </td>
+                    <td>
+                        <a asp-action="">Ajouter</a>
                     </td>
                 </tr>
                 }

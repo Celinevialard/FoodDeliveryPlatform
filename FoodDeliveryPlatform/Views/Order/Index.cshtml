@@ -59,6 +59,7 @@
                 @Html.DisplayFor(modelItem => item.Status)
             </td>
             <td>
+                
                 @Html.ActionLink("Delivered", "Edit", new {  id=item.OrderId  }) |
                 @Html.ActionLink("Details", "Details", new {  id=item.OrderId  }) 
             </td>
