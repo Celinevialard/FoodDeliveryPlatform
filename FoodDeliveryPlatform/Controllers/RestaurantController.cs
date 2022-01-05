@@ -77,6 +77,7 @@ namespace FoodDeliveryPlatform.Controllers
             List<Dish> dishes = DishManager.GetDishesByRestaurant(id);
             RestaurantDetailsVM restaurantDetails = new()
             {
+                RestaurantId = restaurant.RestaurantId,
                 Description = restaurant.Description,
                 Name = restaurant.Name,
                 Dishes = dishes

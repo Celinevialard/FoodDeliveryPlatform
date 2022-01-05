@@ -5,7 +5,8 @@
 }
 
 <h1>@Model.Name</h1>
-<!--TODO rajouter description...-->
+<p>@Model.Description</p>
+
 <div>
     <h4>Menus</h4>
 
@@ -49,8 +50,7 @@
                         @Html.DisplayFor(modelItem => item.Allergies)
                     </td>
                     <td>
-                        <!-- TODO rajouter img-->
-                       
+                        <img src="~/img/dishesImg/@Model.RestaurantId/@Html.DisplayFor(modelItem => item.ImageLink)" alt="@Html.DisplayFor(modelItem => item.ImageLink)" height="70"/>
                     </td>
                     <td>
                         <a onclick="AddDish(@item.DishId)">Ajouter</a>
