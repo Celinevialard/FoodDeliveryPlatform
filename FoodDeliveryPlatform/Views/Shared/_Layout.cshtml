@@ -21,23 +21,25 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    FoodDeliveryPlatform
+                    <img src="~/img/FoodDelivery_logo.png" alt="Food Delivery"  height="50"/>
                 </a>
 
                 @if (person != null)
                 {
-                    <p class="mr-auto"> @greetings @person.Firstname ! </p>
+
+                    <!-- TODO modifier utilisateur-->
+                    <a class="navbar-brand mr-auto" asp-area="" asp-controller="Home" asp-action="Edit"> @greetings @person.Firstname ! </a>
 
                     <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
-                        Commandes
+                       <i class="fas fa-clipboard-list"></i> Commandes
                     </a>
                     @if (person.CustomerInfo != null)
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index">
-                            Restaurants
+                            <i class="fas fa-utensils"></i> Restaurants
                         </a>
                         <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">
                             <i class="fas fa-shopping-cart"></i> •
