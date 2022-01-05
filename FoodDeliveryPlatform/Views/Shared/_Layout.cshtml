@@ -13,7 +13,7 @@
     <title>@ViewData["Title"] - FoodDeliveryPlatform</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/fontawesome.css" />
     
 
 </head>
@@ -28,21 +28,21 @@
                 @if (person != null)
                 {
                     <p class="mr-auto"> Salut @person.Firstname ! </p>
-                   
-                        <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
-                            Commandes
-                        </a>
+
+                    <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
+                        Commandes
+                    </a>
                     @if (person.CustomerInfo != null)
                     {
                         <a class="navbar-brand" asp-area="" asp-controller="Restaurant" asp-action="Index">
                             Restaurants
                         </a>
                         <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Create">
-                          Panier
-                          <span id="CartInfo" class="badge badge-light">0</span>
+                            <i class="fas fa-shopping-cart"></i> •
+                            <span id="CartInfo" class="badge badge-light">0</span>
                         </a>
                     }
-                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a>
+                    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                 }
             </div>
         </nav>
@@ -62,6 +62,7 @@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/lib/font-awesome/js/fontawesome.js"></script>
+    <script src="~/lib/font-awesome/js/all.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

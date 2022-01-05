@@ -57,9 +57,8 @@
             @Html.DisplayFor(modelItem => item.Status)
           </td>
           <td>
-
-            @Html.ActionLink("Delivered", "Edit", new { id = item.OrderId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.OrderId })
+              <a href="@Url.Action("Edit", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-check"></i></a>
+              <a href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
           </td>
         </tr>
       }
