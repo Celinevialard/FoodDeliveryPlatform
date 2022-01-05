@@ -57,8 +57,8 @@
             @Html.DisplayFor(modelItem => item.Status)
           </td>
           <td>
-              <a href="@Url.Action("Edit", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-check"></i></a>
-              <a href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
+              <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
+              <a class="btn btn-success" href="@Url.Action("Edit", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-check"></i></a>
           </td>
         </tr>
       }
@@ -97,12 +97,14 @@
             @Html.DisplayFor(modelItem => item.Status)
           </td>
           <td>
-            @if (DateTime.Now.AddHours(3) <= item.OrderDate && item.Status == OrderStatusEnum.Delivering)
-            {
-              <span>@Html.ActionLink("Cancel", "Cancel", new { id = item.OrderId }) |</span>
-            }
+              <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
+              @if (DateTime.Now.AddHours(3) <= item.OrderDate && item.Status == OrderStatusEnum.Delivering)
+              {
+                  <span>
+                      <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = item.OrderId })"><i class="fas fa-trash"></i></a>
+                  </span>
 
-            @Html.ActionLink("Details", "Details", new { id = item.OrderId })
+              }
           </td>
         </tr>
       }

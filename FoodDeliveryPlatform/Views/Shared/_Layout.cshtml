@@ -3,9 +3,11 @@
 <!DOCTYPE html>
 <html lang="en">
     @{
-    UserVM person = null;
-    if (Context.Session.GetString("User") != null)
-        person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
+        UserVM person = null;
+        if (Context.Session.GetString("User") != null)
+            person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
+
+        String greetings = DateTime.Now.Hour < 17 ? "Bonjour" : "Bonsoir";   
 }
 <head>
     <meta charset="utf-8" />
@@ -27,7 +29,7 @@
 
                 @if (person != null)
                 {
-                    <p class="mr-auto"> Salut @person.Firstname ! </p>
+                    <p class="mr-auto"> @greetings @person.Firstname ! </p>
 
                     <a class="navbar-brand" asp-area="" asp-controller="Order" asp-action="Index">
                         Commandes

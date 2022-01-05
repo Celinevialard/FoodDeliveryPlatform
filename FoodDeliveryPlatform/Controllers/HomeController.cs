@@ -51,7 +51,25 @@ namespace FoodDeliveryPlatform.Controllers
 			return RedirectToAction("Logout", "Home");
 		}
 
-		public IActionResult Privacy()
+        private string Greetings()
+        {
+			string text = null;
+			if (DateTime.Now.Hour < 12)
+			{
+				return "Good Morning";
+			}
+			else if (DateTime.Now.Hour < 17)
+			{
+				return "Good Afternoon";
+			}
+			else
+			{
+				return "Good Evening";
+			}
+			
+        }
+
+        public IActionResult Privacy()
 		{
 			return View();
 		}
