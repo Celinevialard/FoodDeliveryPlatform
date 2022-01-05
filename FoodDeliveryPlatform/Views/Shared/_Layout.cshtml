@@ -43,7 +43,7 @@
                             </a>
                             <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Create">
                                 <i class="fas fa-shopping-cart"></i> •
-                                <span id="CartInfo" class="badge badge-light">0</span>
+                                <span id="CartInfo" class="badge badge-secondary">0</span>
                             </a>
                         }
                         <a class="nav-item nav-link " asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
