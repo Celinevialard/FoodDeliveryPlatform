@@ -33,20 +33,20 @@
                     <!-- TODO modifier utilisateur-->
                     <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Edit"> @greetings @person.Firstname ! </a>
                     <div class="navbar-nav">
-                        <a class="nav-item nav-link" asp-area="" asp-controller="Order" asp-action="Index">
+                        <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">
                             <i class="fas fa-clipboard-list"></i> Commandes
                         </a>
                         @if (person.CustomerInfo != null)
                         {
-                            <a class="nav-item nav-link" asp-area="" asp-controller="Restaurant" asp-action="Index">
+                            <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" ? "active" : "")" asp-area="" asp-controller="Restaurant" asp-action="Index">
                                 <i class="fas fa-utensils"></i> Restaurants
                             </a>
-                            <a class="nav-item nav-link" asp-area="" asp-controller="Order" asp-action="Create">
+                            <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Create">
                                 <i class="fas fa-shopping-cart"></i> •
                                 <span id="CartInfo" class="badge badge-light">0</span>
                             </a>
                         }
-                        <a class="nav-item nav-link" asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+                        <a class="nav-item nav-link " asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
                     </div>
                 }
             </div>
