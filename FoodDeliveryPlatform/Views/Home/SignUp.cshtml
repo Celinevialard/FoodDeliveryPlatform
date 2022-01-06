@@ -4,55 +4,65 @@
     ViewData["Title"] = "SignUp";
 }
 
-<h1>SignUp</h1>
+<h1>Créer un compte</h1>
 
-<h4>SignUpVM</h4>
+<h5>Indiquer les informations suivantes : </h5>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="SignUp">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
-                <label asp-for="Address" class="control-label"></label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LocationId" class="control-label"></label>
-                @Html.DropDownListFor(m => m.LocationId, new SelectList(Model.Locations, "LocationId", "LocationName"), new { @class = "form-control selectpicker",
-                data_show_subtext = "true",
-                 data_live_search = "true"})
-                <span asp-validation-for="LocationId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Firstname" class="control-label"></label>
+                <label class="control-label"><i class="fas fa-user"></i> Prénom</label>
                 <input asp-for="Firstname" class="form-control" />
-                <span asp-validation-for="Firstname" class="text-danger"></span>
+                <span asp-validation-for="Lastname" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Lastname" class="control-label"></label>
+                <label class="control-label"><i class="fas fa-user"></i> Nom</label>
                 <input asp-for="Lastname" class="form-control" />
                 <span asp-validation-for="Lastname" class="text-danger"></span>
             </div>
+     
             <div class="form-group">
-                <label asp-for="Email" class="control-label"></label>
+                <label class="control-label"> <i class="fas fa-map-marker-alt"></i> Localité <span class="font-italic"> saisir le NPA</span></label>
+                @Html.DropDownListFor(m => m.LocationId, new SelectList(Model.Locations, "LocationId", "LocationName"), new
+                {
+                    @class = "form-control selectpicker",
+                data_show_subtext = "true",
+                 data_live_search = "true"
+                })
+                <span asp-validation-for="LocationId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><i class="fas fa-home"></i> Adresse</label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label"><i class="fas fa-envelope"></i> E-Mail</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
+                <label asp-for="Password" class="control-label"><i class="fas fa-key"></i> Mot de passe</label>
                 <input asp-for="Password" class="form-control" />
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-user-plus"></i> Créer mon compte
+                </button>
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Annuler</a>
 </div>
 
 @section Scripts {
