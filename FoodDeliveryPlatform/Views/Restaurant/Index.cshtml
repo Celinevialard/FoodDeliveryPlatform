@@ -19,20 +19,20 @@ else
     <table class="table">
         <thead>
             <tr>
-                <th>
-                    Restaurant
+                <th width="20">
+                    <i class="fas fa-store"></i> Restaurant
                     @*@Html.DisplayNameFor(model => model.Name) *@
                 </th>
-                <th>
-                    Description
+                <th width="40">
+                    <i class="fas fa-align-justify"></i> Description
                     @*@Html.DisplayNameFor(model => model.Description)*@
                 </th>
                 <th width="20%">
-                    Lieu
+                    <i class="fas fa-map-marker-alt"></i> Lieu
                     @*@Html.DisplayNameFor(model => model.LocationName)*@
                 </th>
                 <th width="20%">
-                    Consulter la carte
+                    <i class="fas fa-list-alt"></i> Carte des menus
                 </th>
             </tr>
         </thead>
@@ -50,7 +50,7 @@ else
                         @Html.DisplayFor(modelItem => item.LocationName)
                     </td>
                     <td>
-                        @Html.ActionLink("Plats", "Details", new { id = item.RestaurantId })
+                        <a class=" btn btn-info" href="@Url.Action("Details", "Restaurant", new { id = item.RestaurantId })"><i class="fas fa-eye"></i> Consulter la carte</a>
                     </td>
                 </tr>
             }
