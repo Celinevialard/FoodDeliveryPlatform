@@ -6,7 +6,7 @@
 
 <h1>Passer commande</h1>
 
-<h4>Panier</h4>
+<h4>Voici ton panier</h4>
 <hr />
 
 <form asp-action="Create">
@@ -15,12 +15,12 @@
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
       @Html.HiddenFor(m => m.RestaurantId)
       <div class="form-group">
-        <label asp-for="DateDelivery" class="control-label"></label>
+        <p><i class="fas fa-clock"></i> Date de livraison</p>
         @Html.DropDownListFor(m => m.DateDelivery, new SelectList(Model.DatesDelivery), new { @class = "form-control" })
         <span asp-validation-for="DateDelivery" class="text-danger"></span>
       </div>
       <div class="form-group">
-        <label asp-for="OrderNote" class="control-label"></label>
+          <p><i class="fas fa-pen"></i> Note de commande (facultatif)</p>
         @Html.TextAreaFor(m=>m.OrderNote, new { @class = "form-control" })
         <span asp-validation-for="OrderNote" class="text-danger"></span>
       </div>
@@ -32,16 +32,16 @@
           <thead>
             <tr>
               <th>
-                Plat
+                  <i class="fas fa-hamburger"></i> Plat
               </th>
               <th>
-                Quantité
+                  <i class="fas fa-list-ol"></i> Quantité
               </th>
               <th>
-                Prix unitaire
+                  <i class="fas fa-tag"></i> Prix unitaire
               </th>
               <th>
-                Prix
+                  <i class="fas fa-tags"></i> Prix total
               </th>
             </tr>
           </thead>
@@ -73,7 +73,7 @@
             }
             <tr>
               <td>
-                <b>Total</b>
+                <b><i class="fas fa-hand-holding-usd"></i> Total à payer au livreur</b>
               </td>
               <td>
               </td>
@@ -92,7 +92,9 @@
       <p>Pas de plats pour cette commande</p>
     }
     <div class="form-group">
-      <input type="submit" value="Passer commande" class="btn btn-primary" />
+       <button type="submit" class="btn btn-success">
+           <i class="fas fa-check"></i> Valider la commande
+       </button>
     </div>
   </div>
 </form>
