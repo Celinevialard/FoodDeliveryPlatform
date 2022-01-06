@@ -28,7 +28,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "SELECT * FROM Location";
+					string query = "SELECT * FROM Location ORDER BY Npa";
 					SqlCommand cmd = new SqlCommand(query, cn);
 
 					cn.Open();
