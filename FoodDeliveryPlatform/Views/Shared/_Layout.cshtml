@@ -7,7 +7,7 @@
         if (Context.Session.GetString("User") != null)
             person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
 
-        String greetings = DateTime.Now.Hour < 17 ? "Bonjour" : "Bonsoir";   
+        String greetings = DateTime.Now.Hour < 12 && DateTime.Now.Hour > 5 ? "Bonjour" : DateTime.Now.Hour < 17 ? "Bon après-midi" : "Bonsoir";   
 }
 <head>
     <meta charset="utf-8" />

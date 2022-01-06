@@ -10,52 +10,54 @@
 
 @if (Model == null || !Model.Any())
 {
-    <p>Pas de restaurant pour votre région </p>
+    <p> <i class="fas fa-info-circle"></i> Pas de restaurant pour votre région </p>
 }
 else
 {
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                Restaurant
-                @*@Html.DisplayNameFor(model => model.Name) *@
-            </th>
-            <th>
-                Description
-                @*@Html.DisplayNameFor(model => model.Description)*@
-            </th>
-            <th width="20%">
-                Lieu
-                @*@Html.DisplayNameFor(model => model.LocationName)*@
-            </th>
-            <th width="20%">
-                Consulter la carte
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LocationName)
-            </td>
-            <td>
-                @Html.ActionLink("Plats", "Details", new { id = item.RestaurantId })
-            </td>
-        </tr>
-        }
 
-    
-    </tbody>
+    <p><i class="fas fa-info-circle"></i> Ces restaurants sont desservis par des livreurs qui livrent chez toi !</p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Restaurant
+                    @*@Html.DisplayNameFor(model => model.Name) *@
+                </th>
+                <th>
+                    Description
+                    @*@Html.DisplayNameFor(model => model.Description)*@
+                </th>
+                <th width="20%">
+                    Lieu
+                    @*@Html.DisplayNameFor(model => model.LocationName)*@
+                </th>
+                <th width="20%">
+                    Consulter la carte
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.LocationName)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Plats", "Details", new { id = item.RestaurantId })
+                    </td>
+                </tr>
+            }
 
-</table>
+
+        </tbody>
+
+    </table>
 }
 
