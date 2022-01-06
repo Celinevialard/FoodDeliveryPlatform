@@ -12,27 +12,29 @@
   <h2>Liste de livraison</h2>
   <table class="table">
     <thead>
-      <tr>
-        <th>
-          Nom du client
-        </th>
-        <th>
-          Localité
-        </th>
-        <th>
-          Addresse
-        </th>
-        <th>
-          Date
-        </th>
-        <th>
-          Total
-        </th>
-        <th>
-          Statut
-        </th>
-        <th></th>
-      </tr>
+        <tr>
+            <th>
+                <i class="fas fa-user"></i> Nom du client
+            </th>
+            <th>
+                <i class="fas fa-map-marker-alt"></i> Localité
+            </th>
+            <th>
+                <i class="fas fa-home"></i> Adresse
+            </th>
+            <th>
+                <i class="fas fa-clock"></i> Date
+            </th>
+            <th>
+                <i class="fas fa-file-invoice-dollar"></i> Total
+            </th>
+            <th>
+                <i class="fas fa-info-circle"></i> Statut
+            </th>
+            <th>
+                <i class="fas fa-check"></i> Actions
+            </th>
+        </tr>
     </thead>
     <tbody>
       @foreach (var item in Model.OrdersDelivery)
@@ -72,15 +74,15 @@
     <thead>
       <tr>
         <th>
-          Date
+            <i class="fas fa-clock"></i> Date
         </th>
         <th>
-          Total
+            <i class="fas fa-file-invoice"></i> Total
         </th>
         <th>
-          Statut
+            <i class="fas fa-info-circle"></i> Statut
         </th>
-        <th></th>
+        <th><i class="fas fa-search"></i> Actions</th>
       </tr>
     </thead>
     <tbody>
