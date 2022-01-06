@@ -1,14 +1,18 @@
-﻿@model RestaurantDetailsVM
+﻿
+@model RestaurantDetailsVM
 
 @{
     ViewData["Title"] = Model.Name;
 }
 
 <h1>@Model.Name</h1>
-<p><i class="fas fa-info-circle"></i> @Model.Description</p>
+<!--<p><i class="fas fa-map-marker-alt"></i> @Model.LocationName</p>-->
+<p><i class="fas fa-exclamation-triangle"></i> @Model.Description</p>
 
 <div>
-    <h4>Menus</h4>
+    @if (Model.Dishes != null && Model.Dishes.Any())
+    {
+        <h4>Menus</h4>
 
         <table>
             <thead>
@@ -33,53 +37,60 @@
                     </th>
                 </tr>
             </thead>
+
             <tbody>
                 @foreach (var item in Model.Dishes)
                 {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Name)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Description)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Allergies)
-                    </td>
-                    <td>
-                        <img src="~/img/dishesImg/@Model.RestaurantId/@Html.DisplayFor(modelItem => item.ImageLink)" alt="@Html.DisplayFor(modelItem => item.ImageLink)" height="70"/>
-                    </td>
-                    <td>
-                        <a class="btn btn-light" onclick="AddDish(@item.DishId)"><i class="fas fa-cart-plus"></i></a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Price)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Allergies)
+                        </td>
+                        <td>
+                            <img src="~/img/dishesImg/@Model.RestaurantId/@Html.DisplayFor(modelItem => item.ImageLink)" alt="@Html.DisplayFor(modelItem => item.ImageLink)" height="70" />
+                        </td>
+                        <td>
+                            <a class="btn btn-light" onclick="AddDish(@item.DishId)"><i class="fas fa-cart-plus"></i></a>
+                        </td>
+                    </tr>
                 }
             </tbody>
-        </table>
-  <script>
-    function AddDish(id) {
-      $.ajax('/Order/AddDish/' + id,
-        {
-          type: 'POST', 
-          timeout: 500,
-          dataType : 'json',
-          success: function (data, status, xhr) {   // success callback function
-            var nbr = parseInt($("#CartInfo").text());
-            $("#CartInfo").text(nbr + 1);
-          },
-          error: function (jqXhr, textStatus, errorMessage) { // error callback 
-            alert("Erreur!");
-            console.log(errorMessage);
-          }
-        });
-    }
-  </script>
 
+        </table>
+
+        <script>
+            function AddDish(id) {
+                $.ajax('/Order/AddDish/' + id,
+                    {
+                        type: 'POST',
+                        timeout: 500,
+                        dataType: 'json',
+                        success: function (data, status, xhr) {   // success callback function
+                            var nbr = parseInt($("#CartInfo").text());
+                            $("#CartInfo").text(nbr + 1);
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) { // error callback
+                            alert("Erreur!");
+                            console.log(errorMessage);
+                        }
+                    });
+            }
+        </script>
+    }
+    else
+    {
+        <p><i class="fas fa-exclamation-triangle"></i> Malheuresement, ce restaurant ne livre aucun plat :(</p>
+    }
 </div>
 
-<div>  
-    <a class="btn btn-secondary"asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher les restaurants</a>
+<div>
+    <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher les restaurants</a>
 </div>

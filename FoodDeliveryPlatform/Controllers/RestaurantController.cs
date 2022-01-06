@@ -73,6 +73,8 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+
+
             Restaurant restaurant = RestaurantManager.GetRestaurantById(id);
             List<Dish> dishes = DishManager.GetDishesByRestaurant(id);
             RestaurantDetailsVM restaurantDetails = new()
