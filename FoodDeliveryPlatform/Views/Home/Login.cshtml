@@ -1,13 +1,13 @@
 ﻿@model LoginVM
 
 @{
-    ViewData["Title"] = "Login";
+    ViewData["Title"] = "Connexion";
 }
 
-<h1>Login</h1>
 
-<h4>LoginViewModel</h4>
-<hr />
+<h2>Connexion</h2>
+<h5>Accéder à Food Delivery</h5>
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Login">
@@ -23,11 +23,22 @@
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input type="submit" value="Sign in" class="btn btn-primary" />
+                <button type="submit" class="btn btn-success">
+                    <i class="fas fa-sign-in-alt fa-lg"></i> Connexion
+                </button>
             </div>
         </form>
+
+        <h5>Pas encore inscrit ?</h5>
+        <p>Que vous soyez client ou livreur, n'attendez pas et accéder à notre plateforme de livraison !<p>
+        <a href="@Url.Action("SignUp", "Home")">
+            <button class="btn btn-primary">
+                <i class="fas fa-user-plus fa-lg"></i> Créer un compte
+            </button>
+        </a>
+
     </div>
-    @Html.ActionLink("Sign up", "SignUp", "Home")
+    
 </div>
 
 @section Scripts {
