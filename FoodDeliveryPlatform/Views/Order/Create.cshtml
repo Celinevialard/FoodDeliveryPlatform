@@ -20,8 +20,8 @@
         <span asp-validation-for="DateDelivery" class="text-danger"></span>
       </div>
       <div class="form-group">
-          <p><i class="fas fa-pen"></i> Note de commande (facultatif)</p>
-        @Html.TextAreaFor(m=>m.OrderNote, new { @class = "form-control" })
+        <p><i class="fas fa-pen"></i> Note de commande (facultatif)</p>
+        @Html.TextAreaFor(m => m.OrderNote, new { @class = "form-control" })
         <span asp-validation-for="OrderNote" class="text-danger"></span>
       </div>
     </div>
@@ -32,16 +32,16 @@
           <thead>
             <tr>
               <th>
-                  <i class="fas fa-hamburger"></i> Plat
+                <i class="fas fa-hamburger"></i> Plat
               </th>
               <th>
-                  <i class="fas fa-list-ol"></i> Quantité
+                <i class="fas fa-list-ol"></i> Quantité
               </th>
               <th>
-                  <i class="fas fa-tag"></i> Prix unitaire
+                <i class="fas fa-tag"></i> Prix unitaire
               </th>
               <th>
-                  <i class="fas fa-tags"></i> Prix total
+                <i class="fas fa-tags"></i> Prix total
               </th>
             </tr>
           </thead>
@@ -57,7 +57,9 @@
                   @Html.DisplayFor(modelItem => cartDetails.DishName)
                 </td>
                 <td>
+                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'RemoveDish')"><i class="fas fa-cart-plus"></i></a>
                   @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
+                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'AddDish')"><i class="fas fa-cart-plus"></i></a>
                 </td>
                 <td>
                   @Html.DisplayFor(modelItem => cartDetails.DishPrice)
@@ -86,15 +88,44 @@
           </tbody>
         </table>
       </div>
+      <script>
+            function ModifyDish(id, action) {
+              $.ajax('/Order/' + action+'/' + id,
+                    {
+                        type: 'POST',
+                        timeout: 500,
+                        dataType: 'json',
+                        success: function (data, status, xhr) {   // success callback function
+                          if (data.message == "Reussi") {
+                            var nbr = parseInt($("#CartInfo").text());
+                            if (action =="AddDish")
+                              $("#CartInfo").text(nbr + 1);
+                            else
+                              $("#CartInfo").text(nbr - 1);
+                            location.reload();
+                          }
+                          else {
+                            $(".alert").removeClass("d-none")
+                            $(".alert p").text(data.message)
+                          }
+
+                        },
+                        error: function (jqXhr, textStatus, errorMessage) { // error callback
+                            alert("Erreur!");
+                            console.log(errorMessage);
+                        }
+                    });
+            }
+      </script>
     }
     else
     {
       <p>Pas de plats pour cette commande</p>
     }
     <div class="form-group">
-       <button type="submit" class="btn btn-success">
-           <i class="fas fa-check"></i> Valider la commande
-       </button>
+      <button type="submit" class="btn btn-success">
+        <i class="fas fa-check"></i> Valider la commande
+      </button>
     </div>
   </div>
 </form>

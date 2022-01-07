@@ -78,7 +78,7 @@ namespace BLL
         public List<DateTime> GetDateDelivery(Order order)
         {
             List<DateTime> dateDelivery = new List<DateTime>();
-
+            List<DateTime> datePossible = new List<DateTime>();
             (int depart, int arrivee) = GetLocalites(order);
             List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
             // TODO enlever tranche si pas de delever dispo
@@ -86,7 +86,6 @@ namespace BLL
             {
                 courrier.Orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
             }
-
             for (int i = 0; i < 4 * 6; i++)
             {
                 DateTime time;
@@ -98,8 +97,9 @@ namespace BLL
                 }
                 else
                 {
-                    time = dateDelivery[i - 1].AddMinutes(15);
+                    time = datePossible[i-1].AddMinutes(15);
                 }
+                datePossible.Add(time);
                 int index = GetCourrierIdDispo(courriers, time);
 
                 if (index > 0)
