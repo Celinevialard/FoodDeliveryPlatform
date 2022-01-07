@@ -152,7 +152,8 @@ namespace FoodDeliveryPlatform.Controllers
                 return View(null);
             }
             cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
-
+            if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
+                cartVM = null;
             Order order = CartToOrder(cartVM);
             order.CustomerId = person.CustomerInfo.CustomerId;
             cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
@@ -307,7 +308,10 @@ namespace FoodDeliveryPlatform.Controllers
                     return new JsonResult(new { message = "Ce plat n'est pas dans le panier." });
                 }
             }
-            HttpContext.Session.SetString("Cart", cartVM.ToString());
+            if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
+                HttpContext.Session.Remove("Cart");
+            else
+                HttpContext.Session.SetString("Cart", cartVM.ToString());
             return new JsonResult(new { message = "Reussi" });
         }
     }
