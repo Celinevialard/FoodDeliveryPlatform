@@ -29,7 +29,7 @@ namespace BLL
             List<int> courriersId = new List<int>();
             courriersId = CourriersDb.GetCourriersIdByLocationId(locationId);
 
-
+            //BUG si habite une région non livrable
             foreach (int courrierId in courriersId)
             {
                 List<int> locationsTemp = CourriersDb.GetLocationsByCourrierId(courrierId);

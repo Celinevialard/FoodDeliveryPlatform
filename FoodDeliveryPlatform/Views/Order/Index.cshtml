@@ -2,118 +2,125 @@
 @model OrderIndexVM
 
 @{
-  ViewData["Title"] = "Commandes";
+    ViewData["Title"] = "Commandes";
 }
 
 <h1>Commandes</h1>
 
 @if (Model.OrdersDelivery != null && Model.OrdersDelivery.Any())
 {
-  <h2>Liste de livraison</h2>
-  <table class="table">
-    <thead>
-        <tr>
-            <th>
-                <i class="fas fa-user"></i> Nom du client
-            </th>
-            <th>
-                <i class="fas fa-map-marker-alt"></i> Localité
-            </th>
-            <th>
-                <i class="fas fa-home"></i> Adresse
-            </th>
-            <th>
-                <i class="fas fa-clock"></i> Date
-            </th>
-            <th>
-                <i class="fas fa-file-invoice-dollar"></i> Total
-            </th>
-            <th>
-                <i class="fas fa-info-circle"></i> Statut
-            </th>
-            <th>
-                <i class="fas fa-check"></i> Actions
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-      @foreach (var item in Model.OrdersDelivery)
-      {
-        <tr>
-          <td>
-            @Html.DisplayFor(modelItem => item.CustomerName)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.CustomerLocation)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.CustomerAddress)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.TotalAmount)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.Status)
-          </td>
-          <td>
-              <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
-              <a class="btn btn-success" href="@Url.Action("Edit", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-check"></i></a>
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+    <h2>Liste de livraison</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <i class="fas fa-user"></i> Nom du client
+                </th>
+                <th>
+                    <i class="fas fa-map-marker-alt"></i> Localité
+                </th>
+                <th>
+                    <i class="fas fa-home"></i> Adresse
+                </th>
+                <th>
+                    <i class="fas fa-clock"></i> Date
+                </th>
+                <th>
+                    <i class="fas fa-file-invoice-dollar"></i> Total
+                </th>
+                <th>
+                    <i class="fas fa-info-circle"></i> Statut
+                </th>
+                <th>
+                    <i class="fas fa-check"></i> Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrdersDelivery)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerLocation)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CustomerAddress)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
+                        <a class="btn btn-success" href="@Url.Action("Edit", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-check"></i></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 @if (Model.OrdersCustomer != null && Model.OrdersCustomer.Any())
 {
-  <h2>Historique de commande</h2>
-  <table class="table">
-    <thead>
-      <tr>
-        <th>
-            <i class="fas fa-clock"></i> Date
-        </th>
-        <th>
-            <i class="fas fa-file-invoice"></i> Total
-        </th>
-        <th>
-            <i class="fas fa-info-circle"></i> Statut
-        </th>
-        <th><i class="fas fa-search"></i> Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @foreach (var item in Model.OrdersCustomer)
-      {
-        <tr>
-          <td>
-            @Html.DisplayFor(modelItem => item.OrderDate)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.TotalAmount)
-          </td>
-          <td>
-            @Html.DisplayFor(modelItem => item.Status)
-          </td>
-          <td>
-              <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
-              @if (DateTime.Now.AddHours(3) <= item.OrderDate && item.Status == OrderStatusEnum.Delivering)
-              {
-                  <span>
-                      <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = item.OrderId })"><i class="fas fa-trash"></i></a>
-                  </span>
+    <h2>Historique de commande</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <i class="fas fa-clock"></i> Date
+                </th>
+                <th>
+                    <i class="fas fa-file-invoice"></i> Total
+                </th>
+                <th>
+                    <i class="fas fa-info-circle"></i> Statut
+                </th>
+                <th><i class="fas fa-search"></i> Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrdersCustomer)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.OrderDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Status)
+                    </td>
+                    <td>
+                        <a class="btn btn-info" href="@Url.Action("Details", "Order", new { id = item.OrderId })"><i class="fas fa-clipboard-list"></i></a>
+                        @if (DateTime.Now.AddHours(3) <= item.OrderDate && item.Status == OrderStatusEnum.Delivering)
+                        {
+                            <span>
+                                <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = item.OrderId })"><i class="fas fa-trash"></i></a>
+                            </span>
 
-              }
-          </td>
-        </tr>
-      }
-    </tbody>
-  </table>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
 }
 @if ((Model.OrdersCustomer == null || !Model.OrdersCustomer.Any()) && (Model.OrdersDelivery == null || !Model.OrdersDelivery.Any()))
 {
-  <p>Pas de commande disponible</p>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Aucune commande</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    
 }

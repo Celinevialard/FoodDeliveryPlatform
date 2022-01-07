@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FoodDeliveryPlatform.Models
 {
-	public class SignUpVM
+	public class UserEditVM
 	{
+		public int PersonId { get; set; }
 		public string Address { get; set; }
 
 		public int LocationId { get; set; }

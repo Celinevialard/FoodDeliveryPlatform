@@ -62,14 +62,48 @@ namespace FoodDeliveryPlatform.Controllers
 			return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
 		}
 
-		public IActionResult SignUp()
-        {
+		public IActionResult Edit(int id)
+		{
+
 			List<Location> locations = LocationManager.GetLocations();
-			return View(new SignUpVM { Locations = locations});
+			return View(new UserEditVM { Locations = locations });
 		}
 
 		[HttpPost]
-		public IActionResult SignUp(SignUpVM signUp)
+		public IActionResult Edit(UserEditVM editUser)
+		{
+			if (!ModelState.IsValid)
+			{
+				List<Location> locations = LocationManager.GetLocations();
+				editUser.Locations = locations;
+				return View(editUser);
+			}
+
+			CustomerManager.AddCustomer(new Person
+			{
+				CustomerInfo = new Customer
+				{
+					PersonId = editUser.PersonId,
+					Address = editUser.Address,
+					LocationId = editUser.LocationId
+				},
+				Firstname = editUser.Firstname,
+				Lastname = editUser.Lastname,
+				Login = editUser.Email,
+				Password = editUser.Password
+			});
+
+			return RedirectToAction("Login");
+		}
+
+		public IActionResult SignUp()
+        {
+			List<Location> locations = LocationManager.GetLocations();
+			return View(new UserEditVM { Locations = locations});
+		}
+
+		[HttpPost]
+		public IActionResult SignUp(UserEditVM signUp)
 		{
 			if (!ModelState.IsValid)
             {
@@ -126,6 +160,10 @@ namespace FoodDeliveryPlatform.Controllers
 				return RedirectToAction("Index", "Order");
 			return RedirectToAction("Index", "Restaurant");
 		}
+
+		
+
+
 		public IActionResult Logout()
 		{
 			HttpContext.Session.Clear();

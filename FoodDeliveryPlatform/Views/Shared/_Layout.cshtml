@@ -38,7 +38,7 @@
         {
 
           <!-- TODO modifier utilisateur-->
-          <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit"> @greetings @person.Firstname ! </a>
+          <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@person.PersonId"> @greetings @person.Firstname ! </a>
           <div class="navbar-nav">
             <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() != "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">
               <i class="fas fa-clipboard-list"></i> Commandes
