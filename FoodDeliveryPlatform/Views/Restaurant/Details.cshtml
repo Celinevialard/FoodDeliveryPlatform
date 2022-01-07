@@ -68,7 +68,7 @@
 
         <script>
             function AddDish(id) {
-                $.ajax('/Order/AddDish/' + id,
+                $.ajax('@Url.Action("AddDish", "Order")/' + id,
                     {
                         type: 'POST',
                         timeout: 500,

@@ -57,9 +57,9 @@
                   @Html.DisplayFor(modelItem => cartDetails.DishName)
                 </td>
                 <td>
-                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'RemoveDish')"><i class="fas fa-cart-plus"></i></a>
+                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-cart-plus"></i></a>
                   @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
-                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'AddDish')"><i class="fas fa-cart-plus"></i></a>
+                  <a class="btn btn-light" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("AddDish", "Order")')"><i class="fas fa-cart-plus"></i></a>
                 </td>
                 <td>
                   @Html.DisplayFor(modelItem => cartDetails.DishPrice)
@@ -89,8 +89,8 @@
         </table>
       </div>
       <script>
-            function ModifyDish(id, action) {
-              $.ajax('/Order/' + action+'/' + id,
+            function ModifyDish(id, url) {
+              $.ajax(url+'/' + id,
                     {
                         type: 'POST',
                         timeout: 500,
@@ -98,7 +98,7 @@
                         success: function (data, status, xhr) {   // success callback function
                           if (data.message == "Reussi") {
                             var nbr = parseInt($("#CartInfo").text());
-                            if (action =="AddDish")
+                            if (url.includes('AddDish'))
                               $("#CartInfo").text(nbr + 1);
                             else
                               $("#CartInfo").text(nbr - 1);
