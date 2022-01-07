@@ -68,14 +68,21 @@
 
         <script>
             function AddDish(id) {
-                $.ajax('/Order/AddDish/' + id,
+                $.ajax('@Url.Action("AddDish", "Order")/' + id,
                     {
                         type: 'POST',
                         timeout: 500,
                         dataType: 'json',
                         success: function (data, status, xhr) {   // success callback function
+                          if (data.message == "Reussi") {
                             var nbr = parseInt($("#CartInfo").text());
                             $("#CartInfo").text(nbr + 1);
+                          }
+                          else {
+                            $(".alert").removeClass("d-none")
+                            $(".alert p").text(data.message)
+                          }
+
                         },
                         error: function (jqXhr, textStatus, errorMessage) { // error callback
                             alert("Erreur!");

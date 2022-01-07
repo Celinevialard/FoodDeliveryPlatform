@@ -4,10 +4,17 @@
 <html lang="en">
     @{
         UserVM person = null;
+        int nbrInCart = 0;
         if (Context.Session.GetString("User") != null)
-            person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
+          person = JsonSerializer.Deserialize<UserVM>(Context.Session.GetString("User"));
+        if (Context.Session.GetString("Cart") != null)
+        {
+          CartVM cartVM = JsonSerializer.Deserialize<CartVM>(Context.Session.GetString("Cart"));
+          foreach(var dish in cartVM.CartDetails)
+            nbrInCart += dish.DishQuantity;
+        }
 
-        String greetings = DateTime.Now.Hour < 12 && DateTime.Now.Hour > 5 ? "Bonjour" : DateTime.Now.Hour < 17 ? "Bon après-midi" : "Bonsoir";   
+        String greetings = DateTime.Now.Hour < 12 && DateTime.Now.Hour > 5 ? "Bonjour" : DateTime.Now.Hour < 17 ? "Bon après-midi" : "Bonsoir";
 }
 <head>
     <meta charset="utf-8" />
@@ -20,54 +27,60 @@
 
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/img/FoodDelivery_logo.png" alt="Food Delivery" height="50" />
-                </a>
+  <header class="mb-3">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow">
+      <div class="container">
+        <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
+          <img src="~/img/FoodDelivery_logo.png" alt="Food Delivery" height="50" />
+        </a>
 
-                @if (person != null)
-                {
+        @if (person != null)
+        {
 
-                    <!-- TODO modifier utilisateur-->
-                    <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit"> @greetings @person.Firstname ! </a>
-                    <div class="navbar-nav">
-                        <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() != "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">
-                            <i class="fas fa-clipboard-list"></i> Commandes
-                        </a>
-                        @if (person.CustomerInfo != null)
-                        {
-                            <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" ? "active" : "")" asp-area="" asp-controller="Restaurant" asp-action="Index">
-                                <i class="fas fa-utensils"></i> Restaurants
-                            </a>
-                            <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() == "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Create">
-                                <i class="fas fa-shopping-cart"></i> •
-                                <span id="CartInfo" class="badge badge-secondary">0</span>
-                            </a>
-                        }
-                        <a class="nav-item nav-link " asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
-                    </div>
-                }
-            </div>
-</nav>
-    </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+          <!-- TODO modifier utilisateur-->
+          <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit"> @greetings @person.Firstname ! </a>
+          <div class="navbar-nav">
+            <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() != "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">
+              <i class="fas fa-clipboard-list"></i> Commandes
+            </a>
+            @if (person.CustomerInfo != null)
+            {
+              <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Restaurant" ? "active" : "")" asp-area="" asp-controller="Restaurant" asp-action="Index">
+                <i class="fas fa-utensils"></i> Restaurants
+              </a>
+              <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() == "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Create">
+                <i class="fas fa-shopping-cart"></i> •
+                <span id="CartInfo" class="badge badge-secondary">@nbrInCart</span>
+              </a>
+            }
+            <a class="nav-item nav-link " asp-area="" asp-controller="Home" asp-action="Logout"><i class="fas fa-sign-out-alt"></i> Log out</a>
+          </div>
+        }
+      </div>
+    </nav>
+    <div class="alert alert-warning alert-dismissible fade show d-none" role="alert">
+      <p>Le plat ne provient pas du même restaurant!</p>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+  </header>
+  <div class="container">
+    <main role="main" class="pb-3">
+      @RenderBody()
+    </main>
+  </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - FoodDeliveryPlatform - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/font-awesome/js/fontawesome.js"></script>
-    <script src="~/lib/font-awesome/js/all.js"></script>
-    @await RenderSectionAsync("Scripts", required: false)
+  <footer class="border-top footer text-muted">
+    <div class="container">
+      &copy; 2021 - FoodDeliveryPlatform - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </div>
+  </footer>
+  <script src="~/lib/jquery/dist/jquery.min.js"></script>
+  <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="~/js/site.js" asp-append-version="true"></script>
+  <script src="~/lib/font-awesome/js/fontawesome.js"></script>
+  <script src="~/lib/font-awesome/js/all.js"></script>
+  @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
