@@ -149,7 +149,7 @@ namespace FoodDeliveryPlatform.Controllers
             CartVM cartVM;
             if (HttpContext.Session.GetString("Cart") == null)
             {
-                return RedirectToAction("Index", "Restaurant");
+                return View(null);
             }
             cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
 
@@ -171,6 +171,7 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Logout", "Home");
             }
+
             Order order = CartToOrder(cart);
             order.CustomerId = person.CustomerInfo.CustomerId;
             OrderManager.CreateOrder(order);
