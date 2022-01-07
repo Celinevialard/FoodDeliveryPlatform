@@ -1,13 +1,15 @@
 ﻿@model FoodDeliveryPlatform.Models.CartVM
 
 @{
-  ViewData["Title"] = "Panier";
+    ViewData["Title"] = "Panier";
 }
 
-<h1>Passer commande</h1>
+@if (Model != null)
+{
+    <h1>Passer commande</h1>
 
-<h4>Voici ton panier</h4>
-<hr />
+    <h4>Voici ton panier</h4>
+    <hr />
 
 <form asp-action="Create">
   <div class="row">
@@ -132,5 +134,6 @@
 
 
 @section Scripts {
-  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    $('.alert').alert()
 }
