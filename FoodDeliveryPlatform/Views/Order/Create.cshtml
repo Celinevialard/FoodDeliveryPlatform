@@ -90,51 +90,67 @@
                         </tbody>
                     </table>
                 </div>
-                <script>
-                    function ModifyDish(id, url) {
-                        $.ajax(url + '/' + id,
-                            {
-                                type: 'POST',
-                                timeout: 500,
-                                dataType: 'json',
-                                success: function (data, status, xhr) {   // success callback function
-                                    if (data.message == "Reussi") {
-                                        var nbr = parseInt($("#CartInfo").text());
-                                        if (url.includes('AddDish'))
-                                            $("#CartInfo").text(nbr + 1);
-                                        else
-                                            $("#CartInfo").text(nbr - 1);
-                                        location.reload();
-                                    }
-                                    else {
-                                        $(".alert").removeClass("d-none")
-                                        $(".alert p").text(data.message)
-                                    }
+          
 
-                                },
-                                error: function (jqXhr, textStatus, errorMessage) { // error callback
-                                    alert("Erreur!");
-                                    console.log(errorMessage);
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check"></i> Valider la commande
+            </button>
+
+            <script>
+                function ModifyDish(id, url) {
+                    $.ajax(url + '/' + id,
+                        {
+                            type: 'POST',
+                            timeout: 500,
+                            dataType: 'json',
+                            success: function (data, status, xhr) {   // success callback function
+                                if (data.message == "Reussi") {
+                                    var nbr = parseInt($("#CartInfo").text());
+                                    if (url.includes('AddDish'))
+                                        $("#CartInfo").text(nbr + 1);
+                                    else
+                                        $("#CartInfo").text(nbr - 1);
+                                    location.reload();
                                 }
-                            });
-                    }
-                </script>
-            }
-            else
-            {
-                <p>Pas de plats pour cette commande</p>
-            }
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-check"></i> Valider la commande
-                </button>
-            </div>
-        </div>
-    </form>
+                                else {
+                                    $(".alert").removeClass("d-none")
+                                    $(".alert p").text(data.message)
+                                }
+
+                            },
+                            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                                alert("Erreur!");
+                                console.log(errorMessage);
+                            }
+                        });
+            </script>
+        }
 
 
-    @section Scripts {
-        @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        $('.alert').alert()
-    }
+
+
+            
+        </form>
+    <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-secondary">
+        <i class="fas fa-arrow-circle-left"></i> Continuer ma commande
+    </a>
+    
 }
+else
+{
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Le panier est vide !</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <a class="btn btn-secondary" asp-controller="Restaurant" asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher les restaurants</a>
+}
+
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
