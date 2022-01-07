@@ -8,89 +8,95 @@
 
 <div>
   <hr />
-  <dl class="row">
-    <dt class="col-sm-2">
-        <i class="fas fa-id-card"></i> Adresse de livraison
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.CustomerName)
-    </dd>
-    <dt class="col-sm-2">
-      
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.CustomerAddress)
-    </dd>
-    <dt class="col-sm-2">
-      
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.CustomerLocation)
-    </dd>
-    <dt class="col-sm-2">
-        <i class="fas fa-info-circle"></i> Information supplémentaire
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.OrderNote)
-    </dd>
-    <dt class="col-sm-2">
-        <i class="fas fa-clock"></i> Date de livraison prévue
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.OrderDate)
-    </dd>
-    <dt class="col-sm-2">
-        <i class="fas fa-file-invoice-dollar"></i> Montant total
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.TotalAmount)
-    </dd>
-    <dt class="col-sm-2">
-        <i class="fas fa-tasks"></i> Etat
-    </dt>
-    <dd class="col-sm-10">
-      @Html.DisplayFor(model => model.Status)
-    </dd>
-  </dl>
+  <div class="row">
+    <div class="col-6">
+      <dl class="row">
+        <dt class="col-4">
+          <i class="fas fa-id-card"></i> Adresse de livraison
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.CustomerName)
+        </dd>
+        <dt class="col-4">
+
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.CustomerAddress)
+        </dd>
+        <dt class="col-4">
+
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.CustomerLocation)
+        </dd>
+        <dt class="col-4">
+          <i class="fas fa-info-circle"></i> Information supplémentaire
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.OrderNote)
+        </dd>
+        <dt class="col-4">
+          <i class="fas fa-clock"></i> Date de livraison prévue
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.OrderDate)
+        </dd>
+        <dt class="col-4">
+          <i class="fas fa-file-invoice-dollar"></i> Montant total
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+        <dt class="col-4">
+          <i class="fas fa-tasks"></i> Etat
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.Status)
+        </dd>
+      </dl>
+    </div>
     @if (Model.Details != null && Model.Details.Any())
     {
-      <table>
-        <thead>
+  <div class="col-6">
+    <table>
+      <thead>
+        <tr>
+          <th>
+            <i class="fas fa-hamburger"></i> Plat
+          </th>
+          <th>
+            <i class="fas fa-list-ol"></i> Quantité
+          </th>
+          <th>
+            <i class="fas fa-sticky-note"></i> Notes
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @foreach (var item in Model.Details)
+        {
           <tr>
-            <th>
-                <i class="fas fa-hamburger"></i> Plat
-            </th>
-            <th>
-                <i class="fas fa-list-ol"></i> Quantité
-            </th>
-            <th>
-                <i class="fas fa-sticky-note"></i> Notes
-            </th>
+            <td>
+              @Html.DisplayFor(modelItem => item.DishName)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+              @Html.DisplayFor(modelItem => item.OrderDetailsNote)
+            </td>
           </tr>
-        </thead>
-        <tbody>
-          @foreach (var item in Model.Details)
-          {
-            <tr>
-              <td>
-                @Html.DisplayFor(modelItem => item.DishName)
-              </td>
-              <td>
-                @Html.DisplayFor(modelItem => item.Quantity)
-              </td>
-              <td>
-                @Html.DisplayFor(modelItem => item.OrderDetailsNote)
-              </td>
-            </tr>
-          }
-        </tbody>
-      </table>
-    }
-  else
-  {
-    <p><i class="fas fa-info-circle"></i> Pas de détails pour cette commande</p>
-  }
-</div>
+        }
+      </tbody>
+    </table>
+  </div>
+        }
+        else
+        {
+        <p><i class="fas fa-info-circle"></i> Pas de détails pour cette commande</p>
+        }
+      </div>
+    </div>
 <div>
     <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher la liste</a>
     <a class="btn btn-success" href="@Url.Action("Edit", "Order", new { id = Model.OrderId })"> <i class="fas fa-clipboard-check"></i> Commande livrée</a>
