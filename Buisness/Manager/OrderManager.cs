@@ -167,11 +167,15 @@ namespace BLL
             {
                 List<Order> orders = courrier.Orders ?? OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
                 int nbOrder = 0;
-                foreach (Order o in orders)
+                if(orders != null && orders.Any())
                 {
-                    if (o.OrderDate.AddMinutes(15) <= date && o.OrderDate.AddMinutes(-15) >= date)
-                        nbOrder++;
+                    foreach (Order o in orders)
+                    {
+                        if (o.OrderDate.AddMinutes(15) <= date && o.OrderDate.AddMinutes(-15) >= date)
+                            nbOrder++;
+                    }
                 }
+               
                 if (nbOrder < 5)
                     return courrier.CourrierId;
             }
