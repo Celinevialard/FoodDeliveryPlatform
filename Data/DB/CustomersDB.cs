@@ -32,9 +32,10 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "INSERT INTO Customer (LocationId, PersonId) VALUES (@LocationId, @PersonId); SELECT SCOPE_IDENTITY()";
+					string query = "INSERT INTO Customer (LocationId, PersonId, Address) VALUES (@LocationId, @PersonId, @Address); SELECT SCOPE_IDENTITY()";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("LocationId", customer.LocationId);
+					cmd.Parameters.AddWithValue("Address", customer.Address);
 					cmd.Parameters.AddWithValue("PersonId", customer.PersonId);
 
 					cn.Open();
@@ -48,6 +49,34 @@ namespace DAL
 				throw e;
 			}
 			return customer;
+		}
+
+
+		public bool UpdateCustomer(Customer customer)
+		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "Update Customer SET LocationId = @LocationId, Address = @Address WHERE PersonId = @PersonId";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("LocationId", customer.LocationId);
+					cmd.Parameters.AddWithValue("Address", customer.Address);
+					cmd.Parameters.AddWithValue("PersonId", customer.PersonId);
+
+					cn.Open();
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+			}
+			return true;
 		}
 
 		/// <summary>

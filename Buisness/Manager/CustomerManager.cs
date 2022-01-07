@@ -30,5 +30,12 @@ namespace BLL
             person.CustomerInfo.PersonId = person.PersonId;
             CustomerDb.AddCustomer(person.CustomerInfo);
         }
+
+        public void UpdateCustomer(Person person)
+        {
+            PersonDb.UpdatePerson(person);
+            person.CustomerInfo.PersonId = person.PersonId;
+            CustomerDb.UpdateCustomer(person.CustomerInfo);
+        }
     }
 }

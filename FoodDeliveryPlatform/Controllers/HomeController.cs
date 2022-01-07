@@ -64,9 +64,30 @@ namespace FoodDeliveryPlatform.Controllers
 
 		public IActionResult Edit(int id)
 		{
+			if (HttpContext.Session.GetString("User") == null)
+			{
+				return RedirectToAction("Login", "Home");
+			}
+			UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+
+			if(person.PersonId != id || person.CustomerInfo == null)
+            {
+				return RedirectToAction("Login", "Home");
+			}
 
 			List<Location> locations = LocationManager.GetLocations();
-			return View(new UserEditVM { Locations = locations });
+			Person personFromDb = PersonManager.GetPersonByCustomer(person.CustomerInfo.CustomerId);
+
+
+			return View(new UserEditVM { 
+				Firstname = personFromDb.Firstname,
+				Lastname = personFromDb.Lastname,
+				Address = personFromDb.CustomerInfo.Address,
+				LocationId = personFromDb.CustomerInfo.LocationId,
+				Email = personFromDb.Login,
+				Password = personFromDb.Password,
+				Locations = locations
+			});
 		}
 
 		[HttpPost]
@@ -79,7 +100,7 @@ namespace FoodDeliveryPlatform.Controllers
 				return View(editUser);
 			}
 
-			CustomerManager.AddCustomer(new Person
+			CustomerManager.UpdateCustomer(new Person
 			{
 				CustomerInfo = new Customer
 				{

@@ -8,5 +8,7 @@ namespace DAL
 		Person AddPerson(Person person);
 		Person GetPersonByLogin(string login, string password);
         Person GetPersonByCustomer(int customerId);
+
+		bool UpdatePerson(Person person);
     }
 }

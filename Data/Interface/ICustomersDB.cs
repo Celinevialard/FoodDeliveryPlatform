@@ -6,5 +6,7 @@ namespace DAL
 	{
 		Customer AddCustomer(Customer customer);
 		Customer GetCustomer(int customerId);
+
+		bool UpdateCustomer(Customer customer);
 	}
 }

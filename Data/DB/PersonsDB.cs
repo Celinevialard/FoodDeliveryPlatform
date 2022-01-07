@@ -133,10 +133,39 @@ namespace DAL
 			return person;
 		}
 
+		public bool UpdatePerson(Person person)
+		{
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = "UPDATE Person SET Firstname = @Firstname, Name = @Name, Login = @Login, Password=@Password WHERE PersonId = @PersonId";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("PersonId", person.PersonId);
+					cmd.Parameters.AddWithValue("Firstname", person.Firstname);
+					cmd.Parameters.AddWithValue("Name", person.Lastname);
+					cmd.Parameters.AddWithValue("Login", person.Login);
+					cmd.Parameters.AddWithValue("Password", person.Password);
+
+					cn.Open();
+
+					cmd.ExecuteNonQuery();
+				}
+			}
+			catch (Exception e)
+			{
+
+				throw e;
+			}
+			return true;
+		}
+
 		private Person ReadPerson(SqlDataReader dr)
 		{
 			Person person = new Person();
-
+			person.PersonId = (int)dr["personId"];
 			person.Firstname = (string)dr["firstname"];
 			person.Lastname = (string)dr["name"];
 			person.Login = (string)dr["login"];
