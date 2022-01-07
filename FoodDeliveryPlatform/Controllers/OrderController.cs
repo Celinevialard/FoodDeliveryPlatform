@@ -244,6 +244,9 @@ namespace FoodDeliveryPlatform.Controllers
             else
             {
                 cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                if (dish.RestaurantId != cartVM.RestaurantId)
+                    return new JsonResult(new { message = "Le plat ne provient pas du même restaurant" });
+
                 bool exist = false;
                 foreach(var item in cartVM.CartDetails)
                 {
@@ -269,13 +272,42 @@ namespace FoodDeliveryPlatform.Controllers
         }
 
         [HttpPost]
-        public void RemoveDish(int id)
+        public JsonResult RemoveDish(int id)
         {
-            // 1. check habituelle
-            // 2. si panier existe récupérer sinon rien
-            // 3. Trouver le plat et diminuer de 1 la quantité
-            // 4. controler si la quantité du plat est 0 alors supprimer de la liste
-            // 5. écraser le panier de la session avec le nouveau panier (voir dernier ligne du add)
+            Dish dish = DishManager.GetDish(id);
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return new JsonResult(new { message = "pas connecter" });
+            }
+            CartVM cartVM;
+            if (HttpContext.Session.GetString("Cart") == null)
+            {
+                return new JsonResult(new { message = "Vous n'avez pas de panier." });
+            }
+            else
+            {
+                cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                bool exist = false;
+                CartDetailsVM itemToRemove = null;
+                foreach (var item in cartVM.CartDetails)
+                {
+                    if (item.DishId == dish.DishId)
+                    {
+                        item.DishQuantity--;
+                        exist = true;
+                        if (item.DishQuantity <= 0)
+                            itemToRemove = item;
+                    }
+                }
+                if (itemToRemove != null)
+                    cartVM.CartDetails.Remove(itemToRemove);
+                if (!exist)
+                {
+                    return new JsonResult(new { message = "Ce plat n'est pas dans le panier." });
+                }
+            }
+            HttpContext.Session.SetString("Cart", cartVM.ToString());
+            return new JsonResult(new { message = "Reussi" });
         }
     }
 }
