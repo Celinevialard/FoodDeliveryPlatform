@@ -15,8 +15,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\dishesImg\3\" />
-    <Folder Include="wwwroot\img\dishesImg\4\" />
+    <Folder Include="wwwroot\img\dishesImg\7\" />
+    <Folder Include="wwwroot\img\dishesImg\8\" />
+    <Folder Include="wwwroot\img\dishesImg\9\" />
   </ItemGroup>
 
 </Project>
