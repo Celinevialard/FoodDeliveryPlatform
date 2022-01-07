@@ -28,7 +28,7 @@ namespace BLL
             List<int> locationsIdAlreadyRead = new List<int>();
             List<int> courriersId = new List<int>();
             courriersId = CourriersDb.GetCourriersIdByLocationId(locationId);
-            
+
 
             foreach (int courrierId in courriersId)
             {
@@ -43,21 +43,23 @@ namespace BLL
             //Etapre2: obtenir la liste des localités pour chaque livreur
             //boucler sur la liste des localités .addRange
 
-            
-            foreach(int location in locationsId)
+
+            foreach (int location in locationsId)
             {
-                 if (!locationsIdAlreadyRead.Contains(location))
-                 {
-                      restaurants.AddRange(RestaurantsDb.GetRestaurantsByLocation(location));
-                      locationsIdAlreadyRead.Add(location);
-                 }
+                if (!locationsIdAlreadyRead.Contains(location))
+                {
+                    List<Restaurant> restautant = RestaurantsDb.GetRestaurantsByLocation(location);
+                    if (restautant != null)
+                        restaurants.AddRange(RestaurantsDb.GetRestaurantsByLocation(location));
+                    locationsIdAlreadyRead.Add(location);
+                }
             }
 
 
             if (restaurants == null)
                 return null;
 
-            foreach(Restaurant restaurant in restaurants)
+            foreach (Restaurant restaurant in restaurants)
             {
                 restaurant.Location = LocationsDb.GetLocationById(restaurant.LocationId);
             }
@@ -70,7 +72,7 @@ namespace BLL
         {
             return RestaurantsDb.GetRestaurantsById(idRestaurant);
         }
-     
+
 
 
 
