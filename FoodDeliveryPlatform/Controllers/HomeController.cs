@@ -72,7 +72,7 @@ namespace FoodDeliveryPlatform.Controllers
 
 			if(person.PersonId != id || person.CustomerInfo == null)
             {
-				return RedirectToAction("Login", "Home");
+				return RedirectToAction("Index", "Error", new { errorCode =403});
 			}
 
 			List<Location> locations = LocationManager.GetLocations();
@@ -182,9 +182,6 @@ namespace FoodDeliveryPlatform.Controllers
 				return RedirectToAction("Index", "Order");
 			return RedirectToAction("Index", "Restaurant");
 		}
-
-		
-
 
 		public IActionResult Logout()
 		{

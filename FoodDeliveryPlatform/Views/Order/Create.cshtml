@@ -37,6 +37,9 @@
                     <i class="fas fa-hamburger"></i> Plat
                   </th>
                   <th>
+                    <i class="fas fa-hamburger"></i> Infos
+                  </th>
+                  <th>
                     <i class="fas fa-list-ol"></i> Quantité
                   </th>
                   <th>
@@ -54,26 +57,29 @@
                   CartDetailsVM cartDetails = Model.CartDetails[i];
                   @Html.HiddenFor(m => m.CartDetails[i].DishId);
                   @Html.HiddenFor(m => m.CartDetails[i].DishQuantity);
-                  <tr>
-                    <td>
-                      @Html.DisplayFor(modelItem => cartDetails.DishName)
-                    </td>
-                    <td>
-                      <a class="btn btn-light bg-danger" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-minus"></i></a>
-                      @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
-                      <a class="btn btn-light bg-success" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("AddDish", "Order")')"><i class="fas fa-plus"></i></a>
-                    </td>
-                    <td>
-                      @Html.DisplayFor(modelItem => cartDetails.DishPrice)
-                    </td>
-                    <td>
-                      @{
-                        decimal total = cartDetails.DishPrice * cartDetails.DishQuantity;
-                        sum += total;
-                      }
-                      @Html.DisplayFor(modelItem => total)
-                    </td>
-                  </tr>
+                <tr>
+                  <td>
+                    @Html.DisplayFor(modelItem => cartDetails.DishName)
+                  </td>
+                  <td>
+                    @Html.TextAreaFor(m => m.CartDetails[i].Note)
+                  </td>
+                  <td>
+                    <a class="btn btn-light bg-danger" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-minus"></i></a>
+                    @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
+                    <a class="btn btn-light bg-success" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("AddDish", "Order")')"><i class="fas fa-plus"></i></a>
+                  </td>
+                  <td>
+                    @Html.DisplayFor(modelItem => cartDetails.DishPrice)
+                  </td>
+                  <td>
+                    @{
+                      decimal total = cartDetails.DishPrice * cartDetails.DishQuantity;
+                      sum += total;
+                    }
+                    @Html.DisplayFor(modelItem => total)
+                  </td>
+                </tr>
                 }
                 <tr>
                   <td>
