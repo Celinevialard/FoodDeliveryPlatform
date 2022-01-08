@@ -114,7 +114,7 @@ namespace FoodDeliveryPlatform.Controllers
 				Password = editUser.Password
 			});
 
-			return RedirectToAction("Login");
+			return RedirectToAction("Index");
 		}
 
 		public IActionResult SignUp()

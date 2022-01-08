@@ -74,8 +74,9 @@ namespace DAL
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
 					string query = @"SELECT * FROM Person p
-							LEFT JOIN Courrier cr ON p.personId = cr.personId
-							INNER JOIN Customer c ON c.customerId = @customerId";
+								LEFT JOIN Courrier cr ON p.personId = cr.personId
+								LEFT JOIN Customer c ON p.personId = c.personId
+							WHERE c.customerId = @customerId";
 
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@customerId", customerId);
