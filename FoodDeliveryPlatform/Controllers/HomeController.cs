@@ -80,6 +80,7 @@ namespace FoodDeliveryPlatform.Controllers
 
 
 			return View(new UserEditVM { 
+				PersonId = personFromDb.PersonId,
 				Firstname = personFromDb.Firstname,
 				Lastname = personFromDb.Lastname,
 				Address = personFromDb.CustomerInfo.Address,
@@ -104,10 +105,10 @@ namespace FoodDeliveryPlatform.Controllers
 			{
 				CustomerInfo = new Customer
 				{
-					PersonId = editUser.PersonId,
 					Address = editUser.Address,
 					LocationId = editUser.LocationId
 				},
+				PersonId = editUser.PersonId,
 				Firstname = editUser.Firstname,
 				Lastname = editUser.Lastname,
 				Login = editUser.Email,
