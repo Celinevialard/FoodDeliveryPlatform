@@ -445,7 +445,7 @@ namespace FoodDeliveryPlatform.Controllers
                     }
                 }
                 HttpContext.Session.SetString("Cart", cartVM.ToString());
-                return new JsonResult(new { message = "Reussi" });
+                return new JsonResult(new { message = "Réussi" });
             }
             catch (Exception e)
             {
