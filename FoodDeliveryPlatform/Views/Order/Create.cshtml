@@ -49,6 +49,7 @@
                                 </td>
                                 <td>
                                     @Html.TextAreaFor(m => m.CartDetails[i].Note)
+                                    <span asp-validation-for="CartDetails[i].Note" class="text-danger"></span>
                                 </td>
                                 <td>
                                     <a class="btn btn-light bg-danger" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-minus"></i></a>
@@ -67,24 +68,24 @@
                                 </td>
                             </tr>
                         }
-                    <tr>
-                        <td>
-                            <b><i class="fas fa-hand-holding-usd"></i> Total à payer au livreur</b>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                        </td>
-                        <td>
-                            <b>@Html.DisplayFor(modelItem => sum)</b>
-                        </td>
-                    </tr>
+                        <tr>
+                            <td>
+                                <b><i class="fas fa-hand-holding-usd"></i> Total à payer au livreur</b>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <b>@Html.DisplayFor(modelItem => sum)</b>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
-            
+
 
             <script>
                 function ModifyDish(id, url) {
@@ -144,13 +145,12 @@
 }
 else
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Le panier est vide !</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
 
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Le panier est vide</h4>
+        <p>Choisis des plats disponibles dans ta région.</p>
+    </div>
+  
     <a class="btn btn-secondary" asp-controller="Restaurant" asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher les restaurants</a>
 }
 
