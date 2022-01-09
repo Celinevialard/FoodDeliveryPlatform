@@ -53,7 +53,5 @@ namespace BLL
             Person person = PersonDb.GetPersonByCourrier(courrierId);
             return person;
         }
-
-
     }
 }

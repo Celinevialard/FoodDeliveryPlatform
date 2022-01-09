@@ -141,7 +141,42 @@ namespace DAL
 			return result;
 
 		}
-		
+
+		/// <summary>
+		/// Controle si l'identifiant de connection existe déjà
+		/// </summary>
+		/// <param name="login"></param>
+		/// <returns></returns>
+		public bool CheckLoginExist(string login)
+		{
+			bool result = false;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Person p
+							WHERE login = @login";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@login", login);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						result = dr.Read();
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+
+		}
+
 		/// <summary>
 		/// Ajout d'un personne dans la table Person
 		/// </summary>
@@ -241,34 +276,5 @@ namespace DAL
 			return person;
 		}
 
-        public bool CheckLoginExist(string login)
-        {
-			bool result = false;
-			string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-			try
-			{
-				using (SqlConnection cn = new SqlConnection(connectionString))
-				{
-					string query = @"SELECT * FROM Person p
-							WHERE login = @login";
-					SqlCommand cmd = new SqlCommand(query, cn);
-					cmd.Parameters.AddWithValue("@login", login);
-					cn.Open();
-
-					using (SqlDataReader dr = cmd.ExecuteReader())
-					{
-						result = dr.Read();
-					}
-				}
-			}
-			catch (Exception e)
-			{
-				throw e;
-			}
-
-			return result;
-
-		}
 	}
 }

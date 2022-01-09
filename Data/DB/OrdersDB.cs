@@ -249,7 +249,6 @@ namespace DAL
             return order;
         }
 
-
         /// <summary>
         /// Ajout des éléments de la commande spécifique à la table OrderDetail
         /// </summary>
