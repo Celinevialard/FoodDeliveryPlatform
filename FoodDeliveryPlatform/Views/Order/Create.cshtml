@@ -7,135 +7,138 @@
 @if (Model != null)
 {
     <h1>Passer commande</h1>
+    <p><i class="fas fa-info-circle"></i> La livraison se fera à ton adresse enregistrée dans ton compte client</p>
 
-    <h4>Voici ton panier</h4>
     <hr />
-
     <form asp-action="Create">
-      <div class="row">
-        <div class="col-md-4">
-          <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-          @Html.HiddenFor(m => m.RestaurantId)
-          <div class="form-group">
-            <p><i class="fas fa-clock"></i> Date de livraison</p>
-            @Html.DropDownListFor(m => m.DateDelivery, new SelectList(Model.DatesDelivery), new { @class = "form-control" })
-            <span asp-validation-for="DateDelivery" class="text-danger"></span>
-          </div>
-          <div class="form-group">
-            <p><i class="fas fa-pen"></i> Note de commande (facultatif)</p>
-            @Html.TextAreaFor(m => m.OrderNote, new { @class = "form-control" })
-            <span asp-validation-for="OrderNote" class="text-danger"></span>
-          </div>
-        </div>
+
         @if (Model.CartDetails != null && Model.CartDetails.Any())
         {
-          <div class="col-md-8">
-            <table class="w-100">
-              <thead>
-                <tr>
-                  <th>
-                    <i class="fas fa-hamburger"></i> Plat
-                  </th>
-                  <th>
-                    <i class="fas fa-hamburger"></i> Infos
-                  </th>
-                  <th>
-                    <i class="fas fa-list-ol"></i> Quantité
-                  </th>
-                  <th>
-                    <i class="fas fa-tag"></i> Prix unitaire
-                  </th>
-                  <th>
-                    <i class="fas fa-tags"></i> Prix total
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                @{ decimal sum = 0;}
-                @for (int i = 0; i < Model.CartDetails.Count; i++)
-                {
-                  CartDetailsVM cartDetails = Model.CartDetails[i];
-                  @Html.HiddenFor(m => m.CartDetails[i].DishId);
-                  @Html.HiddenFor(m => m.CartDetails[i].DishQuantity);
-                <tr>
-                  <td>
-                    @Html.DisplayFor(modelItem => cartDetails.DishName)
-                  </td>
-                  <td>
-                    @Html.TextAreaFor(m => m.CartDetails[i].Note)
-                  </td>
-                  <td>
-                    <a class="btn btn-light bg-danger" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-minus"></i></a>
-                    @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
-                    <a class="btn btn-light bg-success" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("AddDish", "Order")')"><i class="fas fa-plus"></i></a>
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => cartDetails.DishPrice)
-                  </td>
-                  <td>
-                    @{
-                      decimal total = cartDetails.DishPrice * cartDetails.DishQuantity;
-                      sum += total;
-                    }
-                    @Html.DisplayFor(modelItem => total)
-                  </td>
-                </tr>
+            <h4>Vocici ton panier panier</h4>
+            <div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th width="30%">
+                                <i class="fas fa-hamburger"></i> Plat
+                            </th>
+                            <th width="20%">
+                                <i class="fas fa-sticky-note"></i> Notes au restaurant
+                            </th>
+                            <th width="20%">
+                                <i class="fas fa-list-ol"></i> Quantité
+                            </th>
+                            <th width="15%">
+                                <i class="fas fa-tag"></i> Prix unitaire
+                            </th>
+                            <th width="15%">
+                                <i class="fas fa-tags"></i> Prix total
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{ decimal sum = 0;}
+                        @for (int i = 0; i < Model.CartDetails.Count; i++)
+                        {
+                            CartDetailsVM cartDetails = Model.CartDetails[i];
+                            @Html.HiddenFor(m => m.CartDetails[i].DishId);
+                            @Html.HiddenFor(m => m.CartDetails[i].DishQuantity);
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => cartDetails.DishName)
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(m => m.CartDetails[i].Note)
+                                </td>
+                                <td>
+                                    <a class="btn btn-light bg-danger" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("RemoveDish", "Order")')"><i class="fas fa-minus"></i></a>
+                                    @Html.DisplayFor(modelItem => cartDetails.DishQuantity)
+                                    <a class="btn btn-light bg-success" onclick="ModifyDish(@cartDetails.DishId,'@Url.Action("AddDish", "Order")')"><i class="fas fa-plus"></i></a>
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => cartDetails.DishPrice)
+                                </td>
+                                <td>
+                                    @{
+                                        decimal total = cartDetails.DishPrice * cartDetails.DishQuantity;
+                                        sum += total;
+                                    }
+                                    @Html.DisplayFor(modelItem => total)
+                                </td>
+                            </tr>
+                        }
+                        <tr>
+                            <td>
+                                <b><i class="fas fa-hand-holding-usd"></i> Total à payer au livreur</b>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                            </td>
+                            <td>
+                                <b>@Html.DisplayFor(modelItem => sum)</b>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+
+            <script>
+                function ModifyDish(id, url) {
+                    $.ajax(url + '/' + id,
+                        {
+                            type: 'POST',
+                            timeout: 500,
+                            dataType: 'json',
+                            success: function (data, status, xhr) {   // success callback function
+                                if (data.message == "Reussi") {
+                                    var nbr = parseInt($("#CartInfo").text());
+                                    if (url.includes('AddDish'))
+                                        $("#CartInfo").text(nbr + 1);
+                                    else
+                                        $("#CartInfo").text(nbr - 1);
+                                    location.reload();
+                                }
+                                else {
+                                    $(".alert").removeClass("d-none")
+                                    $(".alert p").text(data.message)
+                                }
+
+                            },
+                            error: function (jqXhr, textStatus, errorMessage) { // error callback
+                                alert("Erreur!");
+                                console.log(errorMessage);
+                            }
+                        });
                 }
-                <tr>
-                  <td>
-                    <b><i class="fas fa-hand-holding-usd"></i> Total à payer au livreur</b>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                  </td>
-                  <td>
-                    @Html.DisplayFor(modelItem => sum)
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-          <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-secondary">
-            <i class="fas fa-arrow-circle-left"></i> Continuer ma commande
-          </a>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-check"></i> Valider la commande
-          </button>
-
-          <script>
-            function ModifyDish(id, url) {
-              $.ajax(url + '/' + id,
-                {
-                  type: 'POST',
-                  timeout: 500,
-                  dataType: 'json',
-                  success: function (data, status, xhr) {   // success callback function
-                    if (data.message == "Reussi") {
-                      var nbr = parseInt($("#CartInfo").text());
-                      if (url.includes('AddDish'))
-                        $("#CartInfo").text(nbr + 1);
-                      else
-                        $("#CartInfo").text(nbr - 1);
-                      location.reload();
-                    }
-                    else {
-                      $(".alert").removeClass("d-none")
-                      $(".alert p").text(data.message)
-                    }
-
-                  },
-                  error: function (jqXhr, textStatus, errorMessage) { // error callback
-                    alert("Erreur!");
-                    console.log(errorMessage);
-                  }
-                });
-            }
-          </script>
+            </script>
         }
-
-      </div>
-        </form>
+        <hr />
+        <div>
+            <h5>Informations de livraison</h5>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @Html.HiddenFor(m => m.RestaurantId)
+            <div class="form-group">
+                <p><i class="fas fa-clock"></i> Date de livraison</p>
+                @Html.DropDownListFor(m => m.DateDelivery, new SelectList(Model.DatesDelivery), new { @class = "form-control" })
+                <span asp-validation-for="DateDelivery" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <p><i class="fas fa-pen"></i> Infos pour le livreur (facultatif)</p>
+                @Html.TextAreaFor(m => m.OrderNote, new { @class = "form-control" })
+                <span asp-validation-for="OrderNote" class="text-danger"></span>
+            </div>
+        </div>
+        <div>
+            <a asp-controller="Restaurant" asp-action="Details" asp-route-id="@Model.RestaurantId" class="btn btn-secondary">
+                <i class="fas fa-arrow-circle-left"></i> Continuer ma commande
+            </a>
+            <button type="submit" class="btn btn-success">
+                <i class="fas fa-check"></i> Valider la commande
+            </button>
+        </div>
+    </form>
 }
 else
 {
