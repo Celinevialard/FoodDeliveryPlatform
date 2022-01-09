@@ -134,7 +134,7 @@
   {
     <a class="btn btn-success" href="@Url.Action("Deliver", "Order", new { id = Model.OrderId })"> <i class="fas fa-clipboard-check"></i> Commande livrée</a>
   }
-  else if (Model.OrderDate >= DateTime.Now.AddHours(3))
+  else if (Model.OrderDate >= DateTime.Now.AddHours(3) && Model.Status == DTO.OrderStatusEnum.Delivering)
   {
     <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = Model.OrderId })"> <i class="fas fa-trash"></i> Annuler commande</a>
   }
