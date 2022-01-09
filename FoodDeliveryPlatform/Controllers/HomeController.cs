@@ -218,7 +218,7 @@ namespace FoodDeliveryPlatform.Controllers
 
                 locations = LocationManager.GetLocations();
                 signUp.Locations = locations;
-                ModelState.AddModelError("Email", "Veuillez utiliser un autre email");
+                ModelState.AddModelError("Email", "Utilise une autre adresse email");
                 return View(signUp);
             }
             catch (Exception e)
@@ -255,7 +255,7 @@ namespace FoodDeliveryPlatform.Controllers
                 var person = PersonManager.GetPersonByLogin(login.Email, login.Password);
                 if (person == null)
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid email or password");
+                    ModelState.AddModelError(string.Empty, "Email ou mot de passe non valable");
                     return View(login);
                 }
                 UserVM user = new()

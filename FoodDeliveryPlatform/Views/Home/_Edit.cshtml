@@ -47,6 +47,7 @@
         @if (Model.PersonId > 0)
         {
           <input asp-for="Email" class="form-control" disabled />
+          @Html.HiddenFor(m => m.Email)
         }
         else
         {

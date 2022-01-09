@@ -46,7 +46,7 @@
           }
           else
           {
-            <p class="navbar-text mr-auto text-white font-weight-light"> @greetings @person.Firstname ! </p>
+            <p class="navbar-text mr-auto text-white font-weight-light"> @greetings @person.Firstname, bon travail !</p>
           }
           <div class="navbar-nav">
             <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() != "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">

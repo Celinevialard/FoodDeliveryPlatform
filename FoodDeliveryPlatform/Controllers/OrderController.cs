@@ -366,7 +366,7 @@ namespace FoodDeliveryPlatform.Controllers
                 Dish dish = DishManager.GetDish(id);
                 if (HttpContext.Session.GetString("User") == null)
                 {
-                    return new JsonResult(new { message = "pas connecter" });
+                    return new JsonResult(new { message = "Reconnecte toi" });
                 }
                 CartVM cartVM;
                 if (HttpContext.Session.GetString("Cart") == null)
@@ -432,12 +432,12 @@ namespace FoodDeliveryPlatform.Controllers
                 Dish dish = DishManager.GetDish(id);
                 if (HttpContext.Session.GetString("User") == null)
                 {
-                    return new JsonResult(new { message = "pas connecter" });
+                    return new JsonResult(new { message = "Reconnecte toi" });
                 }
                 CartVM cartVM;
                 if (HttpContext.Session.GetString("Cart") == null)
                 {
-                    return new JsonResult(new { message = "Vous n'avez pas de panier." });
+                    return new JsonResult(new { message = "Pas de panier disponible" });
                 }
                 else
                 {
@@ -465,7 +465,7 @@ namespace FoodDeliveryPlatform.Controllers
                     HttpContext.Session.Remove("Cart");
                 else
                     HttpContext.Session.SetString("Cart", cartVM.ToString());
-                return new JsonResult(new { message = "Reussi" });
+                return new JsonResult(new { message = "Réussi" });
             }
             catch (Exception e)
             {

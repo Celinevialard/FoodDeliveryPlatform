@@ -24,7 +24,7 @@ Values (@beefore,'Beefore',19.50,
 (@beefore,'Chupa Chips',10,
 'Notre spécialité de chips faites maison',
 '', 
-'chips.jpg');
+'chips.png');
 
 DECLARE @crepe INT;
 SELECT @crepe = restaurantid FROM Restaurant WHERE restaurantname='Crêperie Le Rustique';
@@ -36,7 +36,7 @@ Values (@crepe,'Crêpe Valaisanne',17,
 (@crepe,'Crêpe Paysanne',16,
 'jambon, fromage au poivre, sauce tomate, oeuf',
 'oeuf', 
-'crepePaysanne.jpg');
+'crepePaysanne.png');
 
 
 DECLARE @pom INT;
