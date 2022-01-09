@@ -59,7 +59,7 @@ namespace BLL
             }
 
 
-            if (restaurants == null)
+            if (restaurants == null )
                 return null;
 
             foreach (Restaurant restaurant in restaurants)
@@ -73,7 +73,11 @@ namespace BLL
 
         public Restaurant GetRestaurantById(int idRestaurant)
         {
-            return RestaurantsDb.GetRestaurantsById(idRestaurant);
+            Restaurant restaurant = RestaurantsDb.GetRestaurantsById(idRestaurant);
+            if (restaurant == null)
+                return null;
+            restaurant.Location = LocationsDb.GetLocationById(restaurant.LocationId);
+            return restaurant;
         }
 
 

@@ -40,9 +40,15 @@
 
         @if (person != null)
         {
-
           <!-- TODO modifier utilisateur-->
-          <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@person.PersonId"> @greetings @person.Firstname ! </a>
+          @if (person.CustomerInfo != null)
+          {
+            <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@person.PersonId"> @greetings @person.Firstname ! </a>
+          }
+          else
+          {
+            <p class="navbar-text mr-auto text-white font-weight-light"> @greetings @person.Firstname ! </p>
+          }
           <div class="navbar-nav">
             <a class="nav-item nav-link @(ViewContext.RouteData.Values["Controller"].ToString() == "Order" && ViewContext.RouteData.Values["Action"].ToString() != "Create" ? "active" : "")" asp-area="" asp-controller="Order" asp-action="Index">
               <i class="fas fa-clipboard-list"></i> Commandes

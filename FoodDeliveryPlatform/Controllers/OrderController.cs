@@ -184,7 +184,6 @@ namespace FoodDeliveryPlatform.Controllers
                     cartVM = null;
                 Order order = CartToOrder(cartVM);
                 order.CustomerId = person.CustomerInfo.CustomerId;
-
                 
                 List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
                 
@@ -223,7 +222,8 @@ namespace FoodDeliveryPlatform.Controllers
 
                 Order order = CartToOrder(cart);
                 order.CustomerId = person.CustomerInfo.CustomerId;
-
+                order.LocationId = person.CustomerInfo.LocationId;
+                order.Address = person.CustomerInfo.Address;
                 if (!ModelState.IsValid)
                 {
                     List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
@@ -272,6 +272,7 @@ namespace FoodDeliveryPlatform.Controllers
             order.OrderDate = cart.DateDelivery;
             order.OrderNote = cart.OrderNote;
             order.Details = new();
+            order.RestaurantId = cart.RestaurantId;
 
             foreach (CartDetailsVM cartDetails in cart.CartDetails)
             {

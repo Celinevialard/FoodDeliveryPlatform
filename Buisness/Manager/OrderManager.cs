@@ -31,7 +31,9 @@ namespace BLL
         public List<Order> GetOrdersByCourrier(int courrierId)
         {
             List<Order> orders = OrdersDb.GetOrdersByCourrier(courrierId);
-            foreach(Order o in orders)
+            if (orders == null || !orders.Any())
+                return null;
+            foreach (Order o in orders)
             {
                 o.Location = LocationsDb.GetLocationById(o.LocationId);
             }
@@ -42,6 +44,8 @@ namespace BLL
         public List<Order> GetOrdersByCustomer(int customerId)
         {
             List<Order> orders = OrdersDb.GetOrdersByCustomer(customerId);
+            if(orders ==null || !orders.Any())
+                return null;
             foreach (Order o in orders)
             {
                 o.Location = LocationsDb.GetLocationById(o.LocationId);
@@ -53,6 +57,8 @@ namespace BLL
         public Order GetOrder(int id)
         {
             Order o = OrdersDb.GetOrder(id);
+            if (o == null )
+                return null;
             o.Location = LocationsDb.GetLocationById(o.LocationId);
             return o;
         }
