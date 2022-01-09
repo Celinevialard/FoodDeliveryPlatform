@@ -141,7 +141,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "UPDATE Person SET Firstname = @Firstname, Name = @Name, Login = @Login, Password=@Password WHERE PersonId = @PersonId";
+					string query = "UPDATE Person SET Firstname = @Firstname, Name = @Name, Login = @Login, Password = @Password WHERE PersonId = @PersonId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("PersonId", person.PersonId);
 					cmd.Parameters.AddWithValue("Firstname", person.Firstname);
