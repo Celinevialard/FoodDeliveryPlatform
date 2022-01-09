@@ -3,6 +3,7 @@ using DTO;
 using FoodDeliveryPlatform.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -160,7 +161,15 @@ namespace FoodDeliveryPlatform.Controllers
                 cartVM = null;
             Order order = CartToOrder(cartVM);
             order.CustomerId = person.CustomerInfo.CustomerId;
-            cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
+
+            //TODO check it
+            List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+            if (dateTimes == null || !dateTimes.Any())
+                return View(null);
+           
+            cartVM.DatesDelivery = dateTimes;
+
+
             return View(cartVM);
         }
        
