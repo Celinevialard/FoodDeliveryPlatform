@@ -16,28 +16,45 @@ namespace BLL
         private IRestaurantsDB RestaurantsDb { get; }
         private ICourriersDB CourriersDb { get; }
         private ICustomersDB CustomersDb { get; }
-        public OrderManager(IOrdersDB ordersDB, IDishesDB dishesDB, IRestaurantsDB restaurantsDB, ICourriersDB courriersDB, ICustomersDB customersDB)
+        public ILocationsDB LocationsDb { get; private set; }
+
+        public OrderManager(IOrdersDB ordersDB, IDishesDB dishesDB, IRestaurantsDB restaurantsDB, ICourriersDB courriersDB, ICustomersDB customersDB, ILocationsDB locationsDB)
         {
             OrdersDb = ordersDB;
             CustomersDb = customersDB;
             DishesDb = dishesDB;
             CourriersDb = courriersDB;
             RestaurantsDb = restaurantsDB;
+            LocationsDb = locationsDB;
         }
 
         public List<Order> GetOrdersByCourrier(int courrierId)
         {
-            return OrdersDb.GetOrdersByCourrier(courrierId);
+            List<Order> orders = OrdersDb.GetOrdersByCourrier(courrierId);
+            foreach(Order o in orders)
+            {
+                o.Location = LocationsDb.GetLocationById(o.LocationId);
+            }
+
+            return orders;
         }
 
         public List<Order> GetOrdersByCustomer(int customerId)
         {
-            return OrdersDb.GetOrdersByCustomer(customerId);
+            List<Order> orders = OrdersDb.GetOrdersByCustomer(customerId);
+            foreach (Order o in orders)
+            {
+                o.Location = LocationsDb.GetLocationById(o.LocationId);
+            }
+
+            return orders;
         }
 
         public Order GetOrder(int id)
         {
-            return OrdersDb.GetOrder(id);
+            Order o = OrdersDb.GetOrder(id);
+            o.Location = LocationsDb.GetLocationById(o.LocationId);
+            return o;
         }
 
         /// <summary>
