@@ -77,36 +77,44 @@ namespace BLL
         /// <returns></returns>
         public List<DateTime> GetDateDelivery(Order order)
         {
+
+
             List<DateTime> dateDelivery = new List<DateTime>();
             List<DateTime> datePossible = new List<DateTime>();
             (int depart, int arrivee) = GetLocalites(order);
             List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
-            // TODO enlever tranche si pas de delever dispo
-            foreach (Courrier courrier in courriers)
-            {
-                courrier.Orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
-            }
-            for (int i = 0; i < 4 * 6; i++)
-            {
-                DateTime time;
-                if (i == 0)
-                {
-                    time = DateTime.Now;
-                    time = time.AddMinutes(15 - time.Minute % 15);
-                    time = time.AddSeconds(0 - time.Second);
-                }
-                else
-                {
-                    time = datePossible[i-1].AddMinutes(15);
-                }
-                datePossible.Add(time);
-                int index = GetCourrierIdDispo(courriers, time);
 
-                if (index > 0)
-                    dateDelivery.Add(time);
+            if(courriers!= null &&  !courriers.Any())
+            {
+                // TODO enlever tranche si pas de delever dispo
+                foreach (Courrier courrier in courriers)
+                {
+                    courrier.Orders = OrdersDb.GetOrdersByCourrier(courrier.CourrierId);
+                }
+                for (int i = 0; i < 4 * 6; i++)
+                {
+                    DateTime time;
+                    if (i == 0)
+                    {
+                        time = DateTime.Now;
+                        time = time.AddMinutes(15 - time.Minute % 15);
+                        time = time.AddSeconds(0 - time.Second);
+                    }
+                    else
+                    {
+                        time = datePossible[i - 1].AddMinutes(15);
+                    }
+                    datePossible.Add(time);
+                    int index = GetCourrierIdDispo(courriers, time);
+
+                    if (index > 0)
+                        dateDelivery.Add(time);
+                }
+
+                return dateDelivery;
             }
 
-            return dateDelivery;
+            return null;
         }
 
         /// <summary>

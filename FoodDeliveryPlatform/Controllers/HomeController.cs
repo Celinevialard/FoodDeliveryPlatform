@@ -115,6 +115,7 @@ namespace FoodDeliveryPlatform.Controllers
 				Password = editUser.Password
 			});
 
+			//TODO faire en sorte que quand on met à jour pas besoin de se déconnecter pour avoir une liste de restaurants a jour
 			return RedirectToAction("Index");
 		}
 
