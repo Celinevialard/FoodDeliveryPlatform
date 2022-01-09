@@ -44,7 +44,14 @@
 
       <div class="form-group">
         <label class="control-label"><i class="fas fa-envelope"></i> E-Mail</label>
-        <input asp-for="Email" class="form-control" />
+        @if (Model.PersonId > 0)
+        {
+          <input asp-for="Email" class="form-control" disabled />
+        }
+        else
+        {
+          <input asp-for="Email" class="form-control" />
+        }
         <span asp-validation-for="Email" class="text-danger"></span>
       </div>
       <div class="form-group">

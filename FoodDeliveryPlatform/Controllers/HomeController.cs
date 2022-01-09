@@ -149,8 +149,7 @@ namespace FoodDeliveryPlatform.Controllers
                     PersonId = editUser.PersonId,
                     Firstname = editUser.Firstname,
                     Lastname = editUser.Lastname,
-                    Login = editUser.Email,
-                    Password = editUser.Password
+                    Login = editUser.Email
                 });
 
                 return RedirectToAction("Logout");
@@ -194,14 +193,15 @@ namespace FoodDeliveryPlatform.Controllers
         {
             try
             {
+                List<Location> locations;
                 if (!ModelState.IsValid)
                 {
-                    List<Location> locations = LocationManager.GetLocations();
+                    locations = LocationManager.GetLocations();
                     signUp.Locations = locations;
                     return View(signUp);
                 }
 
-                CustomerManager.AddCustomer(new Person
+                bool created = CustomerManager.AddCustomer(new Person
                 {
                     CustomerInfo = new Customer
                     {
@@ -213,8 +213,13 @@ namespace FoodDeliveryPlatform.Controllers
                     Login = signUp.Email,
                     Password = signUp.Password
                 });
+                if(created)
+                    return RedirectToAction("Login");
 
-                return RedirectToAction("Login");
+                locations = LocationManager.GetLocations();
+                signUp.Locations = locations;
+                ModelState.AddModelError("Email", "Veuillez utiliser un autre email");
+                return View(signUp);
             }
             catch (Exception e)
             {

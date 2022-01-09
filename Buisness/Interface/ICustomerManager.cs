@@ -4,7 +4,7 @@ namespace BLL
 {
     public interface ICustomerManager
     {
-        void AddCustomer(Person person);
+        bool AddCustomer(Person person);
         void UpdateCustomer(Person person);
     }
 

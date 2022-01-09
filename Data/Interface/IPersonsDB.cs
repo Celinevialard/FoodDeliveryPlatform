@@ -11,5 +11,6 @@ namespace DAL
 		Person GetPersonByCourrier(int courrierId);
 
 		bool UpdatePerson(Person person);
+        bool CheckLoginExist(string login);
     }
 }

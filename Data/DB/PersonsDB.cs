@@ -188,13 +188,12 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = "UPDATE Person SET Firstname = @Firstname, Name = @Name, Login = @Login, Password = @Password WHERE PersonId = @PersonId";
+					string query = "UPDATE Person SET Firstname = @Firstname, Name = @Name, Login = @Login WHERE PersonId = @PersonId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("PersonId", person.PersonId);
 					cmd.Parameters.AddWithValue("Firstname", person.Firstname);
 					cmd.Parameters.AddWithValue("Name", person.Lastname);
 					cmd.Parameters.AddWithValue("Login", person.Login);
-					cmd.Parameters.AddWithValue("Password", person.Password);
 
 					cn.Open();
 
@@ -240,6 +239,36 @@ namespace DAL
 			}
 
 			return person;
+		}
+
+        public bool CheckLoginExist(string login)
+        {
+			bool result = false;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Person p
+							WHERE login = @login";
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@login", login);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						result = dr.Read();
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+
 		}
 	}
 }

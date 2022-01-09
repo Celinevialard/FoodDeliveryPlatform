@@ -23,11 +23,14 @@ namespace BLL
         /// Création d'un nouveau customer avec infos générales traitées dans PersonDb et specifiques au client dans CustomerDb
         /// </summary>
         /// <param name="person"></param>
-        public void AddCustomer(Person person)
+        public bool AddCustomer(Person person)
         {
+            if (PersonDb.CheckLoginExist(person.Login))
+                return false;
             person = PersonDb.AddPerson(person);
             person.CustomerInfo.PersonId = person.PersonId;
             CustomerDb.AddCustomer(person.CustomerInfo);
+            return true;
         }
 
         /// <summary>
