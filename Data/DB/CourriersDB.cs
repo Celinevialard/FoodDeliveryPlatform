@@ -16,6 +16,7 @@ namespace DAL
 		{
 			Configuration = configuration;
 		}
+
 		/// <summary>
 		/// Inserzion d'un livreur dans la table Courrier
 		/// </summary>
@@ -89,7 +90,11 @@ namespace DAL
 
 		}
 
-
+		/// <summary>
+		/// Recupère une list de courrerid pour une localité
+		/// </summary>
+		/// <param name="locationId"></param>
+		/// <returns></returns>
 		public List<int> GetCourriersIdByLocationId(int locationId)
         {
 			List<int> results = null;
@@ -180,6 +185,11 @@ namespace DAL
 			return results;
 		}
 
+		/// <summary>
+		/// Rempli un objet courrier avec les infos qui viennent de la base de donnée
+		/// </summary>
+		/// <param name="dr"></param>
+		/// <returns></returns>
 		private Courrier ReadCourrier(SqlDataReader dr)
 		{
 			Courrier courrier = new Courrier();

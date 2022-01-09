@@ -94,6 +94,11 @@ namespace DAL
 
 		}
 
+		/// <summary>
+		/// Rempli un objet restaurant avec les infos qui viennent de la base de donnée
+		/// </summary>
+		/// <param name="dr"></param>
+		/// <returns></returns>
 		private Restaurant ReadRestaurant(SqlDataReader dr)
 		{
 			Restaurant restaurant = new Restaurant();

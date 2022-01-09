@@ -28,6 +28,11 @@ namespace BLL
             LocationsDb = locationsDB;
         }
 
+        /// <summary>
+        /// Liste les commandes pour un livreur
+        /// </summary>
+        /// <param name="courrierId"></param>
+        /// <returns></returns>
         public List<Order> GetOrdersByCourrier(int courrierId)
         {
             List<Order> orders = OrdersDb.GetOrdersByCourrier(courrierId);
@@ -41,6 +46,11 @@ namespace BLL
             return orders;
         }
 
+        /// <summary>
+        /// Liste les commandes pour un client
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public List<Order> GetOrdersByCustomer(int customerId)
         {
             List<Order> orders = OrdersDb.GetOrdersByCustomer(customerId);
@@ -54,6 +64,11 @@ namespace BLL
             return orders;
         }
 
+        /// <summary>
+        /// Récupère une commande
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Order GetOrder(int id)
         {
             Order o = OrdersDb.GetOrder(id);

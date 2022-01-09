@@ -13,7 +13,7 @@ namespace FoodDeliveryPlatform.Models
 		public string Address { get; set; }
 
 		[Required]
-        [Range(minimum: 1, maximum: int.MaxValue,ErrorMessage = "Ce champs est obligatoire et doit être séléctionné dans la liste proposé")]
+        [Range(minimum: 1, maximum: int.MaxValue,ErrorMessage = "Ce champ est obligatoire et doit être séléctionné dans la liste proposée.")]
 		public int LocationId { get; set; }
 
 		[StringLength(25)]

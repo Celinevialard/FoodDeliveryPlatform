@@ -19,6 +19,7 @@ namespace BLL
             PersonDb = personsDB;
             LocationsDb = locationsDb;
         }
+
         /// <summary>
         /// Obtenir le profil du client/livreur
         /// </summary>
@@ -29,12 +30,24 @@ namespace BLL
         {
             return PersonDb.GetPersonByLogin(login, password);
         }
+
+        /// <summary>
+        /// Recupère une personne en fonction du customer id
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <returns></returns>
         public Person GetPersonByCustomer(int customerId)
         {
             Person person = PersonDb.GetPersonByCustomer(customerId);
             person.CustomerInfo.Location = LocationsDb.GetLocationById(person.CustomerInfo.LocationId);
             return person;
         }
+
+        /// <summary>
+        /// Récupère une personne en fonction du courrier id
+        /// </summary>
+        /// <param name="courrierId"></param>
+        /// <returns></returns>
         public Person GetPersonByCourrier(int courrierId)
         {
             Person person = PersonDb.GetPersonByCourrier(courrierId);

@@ -19,7 +19,6 @@ namespace BLL
             PersonDb = personsDB;
         }
 
-
         /// <summary>
         /// Création d'un nouveau customer avec infos générales traitées dans PersonDb et specifiques au client dans CustomerDb
         /// </summary>
@@ -31,6 +30,10 @@ namespace BLL
             CustomerDb.AddCustomer(person.CustomerInfo);
         }
 
+        /// <summary>
+        /// Mise à jour d'un customer
+        /// </summary>
+        /// <param name="person"></param>
         public void UpdateCustomer(Person person)
         {
             PersonDb.UpdatePerson(person);

@@ -11,12 +11,6 @@ namespace DAL
 {
     public class OrdersDB : IOrdersDB
     {
-
-        // Liste par customer??
-
-        // Insert -> attention insert aussi dans details!
-
-
         private IConfiguration Configuration { get; }
 
         public OrdersDB(IConfiguration configuration)
@@ -24,6 +18,12 @@ namespace DAL
             Configuration = configuration;
         }
 
+        /// <summary>
+        /// Mise à jour du status d'une commande
+        /// </summary>
+        /// <param name="orderId"></param>
+        /// <param name="status"></param>
+        /// <returns></returns>
         public bool UpdateOrder(int orderId, OrderStatusEnum status)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -127,6 +127,12 @@ namespace DAL
             }
             return results;
         }
+
+        /// <summary>
+        /// Récupération d'une commande
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public Order GetOrder(int id)
         {
             string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -276,6 +282,11 @@ namespace DAL
             return orderDetail;
         }
 
+        /// <summary>
+        /// Rempli un objet order avec les infos qui viennent de la base de donnée
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <returns></returns>
         private Order ReadOrder(SqlDataReader dr)
         {
             Order entity = new Order();
@@ -309,6 +320,11 @@ namespace DAL
             return entity;
         }
 
+        /// <summary>
+        /// Rempli un objet orderDetail avec les infos qui viennent de la base de donnée
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <returns></returns>
         private OrderDetail ReadOrderDetails(SqlDataReader dr)
         {
             OrderDetail entity = new OrderDetail();

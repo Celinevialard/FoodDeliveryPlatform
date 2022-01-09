@@ -175,6 +175,11 @@ namespace DAL
 			return person;
 		}
 
+		/// <summary>
+		/// Mise à jour d'une personne
+		/// </summary>
+		/// <param name="person"></param>
+		/// <returns></returns>
 		public bool UpdatePerson(Person person)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -204,6 +209,11 @@ namespace DAL
 			return true;
 		}
 
+		/// <summary>
+		/// Rempli un objet person avec les infos qui viennent de la base de donnée
+		/// </summary>
+		/// <param name="dr"></param>
+		/// <returns></returns>
 		private Person ReadPerson(SqlDataReader dr)
 		{
 			Person person = new Person();

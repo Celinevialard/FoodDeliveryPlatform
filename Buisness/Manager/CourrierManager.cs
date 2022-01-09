@@ -17,6 +17,7 @@ namespace BLL
         {
             CourrierDb = courriersDB;
         }
+
         /// <summary>
         /// Création d'un nouveau livreur étant déjà dans la base de person
         /// </summary>
@@ -25,8 +26,6 @@ namespace BLL
         {
             CourrierDb.AddCourrier(courrier);
         }
-
-
 
         /// <summary>
         /// Obtenir les zones de livraison d'un livreur
@@ -38,8 +37,5 @@ namespace BLL
             List<int> locations = CourrierDb.GetLocationsByCourrierId(courrierId);
             return locations;
         }
-
-
-
     }
 }

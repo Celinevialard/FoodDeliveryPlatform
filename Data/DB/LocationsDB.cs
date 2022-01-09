@@ -168,8 +168,11 @@ namespace DAL
 			return result;
 		}
 
-
-
+		/// <summary>
+		/// Rempli un objet location avec les infos qui viennent de la base de donnée
+		/// </summary>
+		/// <param name="dr"></param>
+		/// <returns></returns>
 		private Location ReadLocality(SqlDataReader dr)
 		{
 			Location location = new Location();

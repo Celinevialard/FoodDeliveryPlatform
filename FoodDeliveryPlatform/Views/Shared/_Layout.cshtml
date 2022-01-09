@@ -40,7 +40,6 @@
 
         @if (person != null)
         {
-          <!-- TODO modifier utilisateur-->
           @if (person.CustomerInfo != null)
           {
             <a class="navbar-text mr-auto text-white font-weight-light" asp-area="" asp-controller="Home" asp-action="Edit" asp-route-id="@person.PersonId"> @greetings @person.Firstname ! </a>

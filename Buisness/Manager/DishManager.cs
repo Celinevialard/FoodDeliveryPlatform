@@ -27,6 +27,11 @@ namespace BLL
             return DishesDb.GetDishesByRestaurantId(RestaurantId);
         }
 
+        /// <summary>
+        /// Recuper un plat en fonction de son id
+        /// </summary>
+        /// <param name="dishId"></param>
+        /// <returns></returns>
         public Dish GetDish(int dishId)
         {
             return DishesDb.GetDishById(dishId);

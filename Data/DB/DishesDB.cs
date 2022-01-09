@@ -52,7 +52,6 @@ namespace DAL
             return result;
         }
 
-
         /// <summary>
         /// Récupération de la liste de tout les plats d'un restaurant par son Id dans la table Dish
         /// </summary>
@@ -94,6 +93,11 @@ namespace DAL
 
         }
 
+        /// <summary>
+        /// Rempli un objet dish avec les infos qui viennent de la base de donnée
+        /// </summary>
+        /// <param name="dr"></param>
+        /// <returns></returns>
         private Dish ReadDish(SqlDataReader dr)
         {
             Dish dish = new Dish();

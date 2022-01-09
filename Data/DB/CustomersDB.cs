@@ -51,7 +51,11 @@ namespace DAL
 			return customer;
 		}
 
-
+		/// <summary>
+		/// Mise à jour d'un customer
+		/// </summary>
+		/// <param name="customer"></param>
+		/// <returns></returns>
 		public bool UpdateCustomer(Customer customer)
 		{
 			string connectionString = Configuration.GetConnectionString("DefaultConnection");
@@ -117,6 +121,11 @@ namespace DAL
 			return result;
 		}
 
+		/// <summary>
+		/// Rempli un objet customer avec les infos qui viennent de la base de donnée
+		/// </summary>
+		/// <param name="dr"></param>
+		/// <returns></returns>
 		private Customer ReadCustomer(SqlDataReader dr)
 		{
 			Customer entity = new Customer();

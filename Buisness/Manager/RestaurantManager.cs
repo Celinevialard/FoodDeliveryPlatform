@@ -10,7 +10,6 @@ namespace BLL
     {
         private IRestaurantsDB RestaurantsDb { get; }
         private ILocationsDB LocationsDb { get; }
-
         private ICourriersDB CourriersDb { get; }
         public RestaurantManager(IRestaurantsDB restaurantsDB, ILocationsDB locationsDB, ICourriersDB courriersDB)
         {
@@ -19,8 +18,11 @@ namespace BLL
             CourriersDb = courriersDB;
         }
 
-
-
+        /// <summary>
+        /// Récupère une liste de restaurant en fonction d'une localité
+        /// </summary>
+        /// <param name="locationId"></param>
+        /// <returns></returns>
         public List<Restaurant> GetRestaurantByLocation(int locationId)
         {
             List<Restaurant> restaurants = new List<Restaurant>();
@@ -32,20 +34,12 @@ namespace BLL
             if (courriersId == null)
                 return null;
 
-            //BUG si habite une région non livrable
             foreach (int courrierId in courriersId)
             {
                 List<int> locationsTemp = CourriersDb.GetLocationsByCourrierId(courrierId);
                 if (locationsTemp != null)
                     locationsId.AddRange(locationsTemp);
             }
-
-
-            //DONE
-            //Etape1 : obtenir la liste des livreurs pour un locationId à créer
-            //Etapre2: obtenir la liste des localités pour chaque livreur
-            //boucler sur la liste des localités .addRange
-
 
             foreach (int location in locationsId)
             {
@@ -58,7 +52,6 @@ namespace BLL
                 }
             }
 
-
             if (restaurants == null )
                 return null;
 
@@ -70,7 +63,11 @@ namespace BLL
             return restaurants;
         }
 
-
+        /// <summary>
+        /// Récupère un restaurant par son id
+        /// </summary>
+        /// <param name="idRestaurant"></param>
+        /// <returns></returns>
         public Restaurant GetRestaurantById(int idRestaurant)
         {
             Restaurant restaurant = RestaurantsDb.GetRestaurantsById(idRestaurant);
@@ -79,25 +76,6 @@ namespace BLL
             restaurant.Location = LocationsDb.GetLocationById(restaurant.LocationId);
             return restaurant;
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         /// <summary>
         /// Liste les restaurants en fonction de la localite saisie
@@ -116,6 +94,5 @@ namespace BLL
             return restaurants;
 
         }
-
     }
 }
