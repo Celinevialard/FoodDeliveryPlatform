@@ -84,7 +84,10 @@ namespace BLL
             (int depart, int arrivee) = GetLocalites(order);
             List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
 
-            
+
+            if (courriers == null || !courriers.Any())
+                return dateDelivery;
+
                 // TODO enlever tranche si pas de delever dispo
                 foreach (Courrier courrier in courriers)
                 {

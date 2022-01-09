@@ -179,15 +179,18 @@ namespace FoodDeliveryPlatform.Controllers
                 Order order = CartToOrder(cartVM);
                 order.CustomerId = person.CustomerInfo.CustomerId;
 
-                //TODO check it
-                cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
-                //List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
-                /*
+                
+                List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+                
                 if (dateTimes == null || !dateTimes.Any())
+                {
+                    HttpContext.Session.Remove("Cart");
                     return View(null);
-               */
-                // cartVM.DatesDelivery = dateTimes;
 
+                }
+
+                cartVM.DatesDelivery = dateTimes;
+                
 
                 return View(cartVM);
             }
@@ -214,6 +217,23 @@ namespace FoodDeliveryPlatform.Controllers
 
                 Order order = CartToOrder(cart);
                 order.CustomerId = person.CustomerInfo.CustomerId;
+
+                if (!ModelState.IsValid)
+                {
+                    List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+
+                    if (dateTimes == null || !dateTimes.Any())
+                    {
+                        HttpContext.Session.Remove("Cart");
+                        return View(null);
+
+                    }
+
+                    cart.DatesDelivery = dateTimes;
+
+                    return View(cart);
+                }
+
                 OrderManager.CreateOrder(order);
 
                 // delete session cart

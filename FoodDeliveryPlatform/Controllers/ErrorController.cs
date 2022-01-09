@@ -15,11 +15,11 @@ namespace FoodDeliveryPlatform.Controllers
             switch (errorCode)
             {
                 case HttpStatusCode.Unauthorized:
-                    errorMessage ??= "Accès non autoriser.";
+                    errorMessage ??= "Accès non autorisé.";
                     break;
                 case HttpStatusCode.InternalServerError:
                 default:
-                    errorMessage ??= "Une erreur est survenu.";
+                    errorMessage ??= "Une erreur est survenue.";
                     break;
 
             }
