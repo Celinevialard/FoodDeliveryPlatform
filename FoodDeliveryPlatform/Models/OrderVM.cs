@@ -44,5 +44,19 @@ namespace FoodDeliveryPlatform.Models
 		public string OrderDetailsNote { get; set; } = string.Empty;
 	}
 
+	public class OrderCancelVM
+	{
+		public int OrderId { get; set; }
 
+		[Required]
+		public int OrderNumber { get; set; }
+
+		[StringLength(25)]
+		[Required]
+		public string Firstname { get; set; }
+
+		[StringLength(25)]
+		[Required]
+		public string Lastname { get; set; }
+	}
 }

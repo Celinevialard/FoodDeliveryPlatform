@@ -14,7 +14,7 @@ namespace BLL
 
         Order GetOrder(int id);
         bool DeliverOrder(int orderId);
-        bool CancelOrder(int orderId);
+        bool CancelOrder(int orderId, int orderNumber, string FirstName, string LastName);
 
     }
 }

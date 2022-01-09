@@ -16,9 +16,10 @@ namespace BLL
         private IRestaurantsDB RestaurantsDb { get; }
         private ICourriersDB CourriersDb { get; }
         private ICustomersDB CustomersDb { get; }
+        private IPersonsDB PersonsDb { get; }
         public ILocationsDB LocationsDb { get; private set; }
 
-        public OrderManager(IOrdersDB ordersDB, IDishesDB dishesDB, IRestaurantsDB restaurantsDB, ICourriersDB courriersDB, ICustomersDB customersDB, ILocationsDB locationsDB)
+        public OrderManager(IOrdersDB ordersDB, IDishesDB dishesDB, IRestaurantsDB restaurantsDB, ICourriersDB courriersDB, ICustomersDB customersDB, ILocationsDB locationsDB, IPersonsDB personsDB)
         {
             OrdersDb = ordersDB;
             CustomersDb = customersDB;
@@ -26,6 +27,7 @@ namespace BLL
             CourriersDb = courriersDB;
             RestaurantsDb = restaurantsDB;
             LocationsDb = locationsDB;
+            PersonsDb = personsDB;
         }
 
         /// <summary>
@@ -245,13 +247,20 @@ namespace BLL
         /// </summary>
         /// <param name="order"></param>
         /// <returns></returns>
-        public bool CancelOrder(int orderId)
+        public bool CancelOrder(int orderId, int orderNumber, string firstName, string lastName)
         {
+            if (orderId != orderNumber)
+                return false;
             Order order = OrdersDb.GetOrder(orderId);
+
+            Person customer = PersonsDb.GetPersonByCustomer(order.CustomerId);
+
+            if (customer.Firstname != firstName || customer.Lastname != lastName)
+                return false;
+
             if (DateTime.Now.AddHours(3) <= order.OrderDate)
                 return OrdersDb.UpdateOrder(orderId, OrderStatusEnum.Cancelled);
-            else
-                return false;
+            return false;
         }
     }
 }

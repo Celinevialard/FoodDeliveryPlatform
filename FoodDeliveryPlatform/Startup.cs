@@ -25,7 +25,6 @@ namespace FoodDeliveryPlatform
 		// This method gets called by the runtime. Use this method to add services to the container.
 		public void ConfigureServices(IServiceCollection services)
 		{
-			services.AddScoped<ICourrierManager, CourrierManager>();
 			services.AddScoped<ICustomerManager, CustomerManager>();
 			services.AddScoped<IDishManager, DishManager>();
 			services.AddScoped<ILocationManager, LocationManager>();

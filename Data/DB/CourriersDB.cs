@@ -18,36 +18,6 @@ namespace DAL
 		}
 
 		/// <summary>
-		/// Inserzion d'un livreur dans la table Courrier
-		/// </summary>
-		/// <param name="courrier"></param>
-		/// <returns></returns>
-		public Courrier AddCourrier(Courrier courrier)
-		{
-			string connectionString = Configuration.GetConnectionString("DefaultConnection");
-
-			try
-			{
-				using (SqlConnection cn = new SqlConnection(connectionString))
-				{
-					string query = "INSERT INTO Courrier (PersonId) VALUES (@PersonId); SELECT SCOPE_IDENTITY()";
-					SqlCommand cmd = new SqlCommand(query, cn);
-					cmd.Parameters.AddWithValue("PersonId", courrier.PersonId);
-
-					cn.Open();
-
-					courrier.CourrierId = Convert.ToInt32(cmd.ExecuteScalar());
-				}
-			}
-			catch (Exception e)
-			{
-
-				throw e;
-			}
-			return courrier;
-		}
-
-		/// <summary>
 		/// Récupération de la liste des locationsId où livrent un livreur
 		/// </summary>
 		/// <param name="id"></param>
