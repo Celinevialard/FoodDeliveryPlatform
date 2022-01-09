@@ -13,6 +13,12 @@
       <h5>Informations de livraison</h5>
       <dl class="row">
         <dt class="col-4">
+          <i class="fas fa-barcode"></i> Numéro de commande
+        </dt>
+        <dd class="col-8">
+          @Html.DisplayFor(model => model.OrderId)
+        </dd>
+        <dt class="col-4">
           <i class="fas fa-id-card"></i> Livraison à
         </dt>
         <dd class="col-8">

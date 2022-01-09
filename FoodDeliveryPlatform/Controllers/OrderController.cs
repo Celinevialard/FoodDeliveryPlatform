@@ -344,8 +344,42 @@ namespace FoodDeliveryPlatform.Controllers
                 {
                     return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.Unauthorized });
                 }
-                OrderManager.CancelOrder(id);
-                return RedirectToAction("Index", "Order");
+                return View(new OrderCancelVM()
+                {
+                    OrderId = id
+                });
+            }
+            catch (Exception e)
+            {
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
+            }
+        }
+
+        /// <summary>
+        /// Annule une commande
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public IActionResult Cancel(OrderCancelVM orderCancel)
+        {
+            try
+            {
+                if (HttpContext.Session.GetString("User") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person.CustomerInfo == null)
+                {
+                    return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.Unauthorized });
+                }
+                bool canceled = OrderManager.CancelOrder(orderCancel.OrderId, orderCancel.OrderNumber, orderCancel.Firstname, orderCancel.Lastname);
+                if(canceled)
+                    return RedirectToAction("Index", "Order");
+                
+                ModelState.AddModelError("All","Un ou plusieurs des champs sont incorrects.");
+                return View(orderCancel);
             }
             catch (Exception e)
             {
