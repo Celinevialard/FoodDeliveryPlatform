@@ -20,6 +20,8 @@ namespace DTO
 
 		public int LocationId { get; set; }
 
+		public Location Location { get; set; }
+
 		public string OrderNote { get; set; } = string.Empty;
 
 		public DateTime OrderDate { get; set; }

@@ -17,11 +17,14 @@ namespace FoodDeliveryPlatform.Controllers
         IPersonManager PersonManager { get; set; }
 
         IDishManager DishManager { get; set; }
-        public OrderController(IOrderManager orderManager, IPersonManager personManager, IDishManager dishManager)
+
+        IRestaurantManager RestaurantManager { get; set; }
+        public OrderController(IOrderManager orderManager, IPersonManager personManager, IDishManager dishManager, IRestaurantManager restaurantManager)
         {
             OrderManager = orderManager;
             PersonManager = personManager;
             DishManager = dishManager;
+            RestaurantManager = restaurantManager;
         }
         /// <summary>
         /// CV
@@ -55,8 +58,8 @@ namespace FoodDeliveryPlatform.Controllers
                             ordersDeliveryVm.Add(new()
                             {
                                 CustomerName = customer.Firstname + " " + customer.Lastname,
-                                CustomerAddress = customer.CustomerInfo.Address,
-                                CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                                CustomerAddress = order.Address,
+                                CustomerLocation = order.Location.LocationName,
                                 OrderDate = order.OrderDate,
                                 OrderId = order.OrderId,
                                 OrderNote = order.OrderNote,
@@ -118,6 +121,7 @@ namespace FoodDeliveryPlatform.Controllers
                 Order order = OrderManager.GetOrder(id);
                 Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
                 Person courrier = PersonManager.GetPersonByCourrier(order.CourrierId);
+                Restaurant restaurant = RestaurantManager.GetRestaurantById(order.RestaurantId);
                 List<OrderDetailVM> orderDetailsVm = null;
                 if (order.Details != null && order.Details.Any())
                 {
@@ -136,8 +140,10 @@ namespace FoodDeliveryPlatform.Controllers
                 return View(new OrderVM
                 {
                     CustomerName = customer.Firstname + " " + customer.Lastname,
-                    CustomerAddress = customer.CustomerInfo.Address,
-                    CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                    CustomerAddress = order.Address,
+                    CustomerLocation = order.Location.LocationName,
+                    RestaurantName = restaurant.Name,
+                    RestaurantLocation = restaurant.Location.LocationName,
                     CourrierName = courrier.Firstname + " " + courrier.Lastname,
                     OrderDate = order.OrderDate,
                     OrderId = order.OrderId,
