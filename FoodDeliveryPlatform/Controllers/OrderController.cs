@@ -163,11 +163,13 @@ namespace FoodDeliveryPlatform.Controllers
             order.CustomerId = person.CustomerInfo.CustomerId;
 
             //TODO check it
-            List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+            cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
+            //List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+            /*
             if (dateTimes == null || !dateTimes.Any())
                 return View(null);
-           
-            cartVM.DatesDelivery = dateTimes;
+           */
+           // cartVM.DatesDelivery = dateTimes;
 
 
             return View(cartVM);
