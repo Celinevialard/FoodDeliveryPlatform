@@ -9,12 +9,15 @@ namespace FoodDeliveryPlatform.Models
 		public int PersonId { get; set; }
 
 		[StringLength(250)]
+		[Required]
 		public string Address { get; set; }
-
-		public int LocationId { get; set; }
+		[Required]
+		public int LocationId { get; set; } = 0;
 		[StringLength(25)]
+		[Required]
 		public string Firstname { get; set; }
 		[StringLength(25)]
+		[Required]
 		public string Lastname { get; set; }
 
 		[EmailAddress]

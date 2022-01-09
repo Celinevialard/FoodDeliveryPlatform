@@ -1,76 +1,106 @@
-﻿@model FoodDeliveryPlatform.Models.UserEditVM
+﻿@using DTO;
+@model FoodDeliveryPlatform.Models.UserEditVM
 
 <h1>@ViewBag.Title</h1>
 
 <h5>Indiquer les informations suivantes : </h5>
 <hr />
 <div class="row">
-    <div class="col-md-4">
-        <form asp-action="@(Model.PersonId>0 ?"Edit":"SignUp")">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+  <div class="col-md-4">
+    <form asp-action="@(Model.PersonId>0 ?"Edit":"SignUp")">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-          @Html.HiddenFor(m=>m.PersonId)
-            <div class="form-group">
-                <label class="control-label"><i class="fas fa-user"></i> Prénom</label>
-                <input asp-for="Firstname" class="form-control" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
-            </div>
+      @Html.HiddenFor(m => m.PersonId)
+      <div class="form-group">
+        <label class="control-label"><i class="fas fa-user"></i> Prénom</label>
+        <input asp-for="Firstname" class="form-control" />
+        <span asp-validation-for="Lastname" class="text-danger"></span>
+      </div>
 
-            <div class="form-group">
-                <label class="control-label"><i class="fas fa-user"></i> Nom</label>
-                <input asp-for="Lastname" class="form-control" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
-            </div>
+      <div class="form-group">
+        <label class="control-label"><i class="fas fa-user"></i> Nom</label>
+        <input asp-for="Lastname" class="form-control" />
+        <span asp-validation-for="Lastname" class="text-danger"></span>
+      </div>
 
-            <div class="form-group">
-                <label class="control-label"> <i class="fas fa-map-marker-alt"></i> Localité <span class="font-italic"> saisir le NPA</span></label>
-                @Html.DropDownListFor(m => m.LocationId, new SelectList(Model.Locations, "LocationId", "LocationName"), new
-                {
-                    @class = "form-control selectpicker",
-                data_show_subtext = "true",
-                 data_live_search = "true"
-                })
-                <span asp-validation-for="LocationId" class="text-danger"></span>
-            </div>
+      <div class="form-group">
+        <label class="control-label"> <i class="fas fa-map-marker-alt"></i> Localité <span class="font-italic"> saisir le NPA</span></label>
+        <input id="locationName" list="locations" value="" class="form-control">
+        <datalist id="locations">
+          @foreach (Location location in Model.Locations)
+          {
+            <option data-value="@location.LocationId" value="@location.LocationName" />
+          }
+        </datalist>
+        <input asp-for="LocationId" type="hidden" id="locationId-hidden">
+        <span asp-validation-for="LocationId" class="text-danger"></span>
+      </div>
 
-            <div class="form-group">
-                <label class="control-label"><i class="fas fa-home"></i> Adresse</label>
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
+      <div class="form-group">
+        <label class="control-label"><i class="fas fa-home"></i> Adresse</label>
+        <input asp-for="Address" class="form-control" />
+        <span asp-validation-for="Address" class="text-danger"></span>
+      </div>
 
-            <div class="form-group">
-                <label class="control-label"><i class="fas fa-envelope"></i> E-Mail</label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label class="control-label"><i class="fas fa-key"></i> Mot de passe</label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <button type="submit" class="btn btn-success">
-                    <i class="fas fa-user-plus"></i>@(Model.PersonId>0 ? " Mettre à jour" : " Créer mon compte")
-                </button>
-            </div>
-        </form>
-    </div>
+      <div class="form-group">
+        <label class="control-label"><i class="fas fa-envelope"></i> E-Mail</label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <label class="control-label"><i class="fas fa-key"></i> Mot de passe</label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-success">
+          <i class="fas fa-user-plus"></i>@(Model.PersonId>0 ? " Mettre à jour" : " Créer mon compte")
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div>
-    <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Annuler</a>
+  <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Annuler</a>
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-    <script>
-        $(document).ready(function() {
-            $('.selectpicker').selectpicker({
-                liveSearch: true,
-                showSubtext: true
-            });
-        });
-    </script>
-
+  @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+<script>
+  $(document).ready(function () {
+    options = document.querySelectorAll('#locations option');
+    hiddenInput = $('#locationId-hidden');
+    for (var i = 0; i < options.length; i++) {
+      var option = options[i];
+
+      if (option.getAttribute('data-value') === hiddenInput.val()) {
+        $("#locationName").val(option.getAttribute('value'));
+        break;
+      }
+    }
+
+    $("#locationName").change(function () {
+      options = document.querySelectorAll('#locations option');
+      hiddenInput = $('#locationId-hidden');
+      inputValue = $(this).val();
+      hiddenInput.val(inputValue);
+
+      for (var i = 0; i < options.length; i++) {
+        var option = options[i];
+
+        if (option.getAttribute('value') === inputValue) {
+          hiddenInput.val(option.getAttribute('data-value'));
+          break;
+        }
+      }
+      if (hiddenInput.val() == inputValue)
+        $(this).val("");
+    });
+
+  });
+
+</script>
+
+
