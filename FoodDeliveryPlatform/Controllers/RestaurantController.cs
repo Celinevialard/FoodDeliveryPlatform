@@ -12,10 +12,8 @@ namespace FoodDeliveryPlatform.Controllers
 {
     public class RestaurantController : Controller
     {
-
         IRestaurantManager RestaurantManager { get; set; }
         ILocationManager LocationManager { get; set; }
-
         IDishManager DishManager { get; set; }
 
         public RestaurantController(IRestaurantManager restaurantManager, ILocationManager locationManager, IDishManager dishManager)
@@ -26,7 +24,7 @@ namespace FoodDeliveryPlatform.Controllers
         }
 
         /// <summary>
-        /// FB
+        /// Liste les restaurants
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
@@ -69,7 +67,7 @@ namespace FoodDeliveryPlatform.Controllers
         }
 
         /// <summary>
-        /// FB
+        /// Affiche le detail du restaurant et ces plats
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>

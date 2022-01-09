@@ -126,7 +126,7 @@
   <a class="btn btn-secondary" asp-action="Index"><i class="fas fa-arrow-left"></i> Afficher la liste</a>
   @if (Model.ForCourrier)
   {
-    <a class="btn btn-success" href="@Url.Action("Edit", "Order", new { id = Model.OrderId })"> <i class="fas fa-clipboard-check"></i> Commande livrée</a>
+    <a class="btn btn-success" href="@Url.Action("Deliver", "Order", new { id = Model.OrderId })"> <i class="fas fa-clipboard-check"></i> Commande livrée</a>
   }
   else if (Model.OrderDate >= DateTime.Now.AddHours(3))
   {

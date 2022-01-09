@@ -10,6 +10,12 @@ namespace FoodDeliveryPlatform.Controllers
 {
     public class ErrorController : Controller
     {
+        /// <summary>
+        /// Affichage d'une page d'erreur
+        /// </summary>
+        /// <param name="errorCode"></param>
+        /// <param name="errorMessage"></param>
+        /// <returns></returns>
         public IActionResult Index(HttpStatusCode errorCode, string errorMessage = null)
         {
             switch (errorCode)

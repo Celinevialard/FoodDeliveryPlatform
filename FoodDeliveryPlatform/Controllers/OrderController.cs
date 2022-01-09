@@ -15,9 +15,7 @@ namespace FoodDeliveryPlatform.Controllers
     {
         IOrderManager OrderManager { get; set; }
         IPersonManager PersonManager { get; set; }
-
         IDishManager DishManager { get; set; }
-
         IRestaurantManager RestaurantManager { get; set; }
         public OrderController(IOrderManager orderManager, IPersonManager personManager, IDishManager dishManager, IRestaurantManager restaurantManager)
         {
@@ -27,7 +25,7 @@ namespace FoodDeliveryPlatform.Controllers
             RestaurantManager = restaurantManager;
         }
         /// <summary>
-        /// CV
+        /// Affichage de la liste de commandes (Commande à livrer, ou commande passé)
         /// </summary>
         /// <returns></returns>
         public IActionResult Index()
@@ -103,8 +101,9 @@ namespace FoodDeliveryPlatform.Controllers
                 return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
             }
         }
+        
         /// <summary>
-        /// CV
+        /// Affichage du details d'une commandes
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -160,6 +159,10 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Création d'une commande à partir du panier
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Create()
         {
@@ -205,6 +208,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Création d'une commande
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Create(CartVM cart)
         {
@@ -266,6 +274,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Transforme un objet cartVm en order
+        /// </summary>
+        /// <param name="cart"></param>
+        /// <returns></returns>
         private Order CartToOrder(CartVM cart)
         {
             Order order = new();
@@ -286,13 +299,12 @@ namespace FoodDeliveryPlatform.Controllers
             return order;
         }
 
-
         /// <summary>
-        /// update Only Status -- FB
+        /// indique la livraison d'une commande
         /// </summary>
-        /// <param name="orderVM"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public IActionResult Edit(int id)
+        public IActionResult Deliver(int id)
         {
             try
             {
@@ -314,6 +326,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Annule une commande
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Cancel(int id)
         {
             try
@@ -336,6 +353,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Ajouter un plat dans le panier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult AddDish(int id)
         {
@@ -397,6 +419,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Enlerver un plat du panier
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpPost]
         public JsonResult RemoveDish(int id)
         {

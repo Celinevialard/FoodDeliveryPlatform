@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 namespace FoodDeliveryPlatform.Controllers
 {
     /// <summary>
-    /// http://153.109.124.35:81/CV_FB_FoodDelivery
+    /// url : http://153.109.124.35:81/CV_FB_FoodDelivery
     /// </summary>
     public class HomeController : Controller
     {
@@ -32,6 +32,10 @@ namespace FoodDeliveryPlatform.Controllers
             CustomerManager = customerManager;
         }
 
+        /// <summary>
+        /// Selection de la page d'accueil
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Index()
         {
             try
@@ -73,6 +77,11 @@ namespace FoodDeliveryPlatform.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        /// <summary>
+        /// Edition d'un user
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         public IActionResult Edit(int id)
         {
             try
@@ -113,6 +122,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Edition d'un user
+        /// </summary>
+        /// <param name="editUser"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Edit(UserEditVM editUser)
         {
@@ -150,6 +164,10 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Création d'un user
+        /// </summary>
+        /// <returns></returns>
         public IActionResult SignUp()
         {
             try
@@ -166,6 +184,11 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Création d'un user
+        /// </summary>
+        /// <param name="signUp"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult SignUp(UserEditVM signUp)
         {
@@ -201,11 +224,21 @@ namespace FoodDeliveryPlatform.Controllers
                 });
             }
         }
+
+        /// <summary>
+        /// Connection d'un user
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Login()
         {
             return View();
         }
 
+        /// <summary>
+        /// Connection d'un user
+        /// </summary>
+        /// <param name="login"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Login(LoginVM login)
         {
@@ -242,6 +275,10 @@ namespace FoodDeliveryPlatform.Controllers
             }
         }
 
+        /// <summary>
+        /// Deconnection d'un user
+        /// </summary>
+        /// <returns></returns>
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
