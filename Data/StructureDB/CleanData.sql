@@ -1,6 +1,6 @@
 ﻿TRUNCATE TABLE [OrderDetails];
 DELETE FROM [Orders];
-TRUNCATE TABLE [DeleveryZone];
+TRUNCATE TABLE [DeliveryZone];
 DELETE FROM [Courrier];
 DELETE FROM [Customer];
 DELETE FROM [Person];
