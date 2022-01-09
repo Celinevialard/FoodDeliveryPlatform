@@ -14,9 +14,4 @@
     <ProjectReference Include="..\DTO\DTO.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\img\dishesImg\7\" />
-    <Folder Include="wwwroot\img\dishesImg\8\" />
-  </ItemGroup>
-
 </Project>
