@@ -181,7 +181,7 @@ namespace BLL
                 int nbOrder = 0;
                 if(orders != null && orders.Any())
                 {
-                    foreach (Order o in orders)
+                    foreach (Order o in orders.Where(e=>e.Status==OrderStatusEnum.Delivering))
                     {
                         if (o.OrderDate.AddMinutes(16) >= date && o.OrderDate.AddMinutes(-16) <= date)
                             nbOrder++;
