@@ -238,7 +238,7 @@ create table PERSON (
    PERSONID             int                  not null IDENTITY(1,1),
    FIRSTNAME            varchar(25)          not null,
    NAME                 varchar(25)          not null,
-   LOGIN                varchar(25)          not null,
+   LOGIN                varchar(50)          not null,
    PASSWORD             varchar(25)          not null,
    constraint PK_PERSON primary key (PERSONID)
 )

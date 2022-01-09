@@ -1,6 +1,7 @@
 ﻿using DTO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
 
 namespace FoodDeliveryPlatform.Models
@@ -11,6 +12,8 @@ namespace FoodDeliveryPlatform.Models
 		public List<CartDetailsVM> CartDetails { get; set; }
 		public DateTime DateDelivery { get; set; }
 		public List<DateTime> DatesDelivery { get; set; }
+
+		[StringLength(250)]
 		public string OrderNote { get; set; } = string.Empty;
 
         public string ToString() => JsonSerializer.Serialize(this);
@@ -24,6 +27,8 @@ namespace FoodDeliveryPlatform.Models
 		public decimal DishPrice { get; set; }
 
 		public int DishQuantity { get; set; }
+
+		[StringLength(250)]
 		public string Note { get; set; } = string.Empty;
 
 		public string ToString() => JsonSerializer.Serialize(this);

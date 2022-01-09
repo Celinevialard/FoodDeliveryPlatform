@@ -6,10 +6,12 @@ namespace FoodDeliveryPlatform.Models
 	{
 		[EmailAddress]
 		[Required]
+		[StringLength(50)]
 		public string Email { get; set; }
 
 		[DataType(DataType.Password)]
 		[Required]
+		[StringLength(25)]
 		public string Password { get; set; }
 	}
 }
