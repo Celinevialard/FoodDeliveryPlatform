@@ -118,6 +118,6 @@
   }
  else if(Model.OrderDate >= DateTime.Now.AddHours(3))
   {
-    <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = Model.OrderId })"> <i class="fas fa-clipboard-check"></i> Annuler commande</a>
+    <a class="btn btn-danger" href="@Url.Action("Cancel", "Order", new { id = Model.OrderId })"> <i class="fas fa-trash"></i> Annuler commande</a>
   }
 </div>
