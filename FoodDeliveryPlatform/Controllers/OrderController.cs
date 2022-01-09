@@ -234,8 +234,21 @@ namespace FoodDeliveryPlatform.Controllers
                     return View(cart);
                 }
 
-                OrderManager.CreateOrder(order);
+                Order orderDB = OrderManager.CreateOrder(order);
 
+                if(orderDB == null)
+                {
+                    List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+
+                    if (dateTimes == null || !dateTimes.Any())
+                    {
+                        HttpContext.Session.Remove("Cart");
+                        return View(null);
+                    }
+                    cart.DatesDelivery = dateTimes;
+
+                    return View(cart);
+                }
                 // delete session cart
                 HttpContext.Session.Remove("Cart");
 

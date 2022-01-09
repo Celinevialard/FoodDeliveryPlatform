@@ -47,9 +47,13 @@ namespace BLL
         /// <returns></returns>
         public Order CreateOrder(Order order)
         {
+            int courrierId = SetCourrierByOrder(order);
+            if (courrierId == 0) {
+                return null;
+            }
             CheckAllDishFromSameRestaurant(order);
             order.TotalAmount = CalculTotalAmount(order);
-            order.CourrierId = SetCourrierByOrder(order);
+            order.CourrierId = courrierId;
             order.Status = OrderStatusEnum.Delivering;
             return OrdersDb.InsertOrder(order);
         }
@@ -84,7 +88,6 @@ namespace BLL
             (int depart, int arrivee) = GetLocalites(order);
             List<Courrier> courriers = CourriersDb.GetCourrierByLocalite(depart, arrivee);
 
-
             if (courriers == null || !courriers.Any())
                 return dateDelivery;
 
@@ -101,6 +104,7 @@ namespace BLL
                         time = DateTime.Now;
                         time = time.AddMinutes(15 - time.Minute % 15);
                         time = time.AddSeconds(0 - time.Second);
+                        time = time.AddMilliseconds(0 - time.Millisecond);
                     }
                     else
                     {
@@ -179,7 +183,7 @@ namespace BLL
                 {
                     foreach (Order o in orders)
                     {
-                        if (o.OrderDate.AddMinutes(15) <= date && o.OrderDate.AddMinutes(-15) >= date)
+                        if (o.OrderDate.AddMinutes(16) >= date && o.OrderDate.AddMinutes(-16) <= date)
                             nbOrder++;
                     }
                 }

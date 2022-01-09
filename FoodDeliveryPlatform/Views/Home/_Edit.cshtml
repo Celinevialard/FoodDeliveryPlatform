@@ -85,7 +85,7 @@
       options = document.querySelectorAll('#locations option');
       hiddenInput = $('#locationId-hidden');
       inputValue = $(this).val();
-      hiddenInput.val(inputValue);
+      hiddenInput.val(0);
 
       for (var i = 0; i < options.length; i++) {
         var option = options[i];
@@ -95,7 +95,7 @@
           break;
         }
       }
-      if (hiddenInput.val() == inputValue)
+      if (hiddenInput.val() == 0)
         $(this).val("");
     });
 
