@@ -27,16 +27,16 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('DELEVERYZONE') and o.name = 'FK_DELEVERY_REFERENCE_COURRIER')
-alter table DELEVERYZONE
-   drop constraint FK_DELEVERY_REFERENCE_COURRIER
+   where r.fkeyid = object_id('DELIVERYZONE') and o.name = 'FK_DELIVERY_REFERENCE_COURRIER')
+alter table DELIVERYZONE
+   drop constraint FK_DELIVERY_REFERENCE_COURRIER
 go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('DELEVERYZONE') and o.name = 'FK_DELEVERY_REFERENCE_LOCATION')
-alter table DELEVERYZONE
-   drop constraint FK_DELEVERY_REFERENCE_LOCATION
+   where r.fkeyid = object_id('DELIVERYZONE') and o.name = 'FK_DELIVERY_REFERENCE_LOCATION')
+alter table DELIVERYZONE
+   drop constraint FK_DELIVERY_REFERENCE_LOCATION
 go
 
 if exists (select 1
@@ -97,9 +97,9 @@ go
 
 if exists (select 1
             from  sysobjects
-           where  id = object_id('DELEVERYZONE')
+           where  id = object_id('DELIVERYZONE')
             and   type = 'U')
-   drop table DELEVERYZONE
+   drop table DELIVERYZONE
 go
 
 if exists (select 1
@@ -167,13 +167,13 @@ create table CUSTOMER (
 go
 
 /*==============================================================*/
-/* Table : DELEVERYZONE                                         */
+/* Table : DELIVERYZONE                                         */
 /*==============================================================*/
-create table DELEVERYZONE (
+create table DELIVERYZONE (
    IDZONE               int                  not null IDENTITY(1,1),
    COURRIERID           int                  null,
    LOCATIONID           int                  null,
-   constraint PK_DELEVERYZONE primary key (IDZONE)
+   constraint PK_DELIVERYZONE primary key (IDZONE)
 )
 go
 
@@ -227,6 +227,9 @@ create table ORDERS (
    ORDERNOTE            varchar(250)         null,
    ORDERDATE            DATETIME             null,
    TOTALAMOUNT          decimal              null,
+   RESTAURANTID         int                  null,
+   LOCATIONID           int                  null,
+   ADDRESS              varchar(250)         null,
    constraint PK_ORDERS primary key (ORDERID)
 )
 go
@@ -271,13 +274,13 @@ alter table CUSTOMER
       references PERSON (PERSONID)
 go
 
-alter table DELEVERYZONE
-   add constraint FK_DELEVERY_REFERENCE_COURRIER foreign key (COURRIERID)
+alter table DELIVERYZONE
+   add constraint FK_DELIVERY_REFERENCE_COURRIER foreign key (COURRIERID)
       references COURRIER (COURRIERID)
 go
 
-alter table DELEVERYZONE
-   add constraint FK_DELEVERY_REFERENCE_LOCATION foreign key (LOCATIONID)
+alter table DELIVERYZONE
+   add constraint FK_DELIVERY_REFERENCE_LOCATION foreign key (LOCATIONID)
       references LOCATION (LOCATIONID)
 go
 
@@ -304,6 +307,16 @@ go
 alter table ORDERS
    add constraint FK_ORDERS_REFERENCE_COURRIER foreign key (COURRIERID)
       references COURRIER (COURRIERID)
+go
+
+alter table ORDERS
+   add constraint FK_ORDERS_REFERENCE_RESTAURANT foreign key (RESTAURANTID)
+      references RESTAURANT (RESTAURANTID)
+go
+
+alter table ORDERS
+   add constraint FK_ORDERS_REFERENCE_LOCATION foreign key (LOCATIONID)
+      references LOCATION (LOCATIONID)
 go
 
 alter table RESTAURANT

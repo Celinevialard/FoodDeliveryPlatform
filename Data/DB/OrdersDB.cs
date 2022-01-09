@@ -208,8 +208,8 @@ namespace DAL
             {
                 using (SqlConnection cn = new SqlConnection(connectionString))
                 {
-                    string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, OrderNote, OrderDate, TotalAmount) 
-									VALUES (@CustomerId, @CourrierId, @StatusId, @OrderNote, @OrderDate, @TotalAmount); 
+                    string query = @"INSERT INTO Orders (CustomerId, CourrierId, Status, OrderNote, OrderDate, TotalAmount, RestaurantId, LocationId, Address) 
+									VALUES (@CustomerId, @CourrierId, @StatusId, @OrderNote, @OrderDate, @TotalAmount, @RestaurantId, @LocationId, @Address); 
 									SELECT SCOPE_IDENTITY()";
                     SqlCommand cmd = new SqlCommand(query, cn);
                     cmd.Parameters.AddWithValue("CustomerId", order.CustomerId);
@@ -218,6 +218,9 @@ namespace DAL
                     cmd.Parameters.AddWithValue("OrderNote", order.OrderNote ?? string.Empty);
                     cmd.Parameters.AddWithValue("OrderDate", order.OrderDate);
                     cmd.Parameters.AddWithValue("TotalAmount", order.TotalAmount);
+                    cmd.Parameters.AddWithValue("RestaurantId", order.RestaurantId);
+                    cmd.Parameters.AddWithValue("LocationId", order.LocationId);
+                    cmd.Parameters.AddWithValue("Address", order.Address);
 
                     cn.Open();
                     order.OrderId = Convert.ToInt32(cmd.ExecuteScalar());
@@ -293,6 +296,15 @@ namespace DAL
 
             if (dr["totalAmount"] != DBNull.Value)
                 entity.TotalAmount = (decimal)dr["totalAmount"];
+
+            if (dr["restaurantId"] != DBNull.Value)
+                entity.RestaurantId = (int)dr["restaurantId"];
+
+            if (dr["locationId"] != DBNull.Value)
+                entity.LocationId = (int)dr["locationId"];
+
+            if (dr["address"] != DBNull.Value)
+                entity.Address = (string)dr["address"];
 
             return entity;
         }

@@ -61,7 +61,7 @@ namespace DAL
 			{
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
-					string query = @"SELECT * FROM DeleveryZone 
+					string query = @"SELECT * FROM DeliveryZone 
 							WHERE courrierId = @id";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@id", id);
@@ -100,7 +100,7 @@ namespace DAL
 				using(SqlConnection cn = new SqlConnection(connectionString))
                 {
 					string query = @"SELECT * FROM Courrier c
-									INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierId
+									INNER JOIN DeliveryZone dz ON c.courrierId = dz.courrierId
 									WHERE dz.locationId = @locationId";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@locationId", locationId);
@@ -148,10 +148,10 @@ namespace DAL
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
 					string query = @"SELECT * FROM Courrier c
-							INNER JOIN DeleveryZone dz ON c.courrierId = dz.courrierID 
+							INNER JOIN DeliveryZone dz ON c.courrierId = dz.courrierID 
 							WHERE dz.locationID = @departId AND
 							c.courrierId IN (
-											SELECT DISTINCT dz2.courrierId FROM DeleveryZone dz2 WHERE dz2.LocationId = @arriveeId)";
+											SELECT DISTINCT dz2.courrierId FROM DeliveryZone dz2 WHERE dz2.LocationId = @arriveeId)";
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@departId", depart);
 					cmd.Parameters.AddWithValue("@arriveeId", arrivee);
