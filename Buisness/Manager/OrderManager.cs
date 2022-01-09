@@ -86,7 +86,7 @@ namespace BLL
         public Order CreateOrder(Order order)
         {
             int courrierId = SetCourrierByOrder(order);
-            if (courrierId == 0) {
+            if (courrierId == 0 || order.OrderDate <= DateTime.Now) {
                 return null;
             }
             CheckAllDishFromSameRestaurant(order);
@@ -119,8 +119,6 @@ namespace BLL
         /// <returns></returns>
         public List<DateTime> GetDateDelivery(Order order)
         {
-
-
             List<DateTime> dateDelivery = new List<DateTime>();
             List<DateTime> datePossible = new List<DateTime>();
             (int depart, int arrivee) = GetLocalites(order);
@@ -140,7 +138,7 @@ namespace BLL
                     if (i == 0)
                     {
                         time = DateTime.Now;
-                        time = time.AddMinutes(15 - time.Minute % 15);
+                        time = time.AddMinutes(30 - time.Minute % 15);
                         time = time.AddSeconds(0 - time.Second);
                         time = time.AddMilliseconds(0 - time.Millisecond);
                     }
