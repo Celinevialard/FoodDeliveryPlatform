@@ -77,12 +77,14 @@
                     <i class="fas fa-clock"></i> Date
                 </th>
                 <th>
-                    <i class="fas fa-file-invoice"></i> Total
+                    <i class="fas fa-file-invoice-dollar"></i> Total
                 </th>
                 <th>
                     <i class="fas fa-info-circle"></i> Statut
                 </th>
-                <th><i class="fas fa-search"></i> Actions</th>
+                <th>
+                    <i class="fas fa-search"></i> Actions
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -115,12 +117,8 @@
 }
 @if ((Model.OrdersCustomer == null || !Model.OrdersCustomer.Any()) && (Model.OrdersDelivery == null || !Model.OrdersDelivery.Any()))
 {
-    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-        <strong>Aucune commande</strong>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
+    <div class="alert alert-warning" role="alert">
+        <h4 class="alert-heading">Aucune commande</h4>
     </div>
 
-    
 }
