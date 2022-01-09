@@ -5,10 +5,10 @@ INSERT INTO Restaurant(locationid, restaurantname, restaurantdescription )
 VALUES(4011,'Beefore', N'Artisan du hamburger depuis 2016, nous privilégions les produits frais et locaux avec lesquels nous vous préparons de délicieux burgers')
 
 INSERT INTO Restaurant(locationid, restaurantname, restaurantdescription )
-VALUES(4011, 'Crêperie Le Rustique',N'Pâtes à crêpes faites maison avec des oeufs suisses élevés au sol');
+VALUES(4011, N'Crêperie Le Rustique',N'Pâtes à crêpes faites maison avec des oeufs suisses élevés au sol');
 
 INSERT INTO Restaurant(locationid, restaurantname, restaurantdescription )
-VALUES(4063 ,'Mâe Khong Chez Pom', N'Authentique cuisine thaïlandaise');
+VALUES(4063 ,N'Mâe Khong Chez Pom', N'Authentique cuisine thaïlandaise');
 
 INSERT INTO Restaurant(locationid, restaurantname, restaurantdescription )
 VALUES(4082 ,'Brasserie Le Foyer',N'Cuisine innovante et généreuse avec une dose d’ingrédients locaux');

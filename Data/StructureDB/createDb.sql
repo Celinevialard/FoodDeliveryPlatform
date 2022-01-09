@@ -76,6 +76,20 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('ORDERS') and o.name = 'FK_ORDERS_REFERENCE_RESTAURANT')
+alter table ORDERS
+   drop constraint FK_ORDERS_REFERENCE_RESTAURANT
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('ORDERS') and o.name = 'FK_ORDERS_REFERENCE_LOCATION')
+alter table ORDERS
+   drop constraint FK_ORDERS_REFERENCE_LOCATION
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
    where r.fkeyid = object_id('RESTAURANT') and o.name = 'FK_RESTAURA_REFERENCE_LOCATION')
 alter table RESTAURANT
    drop constraint FK_RESTAURA_REFERENCE_LOCATION
