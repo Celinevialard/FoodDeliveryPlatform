@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text.Json;
 
 namespace FoodDeliveryPlatform.Controllers
@@ -28,69 +29,76 @@ namespace FoodDeliveryPlatform.Controllers
         /// <returns></returns>
         public IActionResult Index()
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login","Home");
-            }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if(person == null )
-            {
-                return RedirectToAction("Logout", "Home");
-            }
-            List<Order> ordersDelivery = null; 
-            List<OrderVM> ordersDeliveryVm = null;
-            if (person.CourrierInfo != null)
-            {
-                ordersDelivery = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
-
-                if (ordersDelivery != null && ordersDelivery.Any())
+                if (HttpContext.Session.GetString("User") == null)
                 {
-                    ordersDeliveryVm = new();
-                    foreach (var order in ordersDelivery)
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person == null)
+                {
+                    return RedirectToAction("Logout", "Home");
+                }
+                List<Order> ordersDelivery = null;
+                List<OrderVM> ordersDeliveryVm = null;
+                if (person.CourrierInfo != null)
+                {
+                    ordersDelivery = OrderManager.GetOrdersByCourrier(person.CourrierInfo.CourrierId);
+
+                    if (ordersDelivery != null && ordersDelivery.Any())
                     {
-                        Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
-                        ordersDeliveryVm.Add(new()
+                        ordersDeliveryVm = new();
+                        foreach (var order in ordersDelivery)
                         {
-                            CustomerName = customer.Firstname + " " + customer.Lastname,
-                            CustomerAddress = customer.CustomerInfo.Address,
-                            CustomerLocation = customer.CustomerInfo.Location.LocationName,
-                            OrderDate = order.OrderDate,
-                            OrderId = order.OrderId,
-                            OrderNote = order.OrderNote,
-                            Status = order.Status,
-                            TotalAmount = order.TotalAmount
-                        });
+                            Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+                            ordersDeliveryVm.Add(new()
+                            {
+                                CustomerName = customer.Firstname + " " + customer.Lastname,
+                                CustomerAddress = customer.CustomerInfo.Address,
+                                CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                                OrderDate = order.OrderDate,
+                                OrderId = order.OrderId,
+                                OrderNote = order.OrderNote,
+                                Status = order.Status,
+                                TotalAmount = order.TotalAmount
+                            });
+                        }
                     }
                 }
-            }
-            List<Order> ordersCustomer = null;
-            List<OrderVM> ordersCustomerVm = null;
-            if (person.CustomerInfo != null)
-            {
-                ordersCustomer = OrderManager.GetOrdersByCustomer(person.CustomerInfo.CustomerId);
-
-                if (ordersCustomer != null && ordersCustomer.Any())
+                List<Order> ordersCustomer = null;
+                List<OrderVM> ordersCustomerVm = null;
+                if (person.CustomerInfo != null)
                 {
-                    ordersCustomerVm = new();
-                    foreach (var order in ordersCustomer)
+                    ordersCustomer = OrderManager.GetOrdersByCustomer(person.CustomerInfo.CustomerId);
+
+                    if (ordersCustomer != null && ordersCustomer.Any())
                     {
-                        ordersCustomerVm.Add(new()
+                        ordersCustomerVm = new();
+                        foreach (var order in ordersCustomer)
                         {
-                            OrderDate = order.OrderDate,
-                            OrderId = order.OrderId,
-                            OrderNote = order.OrderNote,
-                            Status = order.Status,
-                            TotalAmount = order.TotalAmount
-                        });
+                            ordersCustomerVm.Add(new()
+                            {
+                                OrderDate = order.OrderDate,
+                                OrderId = order.OrderId,
+                                OrderNote = order.OrderNote,
+                                Status = order.Status,
+                                TotalAmount = order.TotalAmount
+                            });
+                        }
                     }
                 }
+
+                return View(new OrderIndexVM
+                {
+                    OrdersCustomer = ordersCustomerVm,
+                    OrdersDelivery = ordersDeliveryVm
+                });
             }
-           
-            return View(new OrderIndexVM
+            catch (Exception e)
             {
-                OrdersCustomer = ordersCustomerVm,
-                OrdersDelivery = ordersDeliveryVm
-            });
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
+            }
         }
         /// <summary>
         /// CV
@@ -99,103 +107,124 @@ namespace FoodDeliveryPlatform.Controllers
         /// <returns></returns>
         public IActionResult Details(int id)
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login", "Home");
-            }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-
-            Order order = OrderManager.GetOrder(id);
-            Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
-            Person courrier = PersonManager.GetPersonByCourrier(order.CourrierId);
-            List<OrderDetailVM> orderDetailsVm = null;
-            if (order.Details != null && order.Details.Any())
-            {
-                orderDetailsVm = new();
-                foreach (var orderDetail in order.Details)
+                if (HttpContext.Session.GetString("User") == null)
                 {
-                    var dish = DishManager.GetDish(orderDetail.DishId);
-                    orderDetailsVm.Add(new()
-                    {
-                        DishName = dish.Name,
-                        OrderDetailsNote = orderDetail.OrderDetailsNote,
-                        Quantity = orderDetail.Quantity
-                    });
+                    return RedirectToAction("Login", "Home");
                 }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+
+                Order order = OrderManager.GetOrder(id);
+                Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
+                Person courrier = PersonManager.GetPersonByCourrier(order.CourrierId);
+                List<OrderDetailVM> orderDetailsVm = null;
+                if (order.Details != null && order.Details.Any())
+                {
+                    orderDetailsVm = new();
+                    foreach (var orderDetail in order.Details)
+                    {
+                        var dish = DishManager.GetDish(orderDetail.DishId);
+                        orderDetailsVm.Add(new()
+                        {
+                            DishName = dish.Name,
+                            OrderDetailsNote = orderDetail.OrderDetailsNote,
+                            Quantity = orderDetail.Quantity
+                        });
+                    }
+                }
+                return View(new OrderVM
+                {
+                    CustomerName = customer.Firstname + " " + customer.Lastname,
+                    CustomerAddress = customer.CustomerInfo.Address,
+                    CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                    CourrierName = courrier.Firstname + " " + courrier.Lastname,
+                    OrderDate = order.OrderDate,
+                    OrderId = order.OrderId,
+                    OrderNote = order.OrderNote,
+                    Status = order.Status,
+                    TotalAmount = order.TotalAmount,
+                    Details = orderDetailsVm,
+                    ForCourrier = person.PersonId == courrier.PersonId
+                });
             }
-            return View(new OrderVM
+            catch (Exception e)
             {
-                CustomerName = customer.Firstname + " " + customer.Lastname,
-                CustomerAddress = customer.CustomerInfo.Address,
-                CustomerLocation = customer.CustomerInfo.Location.LocationName,
-                CourrierName = courrier.Firstname + " " + courrier.Lastname,
-                OrderDate = order.OrderDate,
-                OrderId = order.OrderId,
-                OrderNote = order.OrderNote,
-                Status = order.Status,
-                TotalAmount = order.TotalAmount,
-                Details = orderDetailsVm,
-                ForCourrier = person.PersonId == courrier.PersonId
-            });
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
+            }
         }
 
         [HttpGet]
         public IActionResult Create()
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (HttpContext.Session.GetString("User") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person.CustomerInfo == null)
+                {
+                    return RedirectToAction("Index", "Error", new { errorCode = 403 });
+                }
+                CartVM cartVM;
+                if (HttpContext.Session.GetString("Cart") == null)
+                {
+                    return View(null);
+                }
+                cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
+                    cartVM = null;
+                Order order = CartToOrder(cartVM);
+                order.CustomerId = person.CustomerInfo.CustomerId;
+
+                //TODO check it
+                cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
+                //List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
+                /*
+                if (dateTimes == null || !dateTimes.Any())
+                    return View(null);
+               */
+                // cartVM.DatesDelivery = dateTimes;
+
+
+                return View(cartVM);
             }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if(person.CustomerInfo == null)
+            catch (Exception e)
             {
-                return RedirectToAction("Index", "Error", new { errorCode = 403 });
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
             }
-            CartVM cartVM;
-            if (HttpContext.Session.GetString("Cart") == null)
-            {
-                return View(null);
-            }
-            cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
-            if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
-                cartVM = null;
-            Order order = CartToOrder(cartVM);
-            order.CustomerId = person.CustomerInfo.CustomerId;
-
-            //TODO check it
-            cartVM.DatesDelivery = OrderManager.GetDateDelivery(order);
-            //List<DateTime> dateTimes = OrderManager.GetDateDelivery(order);
-            /*
-            if (dateTimes == null || !dateTimes.Any())
-                return View(null);
-           */
-           // cartVM.DatesDelivery = dateTimes;
-
-
-            return View(cartVM);
         }
-       
+
         [HttpPost]
         public IActionResult Create(CartVM cart)
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (HttpContext.Session.GetString("User") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person.CustomerInfo == null)
+                {
+                    return RedirectToAction("Logout", "Home");
+                }
+
+                Order order = CartToOrder(cart);
+                order.CustomerId = person.CustomerInfo.CustomerId;
+                OrderManager.CreateOrder(order);
+
+                // delete session cart
+                HttpContext.Session.Remove("Cart");
+
+                return RedirectToAction("Index");
             }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if (person.CustomerInfo == null)
+            catch (Exception e)
             {
-                return RedirectToAction("Logout", "Home");
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
             }
-
-            Order order = CartToOrder(cart);
-            order.CustomerId = person.CustomerInfo.CustomerId;
-            OrderManager.CreateOrder(order);
-
-            // delete session cart
-            HttpContext.Session.Remove("Cart");
-
-            return RedirectToAction("Index");
         }
 
         private Order CartToOrder(CartVM cart)
@@ -225,75 +254,66 @@ namespace FoodDeliveryPlatform.Controllers
         /// <returns></returns>
         public IActionResult Edit(int id)
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (HttpContext.Session.GetString("User") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person.CourrierInfo == null)
+                {
+                    return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.Unauthorized });
+                }
+                OrderManager.DeliverOrder(id);
+                return RedirectToAction("Index", "Order");
             }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if (person.CourrierInfo == null)
+            catch (Exception e)
             {
-                return RedirectToAction("Index", "Error", new { errorCode = 403 });
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
             }
-            OrderManager.DeliverOrder(id);
-            return RedirectToAction("Index", "Order");
         }
 
         public IActionResult Cancel(int id)
         {
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return RedirectToAction("Login", "Home");
+                if (HttpContext.Session.GetString("User") == null)
+                {
+                    return RedirectToAction("Login", "Home");
+                }
+                UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+                if (person.CustomerInfo == null)
+                {
+                    return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.Unauthorized });
+                }
+                OrderManager.CancelOrder(id);
+                return RedirectToAction("Index", "Order");
             }
-            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
-            if (person.CustomerInfo == null)
+            catch (Exception e)
             {
-                return RedirectToAction("Index", "Error", new { errorCode = 403 });
+                return RedirectToAction("Index", "Error", new { errorCode = HttpStatusCode.InternalServerError });
             }
-            OrderManager.CancelOrder(id);
-            return RedirectToAction("Index", "Order");
         }
 
         [HttpPost]
         public JsonResult AddDish(int id)
         {
-            Dish dish = DishManager.GetDish(id);
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return new JsonResult(new { message = "pas connecter"});
-            }
-            CartVM cartVM;
-            if (HttpContext.Session.GetString("Cart") == null)
-            {
-                cartVM = new CartVM
+                Dish dish = DishManager.GetDish(id);
+                if (HttpContext.Session.GetString("User") == null)
                 {
-                    CartDetails = new List<CartDetailsVM>(),
-                    RestaurantId = dish.RestaurantId
-                };
-                cartVM.CartDetails.Add(new CartDetailsVM
-                {
-                    DishId = dish.DishId,
-                    DishName = dish.Name,
-                    DishPrice = dish.Price,
-                    DishQuantity = 1
-                });
-            }
-            else
-            {
-                cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
-                if (dish.RestaurantId != cartVM.RestaurantId)
-                    return new JsonResult(new { message = "Le plat ne provient pas du même restaurant" });
-
-                bool exist = false;
-                foreach(var item in cartVM.CartDetails)
-                {
-                    if(item.DishId == dish.DishId)
-                    {
-                        item.DishQuantity++;
-                        exist = true;
-                    }
+                    return new JsonResult(new { message = "pas connecter" });
                 }
-                if (!exist)
+                CartVM cartVM;
+                if (HttpContext.Session.GetString("Cart") == null)
                 {
+                    cartVM = new CartVM
+                    {
+                        CartDetails = new List<CartDetailsVM>(),
+                        RestaurantId = dish.RestaurantId
+                    };
                     cartVM.CartDetails.Add(new CartDetailsVM
                     {
                         DishId = dish.DishId,
@@ -302,51 +322,88 @@ namespace FoodDeliveryPlatform.Controllers
                         DishQuantity = 1
                     });
                 }
+                else
+                {
+                    cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                    if (dish.RestaurantId != cartVM.RestaurantId)
+                        return new JsonResult(new { message = "Le plat ne provient pas du même restaurant" });
+
+                    bool exist = false;
+                    foreach (var item in cartVM.CartDetails)
+                    {
+                        if (item.DishId == dish.DishId)
+                        {
+                            item.DishQuantity++;
+                            exist = true;
+                        }
+                    }
+                    if (!exist)
+                    {
+                        cartVM.CartDetails.Add(new CartDetailsVM
+                        {
+                            DishId = dish.DishId,
+                            DishName = dish.Name,
+                            DishPrice = dish.Price,
+                            DishQuantity = 1
+                        });
+                    }
+                }
+                HttpContext.Session.SetString("Cart", cartVM.ToString());
+                return new JsonResult(new { message = "Reussi" });
             }
-            HttpContext.Session.SetString("Cart", cartVM.ToString());
-            return new JsonResult(new { message = "Reussi" });
+            catch (Exception e)
+            {
+                return new JsonResult(new { message = "Une erreur s'est produite." });
+            }
         }
 
         [HttpPost]
         public JsonResult RemoveDish(int id)
         {
-            Dish dish = DishManager.GetDish(id);
-            if (HttpContext.Session.GetString("User") == null)
+            try
             {
-                return new JsonResult(new { message = "pas connecter" });
-            }
-            CartVM cartVM;
-            if (HttpContext.Session.GetString("Cart") == null)
-            {
-                return new JsonResult(new { message = "Vous n'avez pas de panier." });
-            }
-            else
-            {
-                cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
-                bool exist = false;
-                CartDetailsVM itemToRemove = null;
-                foreach (var item in cartVM.CartDetails)
+                Dish dish = DishManager.GetDish(id);
+                if (HttpContext.Session.GetString("User") == null)
                 {
-                    if (item.DishId == dish.DishId)
+                    return new JsonResult(new { message = "pas connecter" });
+                }
+                CartVM cartVM;
+                if (HttpContext.Session.GetString("Cart") == null)
+                {
+                    return new JsonResult(new { message = "Vous n'avez pas de panier." });
+                }
+                else
+                {
+                    cartVM = JsonSerializer.Deserialize<CartVM>(HttpContext.Session.GetString("Cart"));
+                    bool exist = false;
+                    CartDetailsVM itemToRemove = null;
+                    foreach (var item in cartVM.CartDetails)
                     {
-                        item.DishQuantity--;
-                        exist = true;
-                        if (item.DishQuantity <= 0)
-                            itemToRemove = item;
+                        if (item.DishId == dish.DishId)
+                        {
+                            item.DishQuantity--;
+                            exist = true;
+                            if (item.DishQuantity <= 0)
+                                itemToRemove = item;
+                        }
+                    }
+                    if (itemToRemove != null)
+                        cartVM.CartDetails.Remove(itemToRemove);
+                    if (!exist)
+                    {
+                        return new JsonResult(new { message = "Ce plat n'est pas dans le panier." });
                     }
                 }
-                if (itemToRemove != null)
-                    cartVM.CartDetails.Remove(itemToRemove);
-                if (!exist)
-                {
-                    return new JsonResult(new { message = "Ce plat n'est pas dans le panier." });
-                }
+                if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
+                    HttpContext.Session.Remove("Cart");
+                else
+                    HttpContext.Session.SetString("Cart", cartVM.ToString());
+                return new JsonResult(new { message = "Reussi" });
             }
-            if (cartVM.CartDetails == null || !cartVM.CartDetails.Any())
-                HttpContext.Session.Remove("Cart");
-            else
-                HttpContext.Session.SetString("Cart", cartVM.ToString());
-            return new JsonResult(new { message = "Reussi" });
+            catch (Exception e)
+            {
+                return new JsonResult(new { message = "Une erreur s'est produite." });
+            }
         }
     }
 }

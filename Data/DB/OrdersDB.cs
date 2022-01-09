@@ -259,7 +259,7 @@ namespace DAL
                     cmd.Parameters.AddWithValue("IdDish", orderDetail.DishId);
                     cmd.Parameters.AddWithValue("OrderId", orderDetail.OrderId);
                     cmd.Parameters.AddWithValue("Quantity", orderDetail.Quantity);
-                    cmd.Parameters.AddWithValue("OrderNote", orderDetail.OrderDetailsNote);
+                    cmd.Parameters.AddWithValue("OrderNote", orderDetail.OrderDetailsNote??string.Empty);
 
                     cn.Open();
                     orderDetail.OrderDetailsId = Convert.ToInt32(cmd.ExecuteScalar());
