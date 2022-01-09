@@ -8,13 +8,11 @@
 
 <h1>Nos restaurants partenaires <i class="fas fa-utensils"></i></h1>
 
-@if (Model == null || !Model.Any())
-{
-    <p> <i class="fas fa-info-circle"></i> Pas de restaurant pour votre région </p>
-}
-else
-{
 
+
+
+@if (Model != null && Model.Any())
+{
     <p><i class="fas fa-info-circle"></i> Ces restaurants sont desservis par des livreurs qui livrent chez toi !</p>
     <table class="table">
         <thead>
@@ -60,4 +58,14 @@ else
 
     </table>
 }
+else
+{
+<div class="alert alert-warning" role="alert">
+    <h4 class="alert-heading">Aucun restaurant disponible</h4>
+    <p>Malheuresement aucun restaurant ne livre dans ta région :(</p>
+     <hr>
+     <p class="mb-0">Nous sommes principalement actif en Valais pour le moment.</p>
+</div>
+}
+
 

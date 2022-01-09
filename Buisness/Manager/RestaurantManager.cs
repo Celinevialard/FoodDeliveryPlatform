@@ -29,6 +29,9 @@ namespace BLL
             List<int> courriersId = new List<int>();
             courriersId = CourriersDb.GetCourriersIdByLocationId(locationId);
 
+            if (courriersId == null)
+                return null;
+
             //BUG si habite une région non livrable
             foreach (int courrierId in courriersId)
             {
