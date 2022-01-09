@@ -59,10 +59,9 @@ namespace DAL
 		}
 
 		/// <summary>
-		/// Obtention de la personne par son login, password et de ses informations spécifiques (livreur ou client)
+		/// Obtention de la personne par son customer id et de ses informations spécifiques (livreur ou client)
 		/// </summary>
-		/// <param name="login"></param>
-		/// <param name="password"></param>
+		/// <param name="customerId"></param>
 		/// <returns></returns>
 		public Person GetPersonByCustomer(int customerId)
 		{
@@ -74,8 +73,9 @@ namespace DAL
 				using (SqlConnection cn = new SqlConnection(connectionString))
 				{
 					string query = @"SELECT * FROM Person p
-							LEFT JOIN Courrier cr ON p.personId = cr.personId
-							INNER JOIN Customer c ON c.customerId = @customerId";
+								LEFT JOIN Courrier cr ON p.personId = cr.personId
+								LEFT JOIN Customer c ON p.personId = c.personId
+							WHERE c.customerId = @customerId";
 
 					SqlCommand cmd = new SqlCommand(query, cn);
 					cmd.Parameters.AddWithValue("@customerId", customerId);
@@ -100,6 +100,48 @@ namespace DAL
 
 		}
 
+		/// <summary>
+		/// Obtention de la personne par son courrier id et de ses informations spécifiques (livreur ou client)
+		/// </summary>
+		/// <param name="courrierId"></param>
+		/// <returns></returns>
+		public Person GetPersonByCourrier(int courrierId)
+		{
+			Person result = null;
+			string connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+			try
+			{
+				using (SqlConnection cn = new SqlConnection(connectionString))
+				{
+					string query = @"SELECT * FROM Person p
+								LEFT JOIN Courrier cr ON p.personId = cr.personId
+								LEFT JOIN Customer c ON p.personId = c.personId
+							WHERE cr.courrierId = @courrierId";
+
+					SqlCommand cmd = new SqlCommand(query, cn);
+					cmd.Parameters.AddWithValue("@courrierId", courrierId);
+					cn.Open();
+
+					using (SqlDataReader dr = cmd.ExecuteReader())
+					{
+						if (dr.Read())
+						{
+							result = ReadPerson(dr);
+
+						}
+					}
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+
+			return result;
+
+		}
+		
 		/// <summary>
 		/// Ajout d'un personne dans la table Person
 		/// </summary>

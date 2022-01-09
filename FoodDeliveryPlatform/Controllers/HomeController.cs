@@ -72,7 +72,7 @@ namespace FoodDeliveryPlatform.Controllers
 
 			if(person.PersonId != id || person.CustomerInfo == null)
             {
-				return RedirectToAction("Login", "Home");
+				return RedirectToAction("Index", "Error", new { errorCode =403});
 			}
 
 			List<Location> locations = LocationManager.GetLocations();
@@ -80,6 +80,7 @@ namespace FoodDeliveryPlatform.Controllers
 
 
 			return View(new UserEditVM { 
+				PersonId = personFromDb.PersonId,
 				Firstname = personFromDb.Firstname,
 				Lastname = personFromDb.Lastname,
 				Address = personFromDb.CustomerInfo.Address,
@@ -104,17 +105,17 @@ namespace FoodDeliveryPlatform.Controllers
 			{
 				CustomerInfo = new Customer
 				{
-					PersonId = editUser.PersonId,
 					Address = editUser.Address,
 					LocationId = editUser.LocationId
 				},
+				PersonId = editUser.PersonId,
 				Firstname = editUser.Firstname,
 				Lastname = editUser.Lastname,
 				Login = editUser.Email,
 				Password = editUser.Password
 			});
 
-			return RedirectToAction("Login");
+			return RedirectToAction("Index");
 		}
 
 		public IActionResult SignUp()
@@ -181,9 +182,6 @@ namespace FoodDeliveryPlatform.Controllers
 				return RedirectToAction("Index", "Order");
 			return RedirectToAction("Index", "Restaurant");
 		}
-
-		
-
 
 		public IActionResult Logout()
 		{

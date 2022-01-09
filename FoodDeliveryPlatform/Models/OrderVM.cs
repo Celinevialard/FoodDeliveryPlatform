@@ -27,7 +27,11 @@ namespace FoodDeliveryPlatform.Models
 
 		public List<OrderDetailVM> Details { get; set; }
         public string CustomerLocation { get; set; }
-    }
+        public string CourrierName { get; set; }
+
+		public bool ForCourrier { get; set; }
+
+	}
 
 	public class OrderDetailVM
     {

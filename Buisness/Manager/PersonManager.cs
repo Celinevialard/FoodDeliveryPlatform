@@ -35,6 +35,11 @@ namespace BLL
             person.CustomerInfo.Location = LocationsDb.GetLocationById(person.CustomerInfo.LocationId);
             return person;
         }
+        public Person GetPersonByCourrier(int courrierId)
+        {
+            Person person = PersonDb.GetPersonByCourrier(courrierId);
+            return person;
+        }
 
 
     }

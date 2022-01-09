@@ -102,9 +102,11 @@ namespace FoodDeliveryPlatform.Controllers
             {
                 return RedirectToAction("Login", "Home");
             }
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+
             Order order = OrderManager.GetOrder(id);
             Person customer = PersonManager.GetPersonByCustomer(order.CustomerId);
-
+            Person courrier = PersonManager.GetPersonByCourrier(order.CourrierId);
             List<OrderDetailVM> orderDetailsVm = null;
             if (order.Details != null && order.Details.Any())
             {
@@ -125,12 +127,14 @@ namespace FoodDeliveryPlatform.Controllers
                 CustomerName = customer.Firstname + " " + customer.Lastname,
                 CustomerAddress = customer.CustomerInfo.Address,
                 CustomerLocation = customer.CustomerInfo.Location.LocationName,
+                CourrierName = courrier.Firstname + " " + courrier.Lastname,
                 OrderDate = order.OrderDate,
                 OrderId = order.OrderId,
                 OrderNote = order.OrderNote,
                 Status = order.Status,
                 TotalAmount = order.TotalAmount,
-                Details = orderDetailsVm
+                Details = orderDetailsVm,
+                ForCourrier = person.PersonId == courrier.PersonId
             });
         }
 
@@ -144,7 +148,7 @@ namespace FoodDeliveryPlatform.Controllers
             UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
             if(person.CustomerInfo == null)
             {
-                return RedirectToAction("Logout", "Home");
+                return RedirectToAction("Index", "Error", new { errorCode = 403 });
             }
             CartVM cartVM;
             if (HttpContext.Session.GetString("Cart") == null)
@@ -195,7 +199,8 @@ namespace FoodDeliveryPlatform.Controllers
                 order.Details.Add(new OrderDetail
                 {
                     DishId = cartDetails.DishId,
-                    Quantity = cartDetails.DishQuantity
+                    Quantity = cartDetails.DishQuantity,
+                    OrderDetailsNote = cartDetails.Note
                 });
             }
             return order;
@@ -209,12 +214,30 @@ namespace FoodDeliveryPlatform.Controllers
         /// <returns></returns>
         public IActionResult Edit(int id)
         {
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+            if (person.CourrierInfo == null)
+            {
+                return RedirectToAction("Index", "Error", new { errorCode = 403 });
+            }
             OrderManager.DeliverOrder(id);
             return RedirectToAction("Index", "Order");
         }
 
         public IActionResult Cancel(int id)
         {
+            if (HttpContext.Session.GetString("User") == null)
+            {
+                return RedirectToAction("Login", "Home");
+            }
+            UserVM person = JsonSerializer.Deserialize<UserVM>(HttpContext.Session.GetString("User"));
+            if (person.CustomerInfo == null)
+            {
+                return RedirectToAction("Index", "Error", new { errorCode = 403 });
+            }
             OrderManager.CancelOrder(id);
             return RedirectToAction("Index", "Order");
         }

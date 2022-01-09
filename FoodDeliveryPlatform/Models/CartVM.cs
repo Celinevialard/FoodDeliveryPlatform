@@ -24,6 +24,7 @@ namespace FoodDeliveryPlatform.Models
 		public decimal DishPrice { get; set; }
 
 		public int DishQuantity { get; set; }
+		public string Note { get; set; } = string.Empty;
 
 		public string ToString() => JsonSerializer.Serialize(this);
 	}

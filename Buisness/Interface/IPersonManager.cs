@@ -6,5 +6,7 @@ namespace BLL
     {
         Person GetPersonByLogin(string login, string password);
         Person GetPersonByCustomer(int customerId);
+
+        Person GetPersonByCourrier(int courrierId);
     }
 }

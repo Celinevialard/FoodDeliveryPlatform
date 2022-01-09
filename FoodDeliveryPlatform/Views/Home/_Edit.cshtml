@@ -6,9 +6,10 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="SignUp">
+        <form asp-action="@(Model.PersonId>0 ?"Edit":"SignUp")">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
+          @Html.HiddenFor(m=>m.PersonId)
             <div class="form-group">
                 <label class="control-label"><i class="fas fa-user"></i> Prénom</label>
                 <input asp-for="Firstname" class="form-control" />
@@ -50,7 +51,7 @@
             </div>
             <div class="form-group">
                 <button type="submit" class="btn btn-success">
-                    <i class="fas fa-user-plus"></i> Créer mon compte
+                    <i class="fas fa-user-plus"></i>@(Model.PersonId>0 ? "Mettre à jour" : "Créer mon compte")
                 </button>
             </div>
         </form>
